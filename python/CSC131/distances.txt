@@ -1,0 +1,10 @@
+Wilmington 0
+Greenville 92 0
+Raleigh 120 70 0
+Asheville 400 420 300 0
+Greensboro 200 120 60 270 0
+Durham 130 100 30 290 50 0
+Chapel-Hill 125 100 25 300 50 20 0
+Winston-Salem 220 240 80 150 40 100 100 0
+Elizabeth-City 200 60 80 450 200 100 90 140 0
+Columbia 200 300 200 300 180 190 150 170 350 0

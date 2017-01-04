@@ -1,0 +1,9 @@
+	~ Wilmington Weather Stats ~
+The hottest day ever in Wilmington was Friday, June 27, 1952. It was 104 degrees.
+The coldest day ever in Wilmington was Monday, December 25, 1989. It was 0 degrees.
+41 highs were recorded from 1874 to 1915.
+83 lows were recorded from 1874 to 1915.
+80 highs were recorded from 1916 to 1958.
+85 lows were recorded from 1916 to 1958.
+245 highs were recorded from 1959 'til now.
+197 lows were recorded from 1959 'til now.
