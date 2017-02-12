@@ -19,7 +19,7 @@ class Stack:
         
         
     def pop(self):
-        # remove an item from the top of the stack and return it
+        # remove and item from the top of the stack and return it
         return self.items.pop()
     
     
