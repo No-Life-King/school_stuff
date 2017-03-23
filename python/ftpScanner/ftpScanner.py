@@ -3,12 +3,16 @@ from ftplib import FTP
 import multiprocessing, psycopg2, time, os, re
 
 
-def parse_response(msg, pattern):
+def parse_response(msg):
 	'''
 	This function parses server responses. If a status code is returned with the response,
 	it is removed from the message and returned with the message. If a code is not present
 	'0' is returned. 
 	'''
+	
+	# matches a 3 digit number followed by a space or dash
+	pattern = re.compile('^\d{3}[ \-]')
+	
 	isStatusCode = re.search(pattern, msg)
 	if isStatusCode:
 		code = msg[:3]
@@ -19,17 +23,14 @@ def parse_response(msg, pattern):
 	return code, msg
 
 
-def worker(shared_dict, ip_stack):
+def worker(shared_dict, ip_stack, lock):
 	'''
 	This defines the worker process used to scan ftp servers. 
 	'''
 	
-	# matches a 3 digit number followed by a space
-	pattern = re.compile('^\d{3} ')
-	
 	# Try to connect to database, end program if this fails. Each worker will have its own database connection
 	try:
-		connect_str = "dbname='ftpservers' user='phil' host='localhost' password='***'"
+		connect_str = "dbname='ftpservers' user='phil' host='localhost' password='.....'"
 		db_conn = psycopg2.connect(connect_str)
 	except Exception as e:
 		print(e)
@@ -40,6 +41,9 @@ def worker(shared_dict, ip_stack):
 	
 	while True:
 		connection = None
+		lock.acquire()
+		shared_dict['count'] += 1
+		lock.release()
 		
 		# exits the worker if all IPs have been processed
 		try:
@@ -54,29 +58,33 @@ def worker(shared_dict, ip_stack):
 			try:
 				code, msg = 0, ''
 				welcome = connection.getwelcome()
-				code, msg = parse_response(welcome, pattern)
+				code, msg = parse_response(welcome)
 				if msg != '':
 					cursor.execute("""INSERT INTO welcome_msgs VALUES (%s, %s, %s);""", (server_ip, code, msg))
+					lock.acquire()
 					shared_dict['welcomes'] += 1
+					lock.release()
 			except Exception as err:
-				code, msg = parse_response(str(err), pattern)
+				code, msg = parse_response(str(err))
 				cursor.execute("""INSERT INTO errors VALUES (%s, %s, %s);""", (server_ip, code, msg))
 			
 			# try to log in whether welcome fails or not
 			try:
 				code, msg = 0, ''
 				login = connection.login()
-				code, msg = parse_response(login, pattern)
+				code, msg = parse_response(login)
 				if msg != '':
 					cursor.execute("""INSERT INTO logins VALUES (%s, %s, %s);""", (server_ip, code, msg))
+					lock.acquire()
 					shared_dict['logins'] += 1
+					lock.release()
 			except Exception as err:
-				code, msg = parse_response(str(err), pattern)
+				code, msg = parse_response(str(err))
 				cursor.execute("""INSERT INTO errors VALUES (%s, %s, %s);""", (server_ip, code, msg))
 			
 		# if login fails, store error message in errors table
 		except Exception as err:
-			code, msg = parse_response(str(err), pattern)
+			code, msg = parse_response(str(err))
 			cursor.execute("""INSERT INTO errors VALUES (%s, %s, %s);""", (server_ip, code, msg))
 		finally:
 			try:
@@ -84,13 +92,15 @@ def worker(shared_dict, ip_stack):
 			except:
 				pass
 			
-		
 		# commit all insertions to the database
 		db_conn.commit()
-		shared_dict['count'] += 1
+		
 			
-
 def get_time(seconds):
+	'''
+	Accepts a time in seconds and returns hours, minutes, and seconds.
+	'''
+	
 	hours = seconds // 3600
 	seconds = seconds - hours * 3600
 	minutes = seconds // 60
@@ -100,6 +110,10 @@ def get_time(seconds):
 
 
 def status_report(shared_dict):
+	'''
+	Prints a status report every 10 seconds.
+	'''
+	
 	start = time.time()
 	while shared_dict['done'] == False:	
 		time.sleep(10)
@@ -111,18 +125,21 @@ def status_report(shared_dict):
 		print('\t' + str(int(shared_dict['count']/shared_dict['total'] * 100))
 			  + "% finished in " + str(hours) + "h " + str(mins) + "m " + str(secs) +
 			  "s. That's " + str(int(shared_dict['count']/(end/60))) + " servers per minute.")
+	
+	print("Scan Complete!")
+	
 
 
 # Load the list of servers
-serverFile = open('old_ftpservers', 'r')
+serverFile = open('ftpservers2', 'r')
 all_servers = []
 for line in serverFile:
     all_servers.append(line.strip())
 serverFile.close()
-total_ips = len(all_servers)
 
 # can be used to define a range of servers
-all_servers = all_servers[200:]
+all_servers = all_servers[2515000:2550000]
+total_ips = len(all_servers)
 
 # Set this to whatever number of processes you want
 number_of_processes = 99
@@ -135,6 +152,7 @@ shared_dict['welcomes'] = 0
 shared_dict['logins'] = 0
 shared_dict['total'] = total_ips
 shared_dict['done'] = False
+lock = multiprocessing.Lock()
 
 # create a shared stack so that the workers can each pop ip addresses until finished
 ip_stack = manager.list(all_servers)
@@ -142,7 +160,7 @@ ip_stack = manager.list(all_servers)
 # Finally, create the processes
 jobs = []
 for i in range(number_of_processes):
-	p = multiprocessing.Process(target=worker, args=(shared_dict, ip_stack))
+	p = multiprocessing.Process(target=worker, args=(shared_dict, ip_stack, lock))
 	jobs.append(p)
 	p.start()
 	
