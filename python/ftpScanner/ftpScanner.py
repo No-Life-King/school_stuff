@@ -23,14 +23,14 @@ def parse_response(msg):
 	return code, msg
 
 
-def worker(shared_dict, ip_stack, lock):
+def worker(shared_dict, ip_stack, lock, stack_lock):
 	'''
 	This defines the worker process used to scan ftp servers. 
 	'''
 	
 	# Try to connect to database, end program if this fails. Each worker will have its own database connection
 	try:
-		connect_str = "dbname='ftpservers' user='phil' host='localhost' password='.....'"
+		connect_str = "dbname='ftpservers' user='phil' host='localhost' port='31416' password='....'"
 		db_conn = psycopg2.connect(connect_str)
 	except Exception as e:
 		print(e)
@@ -41,13 +41,13 @@ def worker(shared_dict, ip_stack, lock):
 	
 	while True:
 		connection = None
-		lock.acquire()
-		shared_dict['count'] += 1
-		lock.release()
 		
 		# exits the worker if all IPs have been processed
 		try:
 			server_ip = ip_stack.pop()
+			stack_lock.acquire()
+			shared_dict['count'] += 1
+			stack_lock.release()
 		except IndexError:
 			break
 		
@@ -138,11 +138,11 @@ for line in serverFile:
 serverFile.close()
 
 # can be used to define a range of servers
-all_servers = all_servers[2515000:2550000]
+all_servers = all_servers[3687922:4200000]
 total_ips = len(all_servers)
 
 # Set this to whatever number of processes you want
-number_of_processes = 99
+number_of_processes = 199
 
 # create a shared dictionary to be used by all the worker processes for storing statistics
 manager = multiprocessing.Manager()
@@ -152,15 +152,18 @@ shared_dict['welcomes'] = 0
 shared_dict['logins'] = 0
 shared_dict['total'] = total_ips
 shared_dict['done'] = False
-lock = multiprocessing.Lock()
 
 # create a shared stack so that the workers can each pop ip addresses until finished
 ip_stack = manager.list(all_servers)
 
+# create locks for the shared objects to enforce thread saftey
+lock = multiprocessing.Lock()
+stack_lock = multiprocessing.Lock()
+
 # Finally, create the processes
 jobs = []
 for i in range(number_of_processes):
-	p = multiprocessing.Process(target=worker, args=(shared_dict, ip_stack, lock))
+	p = multiprocessing.Process(target=worker, args=(shared_dict, ip_stack, lock, stack_lock))
 	jobs.append(p)
 	p.start()
 	
