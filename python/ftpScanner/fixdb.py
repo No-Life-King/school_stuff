@@ -7,24 +7,23 @@ try:
     db_conn = psycopg2.connect(connect_str)
     cursor = db_conn.cursor()
     
-    cursor.execute("""SELECT * FROM welcome_msgs where status_code = '0';""")
+    table = 'errors'
+    cursor.execute("""SELECT * FROM %s where status_code = '0';""", (table))
     results = cursor.fetchall()
+
     fixed = 0
     for entry in results:
-        if fixed % 1000 == 0:
-            print(fixed, 'records fixed.')
-            print('On record #' + str(entry[3]))
         msg = entry[2]
         pattern = re.compile('^\d{3}-')
         if re.match(pattern, msg):
             fixed += 1
             code = msg[:3]
             msg = msg[4:]
-            cursor.execute("""UPDATE welcome_msgs set status_code = %s, message = %s where id = %s;""", (code, msg, entry[3]))
+            cursor.execute("""UPDATE %s set status_code = %s, message = %s where ip_address = %s;""", (table, code, msg, entry[0]))
             db_conn.commit()
         
 except Exception as e:
     print(e)
     
     
-print("Finished! Fixed "  + str(fixed) +" records.")
+print("Finished! Fixed", fixed, "records.")
