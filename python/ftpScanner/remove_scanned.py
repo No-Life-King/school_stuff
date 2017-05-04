@@ -2,7 +2,7 @@
 import psycopg2
 
 try:
-    connect_str = "dbname='ftpservers' user='phil' host='localhost' port='31416' password='amorestpotestas'"
+    connect_str = "dbname='ftpservers' user='phil' host='localhost' port='31416' password='...'"
     db_conn = psycopg2.connect(connect_str)
 except Exception as e:
     print(e)
