@@ -27,11 +27,11 @@ class HashTable:
         '''
 
         hashvalue = self.hashfunction(key, len(self.slots))
+        self.length += 1
 
         if self.slots[hashvalue] == None:
             self.slots[hashvalue] = key
             self.data[hashvalue] = data
-            self.length += 1
         else:
             if self.slots[hashvalue] == key:
                 self.data[hashvalue] = data  # replace
@@ -44,7 +44,6 @@ class HashTable:
                 if self.slots[nextslot] == None:
                     self.slots[nextslot] = key
                     self.data[nextslot] = data
-                    self.length += 1
                 else:
                     self.data[nextslot] = data  # replace
                     
@@ -151,6 +150,23 @@ class HashTable:
         return True
 
 
+    def delete(self, key):
+        '''
+        Uses the lazy removal method of deleting an item from the hash table. 
+        :param instance: 
+        :return: 
+        '''
+        slot = self.hashfunction(key, len(self.slots))
+        index = slot
+        while self.slots[slot] % self.size == index:
+            if self.slots[slot] == key:
+                self.data[slot] = None
+                self.length -= 1
+                break
+            else:
+                slot = self.rehash(slot, self.size)
+
+
     def __getitem__(self, key):
         '''
         Overrides getitem so that a programmer can use the square bracket notation.
@@ -178,5 +194,28 @@ class HashTable:
 
 
 
-
-
+myTable = HashTable()
+myTable[1] = "dog"
+print("The length of the table is", len(myTable))
+print("The value at key 1 is ", myTable[1])
+myTable.delete(1)
+print("The length of the table is", len(myTable))
+print("The value at key 1 is ", myTable[1])
+myTable[1] = "dog"
+myTable[12] = "cat"
+myTable[23] = "elephant"
+print("The length of the table is", len(myTable))
+print("The value at key 1 is ", myTable[1])
+print("The value at key 12 is ", myTable[12])
+print("The value at key 23 is ", myTable[23])
+myTable.delete(1)
+myTable.delete(12)
+print("The length of the table is", len(myTable))
+print("The value at key 1 is ", myTable[1])
+print("The value at key 12 is ", myTable[12])
+print("The value at key 23 is ", myTable[23])
+myTable[1] = "parrot"
+print("The length of the table is", len(myTable))
+print("The value at key 1 is ", myTable[1])
+print("The value at key 12 is ", myTable[12])
+print("The value at key 23 is ", myTable[23])

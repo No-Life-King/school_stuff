@@ -1,6 +1,19 @@
 #!/usr/bin/env python3
 from ftplib import FTP
-import multiprocessing, psycopg2, time, os, re
+from database.DBconnector import DBconnector
+import multiprocessing, psycopg2, time, re
+
+
+
+def openDBconnection():
+    connector = DBconnector()
+    cursor = connector.getCursor()
+    connection = connector.getConnection()
+    if not cursor or not connection:
+        print("Error connecting to database.")
+        exit()
+
+    return cursor, connection
 
 
 def parse_response(msg):
@@ -19,18 +32,21 @@ def parse_response(msg):
 		msg = msg[4:]
 	else:
 		code = 0
+
+	if msg == '' or msg == None:
+		msg = '(No Message.)'
 		
 	return code, msg
 
 
 def worker(shared_dict, ip_stack, lock):
-	'''
+	"""
 	This defines the worker process used to scan ftp servers. 
-	'''
+	"""
 	
-	# Try to connect to database, end program if this fails. Each worker will have its own database connection
+	# Try to connect to database, end program if this fails. Each worker will have its own database connection.
 	try:
-		connect_str = "dbname='ftpservers' user='phil' host='localhost' password='.....'"
+		connect_str = "dbname='ftpservers' user='phil' host='localhost' port='31416' password='...'"
 		db_conn = psycopg2.connect(connect_str)
 	except Exception as e:
 		print(e)
@@ -85,7 +101,12 @@ def worker(shared_dict, ip_stack, lock):
 		# if login fails, store error message in errors table
 		except Exception as err:
 			code, msg = parse_response(str(err))
-			cursor.execute("""INSERT INTO errors VALUES (%s, %s, %s);""", (server_ip, code, msg))
+			if msg == '' or msg == None:
+				msg = '(No Message.)'
+			try:
+				cursor.execute("""INSERT INTO errors VALUES (%s, %s, %s);""", (server_ip, code, msg))
+			except Exception as e:
+				print(e)
 		finally:
 			try:
 				connection.close()
@@ -98,7 +119,7 @@ def worker(shared_dict, ip_stack, lock):
 			
 def get_time(seconds):
 	'''
-	Accepts a time in seconds and returns hours, minutes, and seconds.
+	Accepts a time (in seconds) and returns hours, minutes, and seconds.
 	'''
 	
 	hours = seconds // 3600
@@ -129,50 +150,48 @@ def status_report(shared_dict):
 	print("Scan Complete!")
 	
 
+if __name__ == '__main__':
+	# load the list of servers
+	serverFile = open('unscanned1', 'r')
+	all_servers = []
+	for line in serverFile:
+		all_servers.append(line.strip())
+	serverFile.close()
 
-# Load the list of servers
-serverFile = open('ftpservers2', 'r')
-all_servers = []
-for line in serverFile:
-    all_servers.append(line.strip())
-serverFile.close()
+	# can be used to define a range of servers
+	all_servers = all_servers[:]
+	total_ips = len(all_servers)
 
-# can be used to define a range of servers
-all_servers = all_servers[2515000:2550000]
-total_ips = len(all_servers)
+	# defines the number of worker processes to spawn
+	number_of_processes = 199
 
-# Set this to whatever number of processes you want
-number_of_processes = 99
+	# create a shared dictionary to be used by all the worker processes for storing statistics
+	manager = multiprocessing.Manager()
+	shared_dict = manager.dict()
+	shared_dict['count'] = 0
+	shared_dict['welcomes'] = 0
+	shared_dict['logins'] = 0
+	shared_dict['total'] = total_ips
+	shared_dict['done'] = False
+	lock = multiprocessing.Lock()
 
-# create a shared dictionary to be used by all the worker processes for storing statistics
-manager = multiprocessing.Manager()
-shared_dict = manager.dict()
-shared_dict['count'] = 0
-shared_dict['welcomes'] = 0
-shared_dict['logins'] = 0
-shared_dict['total'] = total_ips
-shared_dict['done'] = False
-lock = multiprocessing.Lock()
+	# create a shared stack so that the workers can each pop ip addresses until finished
+	ip_stack = manager.list(all_servers)
 
-# create a shared stack so that the workers can each pop ip addresses until finished
-ip_stack = manager.list(all_servers)
+	# spawn and handle the worker processes
+	jobs = []
+	for i in range(number_of_processes):
+		p = multiprocessing.Process(target=worker, args=(shared_dict, ip_stack, lock))
+		jobs.append(p)
+		p.start()
 
-# Finally, create the processes
-jobs = []
-for i in range(number_of_processes):
-	p = multiprocessing.Process(target=worker, args=(shared_dict, ip_stack, lock))
-	jobs.append(p)
-	p.start()
-	
+	status = multiprocessing.Process(target=status_report, args=(shared_dict, ))
+	status.start()
 
-status = multiprocessing.Process(target=status_report, args=(shared_dict, ))
-status.start()
+	# wait for all processes to finish
+	for process in jobs:
+		process.join()
 
-
-# Wait for all processes to finish
-for process in jobs:
-	process.join()
-
-shared_dict['done'] = True	
-status.join()
+	shared_dict['done'] = True
+	status.join()
 	

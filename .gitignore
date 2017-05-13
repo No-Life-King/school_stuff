@@ -1,2 +1,6 @@
 __pycache__/
 python/ftpScanner/*ftpservers*
+python/ftpScanner/ftpPortScans/
+python/ftpScanner/helpers/stable_servers
+.idea/
+

@@ -6,7 +6,7 @@ simply "if line is in file1: delete line from file2".
 """
 
 
-old = open('old_ftpservers', 'r')
+old = open('new_servers', 'r')
 new = open('ftpservers', 'r')
 results = open('ftpservers2', 'w')
 

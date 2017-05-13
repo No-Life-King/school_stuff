@@ -10,6 +10,7 @@ try:
     table = 'errors'
     cursor.execute("""SELECT * FROM %s where status_code = '0';""", (table))
     results = cursor.fetchall()
+
     fixed = 0
     for entry in results:
         msg = entry[2]
