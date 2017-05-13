@@ -1,31 +1,8 @@
 #!/usr/bin/env python3
 from ftplib import FTP
-from ftpScanner import openDBconnection
+from ftpScanner import openDBconnection, parse_response, get_time
 import multiprocessing
-import traceback
 import time
-import sys
-import re
-
-
-def parse_response(msg):
-    '''
-    This function parses server responses. If a status code is returned with the response,
-    it is removed from the message and returned with the message. If a code is not present
-    '0' is returned. 
-    '''
-
-    # matches a 3 digit number followed by a space or dash
-    pattern = re.compile('^\d{3}[ \-]')
-
-    isStatusCode = re.search(pattern, msg)
-    if isStatusCode:
-        code = msg[:3]
-        msg = msg[4:]
-    else:
-        code = 0
-
-    return code, msg
 
 
 def worker(shared_dict, ip_stack, lock):
@@ -152,7 +129,6 @@ def worker(shared_dict, ip_stack, lock):
 
             except Exception as err:
                 code, msg = parse_response(str(err))
-                traceback.print_exc()
                 cursor.execute("""INSERT INTO directory_errors(ip_address, status_code, message) VALUES (%s, %s, %s);""",
                                (server_ip, code, msg))
 
@@ -169,19 +145,6 @@ def worker(shared_dict, ip_stack, lock):
 
         connection.commit()
         break
-
-
-def get_time(seconds):
-    '''
-    Accepts a time (in seconds) and returns hours, minutes, and seconds.
-    '''
-
-    hours = seconds // 3600
-    seconds = seconds - hours * 3600
-    minutes = seconds // 60
-    seconds = seconds - minutes * 60
-
-    return hours, minutes, seconds
 
 
 def status_report(shared_dict):

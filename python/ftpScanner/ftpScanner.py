@@ -45,12 +45,7 @@ def worker(shared_dict, ip_stack, lock):
 	"""
 	
 	# Try to connect to database, end program if this fails. Each worker will have its own database connection.
-	try:
-		connect_str = "dbname='ftpservers' user='phil' host='localhost' port='31416' password='...'"
-		db_conn = psycopg2.connect(connect_str)
-	except Exception as e:
-		print(e)
-		exit()
+	cursor, db_conn = openDBconnection()
 		
 	# create a cursor for the worker to use
 	cursor = db_conn.cursor()
@@ -194,4 +189,5 @@ if __name__ == '__main__':
 
 	shared_dict['done'] = True
 	status.join()
+
 	
