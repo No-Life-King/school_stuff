@@ -91,8 +91,22 @@ public class Data_for_two_classes {
 			
 			m.rowAddAndMultiply(2, 1, .5);
 			System.out.println(m);
-
 			
+			m.transpose();
+			System.out.println(m);
+			
+			Matrix o = new Matrix(2, 2);
+			double[] orow1 = {11, 12};
+			double[] orow2 = {21, 22};
+			o.setRow(1, orow1);
+			o.setRow(2, orow2);
+			System.out.println(m.isSquare());
+			System.out.println(o.isSquare());
+			
+			System.out.println(n);
+			System.out.println(m);
+			Matrix multiplied = n.matrixMultiply(m);
+			System.out.println(multiplied);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
