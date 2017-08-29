@@ -61,12 +61,14 @@ public class Matrix {
 		return columns;
 	}
 	
-	public void scalarMultiply(double scalar) {
+	public Matrix scalarMultiply(double scalar) {
+		Matrix m = new Matrix(rows, columns);
 		for (int i=0; i<rows; i++) {
 			for (int j=0; j<columns; j++) {
-				matrix[i][j] = matrix[i][j] * scalar;
+				m.setCell(i+1, j+1, matrix[i][j] * scalar);
 			}
 		}
+		return m;
 	}
 	
 	public Matrix add(Matrix m1) {
@@ -88,10 +90,8 @@ public class Matrix {
 	
 	public Matrix subtract(Matrix m1) {
 		Matrix m;
-		m1.scalarMultiply(-1);
-		m = this.add(m1);
-		// fix this
-		m1.scalarMultiply(-1);
+		Matrix oppositeMatrix = m1.scalarMultiply(-1);
+		m = this.add(oppositeMatrix);
 		return m;
 	}
 	
@@ -144,6 +144,16 @@ public class Matrix {
 		
 	}
 	
+	public Matrix duplicate() {
+		Matrix newMatrix = new Matrix(rows, columns);
+		
+		for(int i=1; i<=rows; i++) {
+			newMatrix.setRow(i, this.getRow(i));
+		}
+		
+		return newMatrix;
+	}
+	
 	public Matrix matrixMultiply(Matrix m1) {
 		Matrix m;
 		if (m1.getRows() != columns) {
@@ -160,7 +170,7 @@ public class Matrix {
 				double dotProduct = 0;
 				double[] row = this.getRow(i+1);
 				double[] column = m1.getColumn(j+1);
-				int n = m1.getColumns();
+				int n = m1.getRows();
 				for (int x=0; x<n; x++) {
 					dotProduct += row[x] * column[x];
 				}
@@ -182,7 +192,8 @@ public class Matrix {
 				s += matrix[i][j];
 				s += "\t";
 			}
-			s += "\n";
+			if (i != rows-1)
+				s += "\n";
 		}
 		
 		return s;

@@ -15,8 +15,9 @@ public class Vector {
 	}
 	
 	public void subtract(Vector v) {
-		v.scalarMultiply(-1);
-		this.add(v);
+		Vector oppositeVector = v.duplicate();
+		oppositeVector.scalarMultiply(-1);
+		this.add(oppositeVector);
 	}
 	
 	public void scalarMultiply(double scalar) {
@@ -30,6 +31,11 @@ public class Vector {
 	
 	public double getJ() {
 		return j;
+	}
+	
+	public Vector duplicate() {
+		Vector v = new Vector(this.i, this.j);
+		return v;
 	}
 	
 	@Override

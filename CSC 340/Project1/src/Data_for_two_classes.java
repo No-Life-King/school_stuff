@@ -41,76 +41,55 @@ public class Data_for_two_classes {
 			// calculate the mean vectors for both classes
 			double numC1vectors = class1vectors.size();
 			double numC2vectors = class2vectors.size();
-			Vector m1 = new Vector(0, 0);
-			Vector m2 = new Vector(0, 0);
+			Vector v1 = new Vector(0, 0);
+			Vector v2 = new Vector(0, 0);
 			
 			for (Vector v: class1vectors) {
-				m1.add(v);
+				v1.add(v);
 			}
 			for (Vector v: class2vectors) {
-				m2.add(v);
+				v2.add(v);
 			}
 			
-			m1.scalarMultiply(1/numC1vectors);
-			m2.scalarMultiply(1/numC2vectors);
+			v1.scalarMultiply(1/numC1vectors);
+			v2.scalarMultiply(1/numC2vectors);
 			
-			System.out.println("Mean Vector M1: " + m1);
-			System.out.println("Mean Vector M2: " + m2);
+			System.out.println("Mean Vector M1: " + v1);
+			System.out.println("Mean Vector M2: " + v2);
 			
-			Matrix m = new Matrix(2, 3);
-			System.out.println(m);
+			Matrix covarianceMatrixC1 = calculateCovarianceMatrix(class1vectors, v1);
+			Matrix covarianceMatrixC2 = calculateCovarianceMatrix(class2vectors, v2);
 			
-			double[] row = {1, 3, 2};
-			m.setRow(1, row);
-			double[] row2 = {3, 4, 1};
-			m.setRow(2, row2);
-			System.out.println(m);
+			System.out.println("\nClass 1 Covariance Matrix:");
+			System.out.println(covarianceMatrixC1 + "\n");
+			System.out.println("Class 2 Covariance Matrix:");
+			System.out.println(covarianceMatrixC2 + "\n");
 			
-			Matrix n = new Matrix(2, 3);
-			double[] col1 = {3, 3};
-			n.setColumn(1, col1);
-			double[] col2 = {5, 5};
-			n.setColumn(2, col2);
-			double[] col3 = {7, 7};
-			n.setColumn(3, col3);
-			System.out.println(n);
+			testMatrixOperations.runTest(false);
 			
-			Matrix sum = m.add(n);
-			System.out.println(sum);
-			
-			m.scalarMultiply(2);
-			System.out.println(m);
-			
-			System.out.println(m.subtract(n));
-			
-			m.rowSwap(1, 2);
-			System.out.println(m);
-			
-			m.rowMultiply(2, 2);
-			System.out.println(m);
-			
-			m.rowAddAndMultiply(2, 1, .5);
-			System.out.println(m);
-			
-			m.transpose();
-			System.out.println(m);
-			
-			Matrix o = new Matrix(2, 2);
-			double[] orow1 = {11, 12};
-			double[] orow2 = {21, 22};
-			o.setRow(1, orow1);
-			o.setRow(2, orow2);
-			System.out.println(m.isSquare());
-			System.out.println(o.isSquare());
-			
-			System.out.println(n);
-			System.out.println(m);
-			Matrix multiplied = n.matrixMultiply(m);
-			System.out.println(multiplied);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public static Matrix calculateCovarianceMatrix(ArrayList<Vector> vectors, Vector meanVector) {
+		Matrix covarianceMatrix = new Matrix(2, 2);
+		
+		for (Vector v: vectors) {
+			v.subtract(meanVector);
+			double[] differenceVector = {v.getI(), v.getJ()};
+			Matrix differenceMatrix = new Matrix(2, 1);
+			differenceMatrix.setColumn(1, differenceVector);
+			Matrix transposedDifferenceMatrix = differenceMatrix.duplicate();
+			transposedDifferenceMatrix.transpose();
+			Matrix multiplied = differenceMatrix.matrixMultiply(transposedDifferenceMatrix);
+			covarianceMatrix = covarianceMatrix.add(multiplied);
+		}
+		
+		double k = vectors.size();
+		covarianceMatrix = covarianceMatrix.scalarMultiply(1/k);
+		return covarianceMatrix;
 	}
 
 }
