@@ -1,3 +1,4 @@
+// Author: Philip Smith
 
 public class Vector {
 	

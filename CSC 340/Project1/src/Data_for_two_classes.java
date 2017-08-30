@@ -1,3 +1,5 @@
+// Author: Philip Smith
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -65,7 +67,7 @@ public class Data_for_two_classes {
 			System.out.println("Class 2 Covariance Matrix:");
 			System.out.println(covarianceMatrixC2 + "\n");
 			
-			testMatrixOperations.runTest(false);
+			testMatrixOperations.runTest(true);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

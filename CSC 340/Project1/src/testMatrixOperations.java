@@ -1,3 +1,4 @@
+// Author: Philip Smith
 
 public class testMatrixOperations {
 	
@@ -58,7 +59,7 @@ public class testMatrixOperations {
 			
 			// test the addition of a scaled row to another row
 			System.out.println("Add 1/2 of row 1 to row 2 in M1:");
-			m.rowAddAndMultiply(2, 1, .5);
+			m.rowMultiplyAndAdd(2, 1, .5);
 			System.out.println(m + "\n");
 			
 			// test matrix transposition
@@ -89,7 +90,31 @@ public class testMatrixOperations {
 			multiplied = m.matrixMultiply(n);
 			System.out.println(multiplied + "\n");
 			
+			// test Gauss-Jordan elimination method
+			Matrix systemOfEquations = new Matrix(3, 4);
+			double[] firstRow = 	{1, -1, 0, 2};
+			double[] secondRow =   {-2, 2, -1, -1};
+			double[] thirdRow = 	{0, 1, -2, 6};
+			systemOfEquations.setRow(1, firstRow);
+			systemOfEquations.setRow(2, secondRow);
+			systemOfEquations.setRow(3, thirdRow);
+			Matrix reduced = systemOfEquations.GaussJordanElimination();
+			System.out.println("Solve a system of equations by using the Gauss-Jordan elimination method:");
+			System.out.println(reduced + "\n");
 			
+			// test again with a smaller matrix
+			double[][] twoByThree = {{2, 3, 2}, {5, -2, 24}};
+			Matrix smallerSystem = new Matrix(twoByThree);
+			Matrix solution = smallerSystem.GaussJordanElimination();
+			System.out.println("A smaller system of equations using the same method:");
+			System.out.println(solution + "\n");
+			
+			// test a system that has no unique solution
+			double[][] noSolution = {{2, 4, -8, 6}, {0, 1, -2, 2}, {1, 3, -6, 1}};
+			Matrix noSol = new Matrix(noSolution);
+			Matrix NaN = noSol.GaussJordanElimination();
+			System.out.println("A problem that can't be solved:");
+			System.out.println(NaN);
 		}
 	}
 
