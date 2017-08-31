@@ -67,7 +67,13 @@ public class Data_for_two_classes {
 			System.out.println("Class 2 Covariance Matrix:");
 			System.out.println(covarianceMatrixC2 + "\n");
 			
-			testMatrixOperations.runTest(true);
+			Matrix covarianceInverseMatrixC1 = covarianceMatrixC1.inverse();
+			Matrix covarianceInverseMatrixC2 = covarianceMatrixC2.inverse();
+			
+			System.out.println("Class 1 Covariance Inverse Matrix: \n " + covarianceInverseMatrixC1);
+			System.out.println("\nClass 2 Covariance Inverse Matrix: \n " + covarianceInverseMatrixC2);
+			
+			testMatrixOperations.runTest(false);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

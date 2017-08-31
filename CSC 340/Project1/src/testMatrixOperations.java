@@ -98,23 +98,30 @@ public class testMatrixOperations {
 			systemOfEquations.setRow(1, firstRow);
 			systemOfEquations.setRow(2, secondRow);
 			systemOfEquations.setRow(3, thirdRow);
-			Matrix reduced = systemOfEquations.GaussJordanElimination();
+			Matrix reduced = systemOfEquations.gaussJordanElimination();
 			System.out.println("Solve a system of equations by using the Gauss-Jordan elimination method:");
 			System.out.println(reduced + "\n");
 			
 			// test again with a smaller matrix
 			double[][] twoByThree = {{2, 3, 2}, {5, -2, 24}};
 			Matrix smallerSystem = new Matrix(twoByThree);
-			Matrix solution = smallerSystem.GaussJordanElimination();
+			Matrix solution = smallerSystem.gaussJordanElimination();
 			System.out.println("A smaller system of equations using the same method:");
 			System.out.println(solution + "\n");
 			
 			// test a system that has no unique solution
 			double[][] noSolution = {{2, 4, -8, 6}, {0, 1, -2, 2}, {1, 3, -6, 1}};
 			Matrix noSol = new Matrix(noSolution);
-			Matrix NaN = noSol.GaussJordanElimination();
+			Matrix NaN = noSol.gaussJordanElimination();
 			System.out.println("A problem that can't be solved:");
-			System.out.println(NaN);
+			System.out.println(NaN + "\n");
+			
+			// test the Gauss-Jordan method for creating an inverse matrix
+			double[][] inverseMe = {{1, -1, 0}, {2, 0, 4}, {0, 2, -1}};
+			Matrix inverse = new Matrix(inverseMe).inverse();
+			System.out.println("An inverse matrix:");
+			System.out.println(inverse + "\n");
+			
 		}
 	}
 

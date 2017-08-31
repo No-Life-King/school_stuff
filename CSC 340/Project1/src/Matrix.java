@@ -254,11 +254,11 @@ public class Matrix {
 	}
 	
 	// Employ the Gauss-Jordan Elimination algorithm for reducing a matrix to a partitioned identity matrix.
-	public Matrix GaussJordanElimination() {
+	public Matrix gaussJordanElimination() {
 		Matrix m;
 		
-		// matrix must be Ax(A+1) 
-		if (rows != columns-1) {
+		// matrix must be Ax(A+1) or Ax2A if calculating an inverse matrix
+		if (rows != columns-1 && columns != rows*2) {
 			m = new Matrix(1, 1);
 			m.setCell(1, 1, Double.NaN);
 			return m;
@@ -309,6 +309,39 @@ public class Matrix {
 		}
 		
 		return m;
+	}
+	
+	// Returns the inverse matrix of this matrix using Gauss-Jordan elimination.
+	public Matrix inverse() {
+		Matrix m;
+		
+		if (rows != columns) {
+			m = new Matrix(1, 1);
+			m.setCell(1, 1, Double.NaN);
+			return m;
+		}
+		
+		m = new Matrix(rows, columns*2);
+		for (int i=1; i<=rows; i++) {
+			for (int j=1; j<=columns; j++) {
+				m.setCell(i, j, getCell(i, j));
+			}
+		}
+		
+		for (int i=1; i<=columns; i++) {
+			m.setCell(i, i+columns, 1);
+		}
+		
+		m = m.gaussJordanElimination();
+		
+		Matrix n = new Matrix(rows, columns);
+		for (int i=1; i<=rows; i++) {
+			for (int j=1; j<=columns; j++) {
+				n.setCell(i, j, m.getCell(i, j+rows));
+			}
+		}
+		
+		return n;
 	}
 	
 	// generate a string representing the matrix
