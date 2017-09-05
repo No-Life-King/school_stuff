@@ -12,7 +12,7 @@ public class Data_for_two_classes {
 			String line;
 			
 			// skip the first four lines of the data file
-			for (int a = 0; a < 4; a++) {
+			for (int a = 0; a < 1; a++) {
 				in.readLine();
 			}
 			

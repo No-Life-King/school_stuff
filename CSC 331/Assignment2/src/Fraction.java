@@ -1,28 +1,43 @@
 /**  @author Philip Smith */
 
 public class Fraction {
+	/* 
+	 * This class simply keeps track of an integer numerator and denominator
+	 * of a fraction and provides a few methods for working with fractions
+	 * including addition and subtraction, multiplication and division, 
+	 * and simplification. 
+	 */
 	
 	private int numerator;
 	private int denominator;
 	
+	// Creates an empty fraction object whose numerator and denominator can be set later.
 	public Fraction() {}
 	
+	// Creates a new fraction object by converting a double to a fraction
 	public Fraction(double x) {
-                int y = 1;
-                Double multipleOfX = new Double(x);
-                int count = 1;
-                while (count < Integer.MAX_VALUE) {
-                    multipleOfX = x * count;
-                    y = multipleOfX.intValue();
-                    
-                    if (y - multipleOfX == 0) {
-                        break;
-                    }
-                    
-                    count++;
-                }
-                numerator = y;
-                denominator = count;
+		// go by powers of 10 to 
+        int y = 10;
+        Double multipleOfX = new Double(x);
+        Double powerOf10 = new Double(10);
+        
+        while (powerOf10 < Integer.MAX_VALUE) {
+            multipleOfX = x * powerOf10;
+            y = multipleOfX.intValue();
+            
+            if (y - multipleOfX == 0) {
+                break;
+            }
+            
+            if (powerOf10 == 1_000_000_000) {
+            	powerOf10 *= 2;
+            } else {
+            	powerOf10 *= 10;
+            }
+        }
+        numerator = y;
+        denominator = powerOf10.intValue();
+        reduce();
 	}
 	
 	public Fraction(int a, int b) {
