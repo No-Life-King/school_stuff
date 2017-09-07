@@ -67,11 +67,37 @@ public class Data_for_two_classes {
 			System.out.println("Class 2 Covariance Matrix:");
 			System.out.println(covarianceMatrixC2 + "\n");
 			
+			double c1covarianceMatrixDeterminant = covarianceMatrixC1.determinant();
+			double c2covarianceMatrixDeterminant = covarianceMatrixC2.determinant();
+			System.out.println("Class 1 Covariance Matrix Determinant:");
+			System.out.println(c1covarianceMatrixDeterminant + "\n");			
+			System.out.println("Class 2 Covariance Matrix Determinant:");
+			System.out.println(c2covarianceMatrixDeterminant + "\n");
+			
 			Matrix covarianceInverseMatrixC1 = covarianceMatrixC1.inverse();
 			Matrix covarianceInverseMatrixC2 = covarianceMatrixC2.inverse();
 			
 			System.out.println("Class 1 Covariance Inverse Matrix: \n " + covarianceInverseMatrixC1);
 			System.out.println("\nClass 2 Covariance Inverse Matrix: \n " + covarianceInverseMatrixC2);
+			
+			System.out.println("\n8x9 system of equations solution:");
+			double[][] coefficients = {{3, 1, -1, 4, 1, 1, -1, -1, 2},
+									   {1, 2, 2, 0, -1, -2, 2, 2, -3},
+									   {0, -2, 5, 4, -1, 0, 3, 1, 4},
+									   {1, 1, -7, 3, 2, 2, -9, 0, -1},
+									   {1, 1, 2, 3, -2, 2, 2, 9, 1},
+									   {0, -3, -2, 2, 0, 2, 4, -5, -2},
+									   {-2, 1, -1, 1, 1, -5, 0, -2, 3},
+									   {1, 0, 1, 1, 0, 2, 1, 1, -4}};
+			
+			Matrix solution = new Matrix(coefficients);
+			Matrix determinant = solution.duplicate();
+			System.out.println(solution.gaussJordanElimination());
+			System.out.println("(Gauss-Jordan)\n");
+			System.out.println(new Matrix(coefficients).gaussianElimination(false));
+			System.out.println("(Gaussian Elimination)\n");
+			System.out.println("Determinant:");
+			System.out.println(determinant.determinant());
 			
 			testMatrixOperations.runTest(false);
 			

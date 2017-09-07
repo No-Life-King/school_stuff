@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Stack;
+
 // Author: Philip Smith
 
 public class testMatrixOperations {
@@ -122,6 +125,31 @@ public class testMatrixOperations {
 			System.out.println("An inverse matrix:");
 			System.out.println(inverse + "\n");
 			
+			
+			// test the Gaussian Elimination method of reducing a matrix
+			double[][] gaussEliminate = {{1, 0, 2, 1}, {2, -1, 3, -1}, {4, 1, 8, 2}};
+			Matrix gauss = new Matrix(gaussEliminate).gaussianElimination(false);
+			System.out.println("Solve a system of equations using Gaussian Elimination:");
+			System.out.println(gauss + "\n");
+			
+			// test the back substitution method of solving a system of equations after using Gaussian elimination on a matrix
+			ArrayList<Double> solutions = gauss.backSubstitute();
+			Stack<Double> solutionStack = new Stack();
+			
+			for (Double answer: solutions) {
+				solutionStack.push(answer);
+			}
+			System.out.println("Answers to the matrix above:");
+			while (!solutionStack.isEmpty()) {
+				System.out.print(solutionStack.pop() + " ");
+			}
+			System.out.println("\n");
+			
+			// test the determinant finding method
+			double[][] determineMe = {{1, 4, 0}, {0, 2, 6}, {-1, 0, 1}};
+			double determinant = new Matrix(determineMe).determinant();
+			System.out.println("The determinant of a 3x3 matrix: ");
+			System.out.println(determinant + "\n");
 		}
 	}
 

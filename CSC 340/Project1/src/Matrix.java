@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // Author: Philip Smith
 
 public class Matrix {
@@ -205,13 +207,20 @@ public class Matrix {
 	
 	// Create a copy of this matrix in a new matrix object.
 	public Matrix duplicate() {
-		return new Matrix(matrix);
+		Matrix m = new Matrix(rows, columns);
+		
+		for (int i=1; i<=rows; i++) {
+			for (int j=1; j<=columns; j++) {
+				double value = getCell(i, j);
+				m.setCell(i, j, value);
+			}
+		}
+		
+		return m;
 	}
 	
 	// Multiply this matrix by another matrix. This operation is NOT commutative.
 	public Matrix matrixMultiply(Matrix other) {
-		Matrix m;
-		
 		/* 
 		 * Return a matrix containing only 'NaN' if the matrices are not of compatible sizes.
 		 * To be compatible for multiplication, the column length of the first array must equal
@@ -219,14 +228,12 @@ public class Matrix {
 		 * 'BxC' in respective order.
 		 */
 		if (other.getRows() != columns) {
-			m = new Matrix(1, 1);
-			m.setCell(1, 1, Double.NaN);
-			return m;
+			return invalidMatrix();
 		}
 		
 		int mRows = rows;
 		int mColumns = other.getColumns();
-		m = new Matrix(mRows, mColumns);
+		Matrix m = new Matrix(mRows, mColumns);
 		
 		// calculate the dot product for each cell of the result matrix
 		for (int i=1; i<=mRows; i++) {
@@ -255,19 +262,15 @@ public class Matrix {
 	
 	// Employ the Gauss-Jordan Elimination algorithm for reducing a matrix to a partitioned identity matrix.
 	public Matrix gaussJordanElimination() {
-		Matrix m;
 		
 		// matrix must be Ax(A+1) or Ax2A if calculating an inverse matrix
 		if (rows != columns-1 && columns != rows*2) {
-			m = new Matrix(1, 1);
-			m.setCell(1, 1, Double.NaN);
-			return m;
+			return invalidMatrix();
 		}
 		
-		m = this.duplicate();
+		Matrix m = this.duplicate();
 		
 		for (int j=1; j<=rows; j++) {
-			
 			// calculate the pivot index
 			// pivot is the largest value in the column
 			double pivot = 0;
@@ -285,9 +288,7 @@ public class Matrix {
 			
 			// if pivot is 0, the system of equations cannot be solved
 			if (pivot == 0) {
-				m = new Matrix(1, 1);
-				m.setCell(1, 1, Double.NaN);
-				return m;
+				return invalidMatrix();
 			}
 			
 			// swap the rows if pivot is in a lower row
@@ -308,6 +309,14 @@ public class Matrix {
 			
 		}
 		
+		return m;
+	}
+	
+	// If any errors are encountered during matrix operations, return this 
+	// matrix to signify that the operation couldn't be completed.
+	private Matrix invalidMatrix() {
+		Matrix m = new Matrix(1, 1);
+		m.setCell(1, 1, Double.NaN);
 		return m;
 	}
 	
@@ -342,6 +351,98 @@ public class Matrix {
 		}
 		
 		return n;
+	}
+	
+	public Matrix gaussianElimination(boolean returnR) {
+
+		if (rows != columns-1 && columns != rows) {
+			return invalidMatrix();
+		}
+		
+		Matrix m = this.duplicate();
+		int r = 0;
+		
+		for (int j=1; j<=rows; j++) {
+			// calculate the pivot index
+			// pivot is the largest value in the column
+			double pivot = 0;
+			double max = 0;
+			int pivotRow = 0;
+			for (int i=j; i<=rows; i++) {
+				double c = m.getCell(i, j);
+				double absC = Math.abs(c);
+				if (absC > max) {
+					max = absC;
+					pivot = c;
+					pivotRow = i;
+				}
+			}
+			
+			// if pivot is 0, the system of equations cannot be solved
+			if (pivot == 0) {
+				return invalidMatrix();
+			}
+			
+			// swap the rows if pivot is in a lower row
+			if (pivotRow > j) {
+				m.rowSwap(pivotRow, j);
+				r++;
+			}
+			
+			for (int i=1; i<=rows; i++) {
+				if (i > j) {
+					double scalar = m.getCell(i, j)/m.getCell(j, j) * -1;
+					m.rowMultiplyAndAdd(i, j, scalar);
+				}
+			}
+		}
+		
+		// Set the lower left-hand cell to the "r" value if "returnR" is true.
+		// "r" can then be used as the exponent when finding a determinant.
+		if (returnR) {
+		m.setCell(rows, 1, r);
+		}
+		
+		return m;
+	}
+	
+	/* 
+	 * Uses back substitution to get the solutions to a system of equations 
+	 * from a Gaussian Elimination reduced matrix. This operation will 
+	 * succeed without throwing and error even if the matrix has not been
+	 * properly reduced, however, the solution will not be the correct answer
+	 * to the system of equations. It only makes sense to  call this method 
+	 * on an upper-triangular Ax(A+1) matrix.
+	 */
+	public ArrayList backSubstitute() {
+		ArrayList<Double> solutionSet = new ArrayList<Double>(rows);
+		
+		for (int j=rows; j>0; j--) {
+			double answer = 1/getCell(j, j);
+			double constant = getCell(j, columns);
+			if (solutionSet.size() > 0) {
+				double numerator = constant;
+				for (int a=0; a<solutionSet.size(); a++) {
+					numerator -= solutionSet.get(a) * getCell(j, rows-a); 
+				}
+				answer = numerator * answer;
+			} else {
+				answer *= constant;
+			}
+			solutionSet.add(answer);
+		}
+		
+		return solutionSet;
+	}
+	
+	// Returns the determinant of the matrix using Gaussian Elimination.
+	public double determinant() {
+		Matrix m = gaussianElimination(true);
+		double determinant = 1;
+		for (int a=1; a<=rows; a++) {
+			determinant *= m.getCell(a, a);
+		}
+		return Math.pow(-1, m.getCell(rows, 1)) * determinant;
 	}
 	
 	// generate a string representing the matrix
