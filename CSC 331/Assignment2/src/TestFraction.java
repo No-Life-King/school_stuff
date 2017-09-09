@@ -28,7 +28,7 @@ public class TestFraction
           System.out.println(f2.compareTo(f1)); 					//must print -1 since f2 < f1
           System.out.println(f1.compareTo(new Fraction(2,3))); 		//must print 0 since the fractions being compared are equal
           
-          f2 = new Fraction(0.5); 									//overloaded constructor
+          f2 = new Fraction(.5); 									//overloaded constructor
           System.out.println("f2 = " + f2); 						//must print f2 = 1/2
    }
 

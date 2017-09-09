@@ -1,6 +1,6 @@
-import java.util.ArrayList;
+/**  @author Philip Smith */
 
-// Author: Philip Smith
+import java.util.ArrayList;
 
 public class Matrix {
 	
@@ -19,6 +19,14 @@ public class Matrix {
 		this.columns = columns;
 		
 		matrix = new double[rows][columns];
+	}
+	
+	public Matrix(Vector v) {
+		rows = 2;
+		columns = 1;
+		
+		double[][] vectorArray = {{v.getI()}, {v.getJ()}};
+		matrix = vectorArray;
 	}
 	
 	// This constructor accepts an existing 2D array and converts it to the matrix type.

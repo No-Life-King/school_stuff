@@ -1,7 +1,7 @@
+/**  @author Philip Smith */
+
 import java.util.ArrayList;
 import java.util.Stack;
-
-// Author: Philip Smith
 
 public class testMatrixOperations {
 	
@@ -150,6 +150,13 @@ public class testMatrixOperations {
 			double determinant = new Matrix(determineMe).determinant();
 			System.out.println("The determinant of a 3x3 matrix: ");
 			System.out.println(determinant + "\n");
+			
+			// create a matrix out of a vector
+			Vector a = new Vector(3.5, 7.77);
+			Matrix b = new Matrix(a);
+			System.out.println("Create a matrix out of a vector:\n");
+			System.out.println(a + "\n");
+			System.out.println(b + "\n");
 		}
 	}
 

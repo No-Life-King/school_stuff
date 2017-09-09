@@ -1,4 +1,4 @@
-// Author: Philip Smith
+/**  @author Philip Smith */
 
 public class Vector {
 	
@@ -10,20 +10,17 @@ public class Vector {
 		this.j = j;
 	}
 	
-	public void add(Vector v) {
-		i += v.getI();
-		j += v.getJ();
+	public Vector add(Vector v) {
+		return new Vector(i + v.getI(), j + v.getJ());
 	}
 	
-	public void subtract(Vector v) {
-		Vector oppositeVector = v.duplicate();
-		oppositeVector.scalarMultiply(-1);
-		this.add(oppositeVector);
+	public Vector subtract(Vector v) {
+		Vector oppositeVector = v.scalarMultiply(-1);
+		return add(oppositeVector);
 	}
 	
-	public void scalarMultiply(double scalar) {
-		i *= scalar;
-		j *= scalar;
+	public Vector scalarMultiply(double scalar) {
+		return new Vector(i * scalar, j * scalar);
 	}
 	
 	public double getI() {
@@ -35,7 +32,7 @@ public class Vector {
 	}
 	
 	public Vector duplicate() {
-		Vector v = new Vector(this.i, this.j);
+		Vector v = new Vector(i, j);
 		return v;
 	}
 	

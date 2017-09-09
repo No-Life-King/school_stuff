@@ -1,4 +1,4 @@
-// Author: Philip Smith
+/**  @author Philip Smith */
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ public class Data_for_two_classes {
 			BufferedReader in = new BufferedReader(new FileReader("src/datafile.txt"));
 			String line;
 			
-			// skip the first four lines of the data file
+			// skip the first line of the data file
 			for (int a = 0; a < 1; a++) {
 				in.readLine();
 			}
@@ -47,18 +47,19 @@ public class Data_for_two_classes {
 			Vector v2 = new Vector(0, 0);
 			
 			for (Vector v: class1vectors) {
-				v1.add(v);
+				v1 = v1.add(v);
 			}
 			for (Vector v: class2vectors) {
-				v2.add(v);
+				v2 = v2.add(v);
 			}
 			
-			v1.scalarMultiply(1/numC1vectors);
-			v2.scalarMultiply(1/numC2vectors);
+			v1 = v1.scalarMultiply(1/numC1vectors);
+			v2 = v2.scalarMultiply(1/numC2vectors);
 			
 			System.out.println("Mean Vector M1: " + v1);
 			System.out.println("Mean Vector M2: " + v2);
 			
+			// generate the covariance matrices for each class
 			Matrix covarianceMatrixC1 = calculateCovarianceMatrix(class1vectors, v1);
 			Matrix covarianceMatrixC2 = calculateCovarianceMatrix(class2vectors, v2);
 			
@@ -67,6 +68,7 @@ public class Data_for_two_classes {
 			System.out.println("Class 2 Covariance Matrix:");
 			System.out.println(covarianceMatrixC2 + "\n");
 			
+			// find the covariance matrix determinants
 			double c1covarianceMatrixDeterminant = covarianceMatrixC1.determinant();
 			double c2covarianceMatrixDeterminant = covarianceMatrixC2.determinant();
 			System.out.println("Class 1 Covariance Matrix Determinant:");
@@ -74,12 +76,14 @@ public class Data_for_two_classes {
 			System.out.println("Class 2 Covariance Matrix Determinant:");
 			System.out.println(c2covarianceMatrixDeterminant + "\n");
 			
+			// find the covariance matrix inverses
 			Matrix covarianceInverseMatrixC1 = covarianceMatrixC1.inverse();
 			Matrix covarianceInverseMatrixC2 = covarianceMatrixC2.inverse();
 			
-			System.out.println("Class 1 Covariance Inverse Matrix: \n " + covarianceInverseMatrixC1);
-			System.out.println("\nClass 2 Covariance Inverse Matrix: \n " + covarianceInverseMatrixC2);
+			System.out.println("Class 1 Inverse Covariance Matrix: \n " + covarianceInverseMatrixC1);
+			System.out.println("\nClass 2 Inverse Covariance Matrix: \n " + covarianceInverseMatrixC2);
 			
+			// solve a large linear system computationally
 			System.out.println("\n8x9 system of equations solution:");
 			double[][] coefficients = {{3, 1, -1, 4, 1, 1, -1, -1, 2},
 									   {1, 2, 2, 0, -1, -2, 2, 2, -3},
@@ -90,23 +94,79 @@ public class Data_for_two_classes {
 									   {-2, 1, -1, 1, 1, -5, 0, -2, 3},
 									   {1, 0, 1, 1, 0, 2, 1, 1, -4}};
 			
+			// print the Gauss-Jordan solution
 			Matrix solution = new Matrix(coefficients);
 			Matrix determinant = solution.duplicate();
 			System.out.println(solution.gaussJordanElimination());
 			System.out.println("(Gauss-Jordan)\n");
+			
+			// just for kicks, print the Gaussian solution as well
 			System.out.println(new Matrix(coefficients).gaussianElimination(false));
 			System.out.println("(Gaussian Elimination)\n");
+			
+			// print the determinant
 			System.out.println("Determinant:");
-			System.out.println(determinant.determinant());
+			System.out.println(determinant.determinant() + "\n");
 			
+			// grades of the mean vectors by each discriminant function
+			System.out.println("Classification of m1 by g1(x):");
+			System.out.println(grade(v1, v1, covarianceInverseMatrixC1, c1covarianceMatrixDeterminant));
+			System.out.println("\nClassification of m2 by g1(x):");
+			System.out.println(grade(v2, v1, covarianceInverseMatrixC1, c1covarianceMatrixDeterminant));
+			System.out.println("\nClassification of m2 by g2(x):");
+			System.out.println(grade(v2, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant));
+			System.out.println("\nClassification of m1 by g2(x):");
+			System.out.println(grade(v1, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant));
+			
+			
+			ArrayList<Vector> misclassifiedC1 = new ArrayList<Vector>();
+			ArrayList<Vector> misclassifiedC2 = new ArrayList<Vector>();
+			ArrayList<Double> gradesC1 = new ArrayList<Double>();
+			ArrayList<Double> gradesC2 = new ArrayList<Double>();
+			
+			for (Vector c1vector: class1vectors) {
+				double class1grade = grade(c1vector, v1, covarianceInverseMatrixC1, c1covarianceMatrixDeterminant);
+				double class2grade = grade(c1vector, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant);
+				if (class1grade < class2grade) {
+					misclassifiedC1.add(c1vector);
+					gradesC1.add(class1grade);
+					gradesC1.add(class2grade);
+				}
+			}
+			for (Vector c2vector: class2vectors) {
+				double class1grade = grade(c2vector, v1, covarianceInverseMatrixC1, c1covarianceMatrixDeterminant);
+				double class2grade = grade(c2vector, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant);
+				if (class1grade > class2grade) {
+					misclassifiedC2.add(c2vector);
+					gradesC2.add(class1grade);
+					gradesC2.add(class2grade);
+				}
+			}
+			
+			System.out.println("\nClass 1 Misclassified Points\tg1 Grade\t\tg2 Grade");
+			for (Vector misclassified: misclassifiedC1) {
+				int index = misclassifiedC1.indexOf(misclassified);
+				double g1 = gradesC1.get(index*2);
+				double g2 = gradesC1.get(index*2 + 1);
+				System.out.println(misclassified + "\t" + g1 + "\t" + g2);
+			}
+			System.out.println("\nClass 2 Misclassified Points:\tg1 Grade\t\tg2 Grade");
+			for (Vector misclassified: misclassifiedC2) {
+				int index = misclassifiedC2.indexOf(misclassified);
+				double g1 = gradesC2.get(index*2);
+				double g2 = gradesC2.get(index*2 + 1);
+				System.out.println(misclassified + "\t" + g1 + "\t" + g2);
+			}
+			
+			// set to true if you want to output the matrix operations test
 			testMatrixOperations.runTest(false);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
+	// reuse this code to calculate the covariance matrix for each class
 	public static Matrix calculateCovarianceMatrix(ArrayList<Vector> vectors, Vector meanVector) {
 		Matrix covarianceMatrix = new Matrix(2, 2);
 		
@@ -124,6 +184,28 @@ public class Data_for_two_classes {
 		double k = vectors.size();
 		covarianceMatrix = covarianceMatrix.scalarMultiply(1/k);
 		return covarianceMatrix;
+	}
+	
+	// This is the grading function.
+	public static double grade(Vector x, Vector mean, Matrix inverseCovarianceMatrix, double covarianceMatrixDeterminant) {
+		// find the difference between the measurement vector and the mean
+		Vector difference = x.subtract(mean);
+		Matrix meanDifference = new Matrix(difference);
+		
+		// create another matrix of the mean vector that is transposed
+		Matrix meanDifferenceTransposed = meanDifference.duplicate();
+		meanDifferenceTransposed.transpose();
+		
+		// multiply all the matrices
+		Matrix firstMultiply = meanDifferenceTransposed.matrixMultiply(inverseCovarianceMatrix);
+		Matrix secondMultiply = firstMultiply.matrixMultiply(meanDifference);
+		
+		// finally, multiply by the scalar
+		Matrix scalarMultiply = secondMultiply.scalarMultiply(-.5);
+		
+		// return the result minus 1/2 the natural log of the determinant of the covariance 
+		// matrix and add the natural log of the frequency of the class 
+		return scalarMultiply.getCell(1, 1) - .5 * Math.log(covarianceMatrixDeterminant) + Math.log(.5);
 	}
 
 }
