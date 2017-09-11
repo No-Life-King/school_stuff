@@ -118,7 +118,7 @@ public class Data_for_two_classes {
 			System.out.println("\nClassification of m1 by g2(x):");
 			System.out.println(grade(v1, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant));
 			
-			
+			// grade every data point using both discriminant functions
 			ArrayList<Vector> misclassifiedC1 = new ArrayList<Vector>();
 			ArrayList<Vector> misclassifiedC2 = new ArrayList<Vector>();
 			ArrayList<Double> gradesC1 = new ArrayList<Double>();
@@ -143,6 +143,7 @@ public class Data_for_two_classes {
 				}
 			}
 			
+			// display the points that were misclassified
 			System.out.println("\nClass 1 Misclassified Points\tg1 Grade\t\tg2 Grade");
 			for (Vector misclassified: misclassifiedC1) {
 				int index = misclassifiedC1.indexOf(misclassified);
@@ -158,9 +159,41 @@ public class Data_for_two_classes {
 				System.out.println(misclassified + "\t" + g1 + "\t" + g2);
 			}
 			
+			// estimate the boundary between the two discriminant functions and output points
+			// along that boundary
+			System.out.println();
+			double i = -3;
+			double j = -6;
+			while (i <= 3) {
+				Vector testPoint = new Vector(i, j);
+				double g1Grade = grade(testPoint, v1, covarianceInverseMatrixC1, c1covarianceMatrixDeterminant);
+				double g2Grade = grade(testPoint, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant);
+				double modifier = .0001;
+				double gradeDifference = g1Grade - g2Grade;
+				boolean found = false;
+				while (Math.abs(gradeDifference) > .001 && j < 4) {
+					testPoint = new Vector(i, j);
+					g1Grade = grade(testPoint, v1, covarianceInverseMatrixC1, c1covarianceMatrixDeterminant);
+					g2Grade = grade(testPoint, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant);
+					j += modifier;
+					gradeDifference = g1Grade - g2Grade;
+					if (gradeDifference > .001) {
+						found = true;
+					}
+				}
+				
+				if (found) {
+					System.out.println(testPoint.getI() + "\t" +  testPoint.getJ());
+				}
+				found = false;
+				i += .125;
+				j = -6;
+			}
+			
 			// set to true if you want to output the matrix operations test
 			testMatrixOperations.runTest(false);
 		} catch (Exception e) {
+			// don't handle exceptions, just give me the stack trace
 			e.printStackTrace();
 		}
 
@@ -171,16 +204,22 @@ public class Data_for_two_classes {
 		Matrix covarianceMatrix = new Matrix(2, 2);
 		
 		for (Vector v: vectors) {
-			v.subtract(meanVector);
+			// find the difference vector
+			v = v.subtract(meanVector);
 			double[] differenceVector = {v.getI(), v.getJ()};
 			Matrix differenceMatrix = new Matrix(2, 1);
 			differenceMatrix.setColumn(1, differenceVector);
+			
+			// transpose it to multiply it by itself (square it)
 			Matrix transposedDifferenceMatrix = differenceMatrix.duplicate();
 			transposedDifferenceMatrix.transpose();
 			Matrix multiplied = differenceMatrix.matrixMultiply(transposedDifferenceMatrix);
+			
+			// keep a running sum of the variance
 			covarianceMatrix = covarianceMatrix.add(multiplied);
 		}
 		
+		// find the average variance and return it
 		double k = vectors.size();
 		covarianceMatrix = covarianceMatrix.scalarMultiply(1/k);
 		return covarianceMatrix;

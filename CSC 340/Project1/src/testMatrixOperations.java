@@ -154,9 +154,10 @@ public class testMatrixOperations {
 			// create a matrix out of a vector
 			Vector a = new Vector(3.5, 7.77);
 			Matrix b = new Matrix(a);
-			System.out.println("Create a matrix out of a vector:\n");
+			System.out.println("Create a matrix out of a vector:");
 			System.out.println(a + "\n");
 			System.out.println(b + "\n");
+			
 		}
 	}
 
