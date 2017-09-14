@@ -105,8 +105,47 @@ public class Data_for_two_classes {
 			System.out.println("(Gaussian Elimination)\n");
 			
 			// print the determinant
+			double determinantOfA = determinant.determinant();
 			System.out.println("Determinant:");
-			System.out.println(determinant.determinant() + "\n");
+			System.out.println(determinantOfA + "\n");
+			
+			// print the inverse
+			System.out.println("Inverse of matrix A:");
+			double[][] matrixAarray = {{3, 1, -1, 4, 1, 1, -1, -1},
+									  {1, 2, 2, 0, -1, -2, 2, 2},
+									  {0, -2, 5, 4, -1, 0, 3, 1},
+									  {1, 1, -7, 3, 2, 2, -9, 0},
+									  {1, 1, 2, 3, -2, 2, 2, 9},
+									  {0, -3, -2, 2, 0, 2, 4, -5},
+									  {-2, 1, -1, 1, 1, -5, 0, -2},
+									  {1, 0, 1, 1, 0, 2, 1, 1,}};
+			Matrix matrixA = new Matrix(matrixAarray);
+			Matrix matrixAinverse = matrixA.inverse();
+			matrixAinverse.prettyPrint();
+			
+			System.out.println("The determinant of the inverse of matrix A:");
+			double determinantOfAInverse = matrixAinverse.determinant();
+			System.out.println(determinantOfAInverse + "\n");
+			
+			System.out.println("The determinants of A and A inverse multiplied:");
+			System.out.println(determinantOfA * determinantOfAInverse + "\n");
+			
+			System.out.println("Matrix b (matrix A times its solutions):");
+			ArrayList<Double> solutions = new Matrix(coefficients).gaussianElimination(false).backSubstitute();
+			double[][] solns = new double[8][1];
+			for (int i=0; i<8; i++) {
+				solns[i][0] = solutions.get(7-i);
+			}
+			
+			Matrix solutionSet = new Matrix(solns);
+			Matrix b = matrixA.matrixMultiply(solutionSet);
+			b.prettyPrint();
+			
+			System.out.println("Solutions are matrix A inverse times matrix b:");
+			matrixAinverse.matrixMultiply(b).prettyPrint();
+			
+			System.out.println("Condition Number:");
+			System.out.println(matrixA.conditionNumber() + "\n");
 			
 			// grades of the mean vectors by each discriminant function
 			System.out.println("Classification of m1 by g1(x):");

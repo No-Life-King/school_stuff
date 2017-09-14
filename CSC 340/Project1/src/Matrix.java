@@ -422,7 +422,7 @@ public class Matrix {
 	 * to the system of equations. It only makes sense to  call this method 
 	 * on an upper-triangular Ax(A+1) matrix.
 	 */
-	public ArrayList backSubstitute() {
+	public ArrayList<Double> backSubstitute() {
 		ArrayList<Double> solutionSet = new ArrayList<Double>(rows);
 		
 		for (int j=rows; j>0; j--) {
@@ -451,6 +451,49 @@ public class Matrix {
 			determinant *= m.getCell(a, a);
 		}
 		return Math.pow(-1, m.getCell(rows, 1)) * determinant;
+	}
+	
+	// Returns the condition number of the matrix.
+	public double conditionNumber() {
+		if (rows != columns) {
+			return Double.NaN;
+		}
+		
+		Matrix inverse = inverse();
+		
+		return maxRowSum() * inverse.maxRowSum();
+	}
+
+	// Calculates the highest sum of the absolute values of numbers in each row.
+	private double maxRowSum() {
+		double maxRowSum = 0;
+		for (int rowNumber=1; rowNumber<=rows; rowNumber++) {
+			double rowSum = 0;
+			double[] row = getRow(rowNumber);
+			
+			for (double value: row) {
+				rowSum += Math.abs(value);
+			}
+			
+			if (rowSum > maxRowSum) {
+				maxRowSum = rowSum;
+			}
+		}
+		
+		return maxRowSum;
+	}
+	
+	public void prettyPrint() {
+		Matrix m = duplicate();
+		for (int i=1; i<=rows; i++) {
+			for (int j=1; j<=columns; j++) {
+				if (Math.abs(m.getCell(i, j)) < .00000000000001) {
+					m.setCell(i, j, 0);
+				} 
+			}
+		}
+		
+		System.out.println(m + "\n");
 	}
 	
 	// generate a string representing the matrix
