@@ -104,6 +104,7 @@ public class LibManager {
 	private void exitProgram() {
 		System.out.println("Exiting...");
 		
+		// Overwrite the old files with the current sets of books, patrons, and loans. 
 		try {
 			FileWriter bookWriter = new FileWriter("Resources/books.txt"); 
 			FileWriter patronWriter = new FileWriter("Resources/patrons.txt"); 
@@ -159,7 +160,8 @@ public class LibManager {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(filename));
 			String line;
-
+			
+			// read in each line of the text file creating a new patron object and adding it to the patron list
 			while((line = in.readLine()) != null) {
 				String[] patronInfo = line.split("\t");
 				Patron patron = new Patron(patronInfo[0].trim(), patronInfo[1].trim());
@@ -178,7 +180,8 @@ public class LibManager {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(filename));
 			String line;
-
+			
+			// read in each line of the text file creating a new loan object and adding it to the loan list
 			while((line = in.readLine()) != null) {
 				String[] loanInfo = line.split(",");
 				Loan loan = new Loan(loanInfo[0].trim(), loanInfo[1].trim(), loanInfo[2].trim());
@@ -223,7 +226,8 @@ public class LibManager {
         	e.printStackTrace();
         }
 	}
-
+	
+	// get a book id and display the patron who currently has the book checked out
 	private void showBorrowers() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String bookId;
@@ -249,9 +253,13 @@ public class LibManager {
         }
 	}
 
+	// display any book loans that are older than 2 weeks and have not been checked back in
 	private void showOverdueBooks() {
 		for (Loan loan: loanList) {
+			
+			// 2 weeks in milliseconds
 			long twoWeeks = 1209600000L;
+			
 			if (((new Calendar.Builder().setInstant(new Date()).build().getTimeInMillis()) - loan.getDueDate().getTimeInMillis()) > twoWeeks) {
 				System.out.print(loan.getBookId());
 				for (Book book: bookList) {
@@ -260,15 +268,17 @@ public class LibManager {
 					}
 				}
 			}
+			
 		}
 	}
-
+	
+	// if the book is available, create a new loan object indicating the book and the borrower and add the loan to the loan list
 	private void lendBookToPatron() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String patronId;
         String bookId;
         boolean onLoan = false;
-  
+
         try {
         	System.out.print("Enter Patron ID: ");
             patronId = in.readLine();
@@ -290,7 +300,8 @@ public class LibManager {
         	e.printStackTrace();
         }
 	}
-
+	
+	// if the book has been checked out, delete its loan object
 	private void returnBook() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String bookId;
@@ -316,7 +327,8 @@ public class LibManager {
         	e.printStackTrace();
         }
 	}
-
+	
+	// display all the books that were published within a certain range of years
 	private void listByYear() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         int min;
@@ -337,7 +349,8 @@ public class LibManager {
         	e.printStackTrace();
         }
 	}
-
+	
+	// display all the books written by the specified author
 	private void listByAuthor() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String name;
@@ -345,6 +358,7 @@ public class LibManager {
         try {
         	System.out.print("Enter an author to search for: ");
             name = in.readLine();
+            
             for (Book book: bookList) {
             	if (book.getAuthor().equalsIgnoreCase(name)) {
             		System.out.println(book.getId() + ", " + book.getTitle() + ", " + book.getYear());
@@ -354,19 +368,22 @@ public class LibManager {
         	e.printStackTrace();
         }
 	}
-
+	
+	// print all the patrons
 	private void listPatrons() {
 		for (Patron patron: patronList) {
 			System.out.println(patron);
 		}
 	}
 
+	// print all the books
 	private void listBooks() {
 		for (Book book: bookList) {
 			System.out.println(book);
 		}
 	}
 
+	// add a patron to the patron list
 	private void addPatron() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String name;
@@ -382,6 +399,7 @@ public class LibManager {
 
 	}
 
+	// add a book to the book list
 	private void addBook() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String author;
@@ -402,7 +420,7 @@ public class LibManager {
         }
     }
 	
-
+	// find a patron by id and remove him or her
 	private void removePatron() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String patronId;
@@ -424,6 +442,7 @@ public class LibManager {
         }
 	}
 
+	// find a book by id and delete it
 	private void removeBook() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String bookId;

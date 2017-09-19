@@ -997,3 +997,4 @@ B996	;	The Thousand and One Nights	;	Anonymous	;	1871
 B997	;	The Golden Ass	;	Lucius Apuleius	;	1739
 B998	;	Aithiopika	;	Heliodorus	;	1829
 B999	;	Chaireas and Kallirhoe	;	Chariton	;	1716
+B1002	;	My Book	;	Phil Smith	;	2017

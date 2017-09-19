@@ -5,17 +5,24 @@ public class Patron {
 	private String uid;
 	private String name;
 	private ArrayList<Book> borrowedBooks;
-	private static int currentId = 1001;
+	private static int currentId = 0;
 	
 	public Patron(String uid, String name) {
 		this.uid = uid;
 		this.name = name;
+		
+		// keep track of the highest id number
+		int idNumber = Integer.parseInt(uid.substring(1));
+		if (idNumber > currentId) {
+			currentId = idNumber;
+		}
 	}
 	
+	// create a new patron and generate an id for that person
 	public Patron(String name) {
 		this.name = name;
-		uid = "P" + currentId;
 		currentId++;
+		uid = "P" + currentId;
 	}
 	
 	public String getId() {
