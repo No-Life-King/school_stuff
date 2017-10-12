@@ -568,6 +568,102 @@ public class Matrix implements Cloneable {
 		
 		return sum;
 	}
+	
+	/**
+	 * Use Le Verrier's method to get the coefficients of the characteristic equation of the matrix.
+	 * @return A double array containing the coefficients of the polynomial in order of degree.
+	 * 		   The first coefficient is assumed to be 1.
+	 */
+	public double[] characteristicEquationCoefficients() {
+		double coefficient = trace() * -1;
+		double[] results = new double[rows];
+		results[0] = coefficient;
+		Matrix identity = identityMatrix(rows);
+		Matrix b = clone();
+		
+		for (int k = rows-1; k > 0; k--) {
+			
+			/* multiply the previous coefficient by an identity matrix and add that 
+			   to the matrix from which the previous result was produced */
+			b = this.matrixMultiply(b.add(identity.scalarMultiply(coefficient)));
+			coefficient = -1 * b.trace()/(rows - k + 1);
+			results[rows-k] = coefficient;
+		}
+		
+		return results;
+	}
+	
+	/**
+	 * Uses the power method to estimate the largest eigenvalue of a matrix.
+	 * @param accuracy The largest amount of error that is tolerable.
+	 * @param maxIterations The maximum number of times you want the algorithm to run to try to get an estimate. 
+	 * @return A hopefully precise estimate of the largest eigenvalue. 
+	 */
+	public double estimateLargestEigenvalue(double accuracy, int maxIterations) {
+		double[][] yGuess = new double[rows][1];
+		double eigenvalue = 0;
+		
+		for (int x = 0; x < rows; x++) {
+			yGuess[x][0] = 1.69;
+		}
+		
+		Matrix y = new Matrix(yGuess);
+		Matrix x = this.matrixMultiply(y);
+		Matrix r;
+		
+		int count = 1;
+		do {
+			y = x.scalarMultiply(1/x.vectorMagnitude(1));
+			x = this.matrixMultiply(y);
+			Matrix yTransposed = y.clone();
+			yTransposed.transpose();
+			
+			double numerator = yTransposed.matrixMultiply(x).getCell(1, 1);
+			double denominator = yTransposed.matrixMultiply(y).getCell(1, 1);
+			eigenvalue = numerator/denominator;
+			r = y.scalarMultiply(eigenvalue).subtract(x);
+			
+			count++;
+		} while (count <= maxIterations && r.vectorMagnitude(1) > accuracy);
+		
+		System.out.println("Reached " + accuracy + " accuracy in " + count + " iterations:");
+		
+		return eigenvalue;
+	}
+	
+	/**
+	 * Builds a companion matrix from the passed-in coefficient values.
+	 * @param coefficients The coefficients of the polynomial.
+	 * @return The companion matrix.
+	 */
+	public static Matrix companionMatrix(double[] coefficients) {
+		Matrix m = new Matrix(1, coefficients.length);
+		m.setRow(1, coefficients);
+		m = m.scalarMultiply(-1);
+		
+		for (int i = 0; i < m.columns-1; i++) {
+			double[] row = new double[m.columns];
+			row[i] = 1;
+			m.addRow(row);
+		}
+		
+		return m;
+	}
+	
+	/**
+	 * My love for her is like a vector.
+	 * @param columnNumber The column of the vector whose magnitude should be computed.
+	 * @return The length of the nth degree vector.
+	 */
+	private double vectorMagnitude(int columnNumber) {
+		double sumOfSquares = 0;
+
+		for (double value: getColumn(columnNumber)) {
+			sumOfSquares += Math.pow(value, 2);
+		}
+		
+		return Math.sqrt(sumOfSquares);
+	}
 
 	/** Calculates the highest sum of the absolute values of numbers in each row.
 	 * @return The row with the largest absolute value. */
