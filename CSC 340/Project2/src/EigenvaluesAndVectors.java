@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Optimization {
+public class EigenvaluesAndVectors {
 
 	public static void main(String[] args) {
 		try {
