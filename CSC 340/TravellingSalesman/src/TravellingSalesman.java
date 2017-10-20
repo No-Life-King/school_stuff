@@ -42,13 +42,68 @@ public class TravellingSalesman {
         
 		//generateRandomSolutions(1_000_000);
         //exhaustiveSearch();
-        geneticAlgorithmSolutions(75000, 75);
+        //geneticAlgorithmSolutions(75000, 75);
+        simulatedAnnealingSolutions(1);
 		
 		long finish = System.nanoTime() - start;
         System.out.println("Took " + nanoFormat.format(finish) + " nanoseconds to execute.");
 
 	}
 	
+	private static void simulatedAnnealingSolutions(int numSolutions) {
+		double temperature = 0.005;
+		double coolingRate = .005;
+		double best = 10;
+
+		String[] path = generateRandomPath();
+		
+		int count = 0;
+		while (temperature < 10) {
+			String[] permutation = randomSwap(path);
+			double permutationDistance = calcPathDistance(permutation);
+			
+			double delta = (permutationDistance - calcPathDistance(path));
+			
+			
+			if (delta >= 0) {
+				path = permutation;
+				if (permutationDistance < best) 
+					best = permutationDistance;
+			} else {
+				double probability = 1/Math.pow(Math.E, temperature/5);
+				double z = Math.pow(Math.E, -delta/temperature);
+				print(delta + "\t" + probability + "\t" + z);
+				if (Math.random() < probability/z) {
+					path = permutation;
+				}
+			}
+			
+			temperature += coolingRate;
+			count++;
+			
+		}
+		
+		print(best);
+		print(calcPathDistance(path) + "\n" + count);
+		
+	}
+	
+	private static String[] randomSwap(String[] path) {
+		String[] newPath = path.clone();
+		int i1 = (int) (Math.random() * path.length);
+		int i2 = (int) (Math.random() * path.length);
+		
+		String temp = newPath[i1];
+		newPath[i1] = newPath[i2];
+		newPath[i2] = temp;
+		
+		return newPath;
+	}
+
+	private static double cool(double temperature) {
+		return temperature-.01;
+	}
+
 	private static void geneticAlgorithmSolutions(int startingPopulation, int iterations) {
 		HashMap<String[], Double> population = new HashMap<String[], Double>(startingPopulation);
 		double bias = 15;
@@ -63,7 +118,7 @@ public class TravellingSalesman {
 			ArrayList<String[]> rouletteWheel = new ArrayList<String[]>(population.size());
 			
 			for (String[] path: population.keySet()) {
-				int slots = (int) Math.round(1/calcPathDistance(path)*bias);
+				int slots = (int) Math.round(1/calcPathDistance(path)*bias) - 1;
 				for (int y=0; y<slots; y++) {
 					rouletteWheel.add(path);
 				}
@@ -398,7 +453,7 @@ public class TravellingSalesman {
 		return distanceArray;
 	}
 	
-	public static long factorial(long n) {
+	private static long factorial(long n) {
         long factorial = 1;
         for (int i=1; i <= n; i++) {
             factorial *= i;
