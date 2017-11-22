@@ -1,0 +1,1 @@
+Hi. This is a zipped Eclipse Java project. You may import it into Eclipse or simply run "ChordImplementation.java" and "Node.java" from the same directory any way you would normally run java source code. 
