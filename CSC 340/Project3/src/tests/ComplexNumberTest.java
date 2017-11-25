@@ -1,5 +1,9 @@
 package tests;
 
+/**
+ * @author Phil Smith
+ */
+
 import DSP.ComplexNumber;
 
 public class ComplexNumberTest {

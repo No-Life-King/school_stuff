@@ -1,5 +1,9 @@
 package DSP;
 
+/**
+ * @author Phil Smith
+ */
+
 public class ComplexNumber {
 	private double real;
 	private double imaginary;
@@ -24,10 +28,18 @@ public class ComplexNumber {
 	}
 	
 	public ComplexNumber multiply(ComplexNumber x) {
-
 		// for two imaginary numbers (a + bi) and (c + di),  
 		// their product will be equal to (ac - bd) + (ad + bc)
 		return new ComplexNumber(real * x.real - imaginary * x.imaginary, real * x.imaginary + imaginary * x.real);
+	}
+
+	/**
+	 * Allows a complex number to be scaled, multiplying the complex number by 'x'.
+	 * @param x The number by which to scale the complex number.
+	 * @return The scaled complex number.
+	 */
+	public ComplexNumber multiply(double x) {
+		return new ComplexNumber(x * real, x * imaginary);
 	}
 
 	public ComplexNumber divide(ComplexNumber x) {
@@ -36,7 +48,8 @@ public class ComplexNumber {
 		/*
 		 * In complex number division, the denominator must be converted to the real plane
 		 * by multiplying by its conjugate. The real portion of the resulting complex number
-		 * is equal to (ac + bd)/(c^2 + d^2) + (bc - ad)/(c^2 + d^2) i.
+		 * is equal to (ac + bd)/(c^2 + d^2) and the imaginary portion is equal to
+		 * (bc - ad)/(c^2 + d^2) i.
 		 */
 
 		if (x.imaginary != 0) {
@@ -73,6 +86,14 @@ public class ComplexNumber {
 	
 	@Override 
 	public String toString() {
-		return real + " " + imaginary + "i";
+		String operator = " + ";
+		String formattedImaginary = Double.toString(imaginary);
+
+		if (imaginary < 0) {
+			operator = " - ";
+			formattedImaginary = Double.toString(imaginary*-1);
+		}
+
+		return real + operator + formattedImaginary + "i";
 	}
 }
