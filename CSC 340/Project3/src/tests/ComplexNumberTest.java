@@ -8,6 +8,8 @@ public class ComplexNumberTest {
 		additionTest();
 		subtractionTest();
 		multiplicationTest();
+		divisionTest();
+		magnitudeTest();
 	}
 
 	private void additionTest() {
@@ -48,6 +50,46 @@ public class ComplexNumberTest {
 		answer = new ComplexNumber(-25, 75);
 		
 		validate("Product Test 2...\t", z, answer);
+	}
+
+	private void divisionTest() {
+		ComplexNumber x = new ComplexNumber(10, -5);
+		ComplexNumber y = new ComplexNumber(1, 1);
+
+		ComplexNumber z = x.divide(y);
+
+		ComplexNumber answer = new ComplexNumber(2.5, -7.5);
+
+		validate("Division Test 1...\t", z, answer);
+
+		x = new ComplexNumber(-3, 0);
+		y = new ComplexNumber(2, -1);
+		z = x.divide(y);
+
+		answer = new ComplexNumber(-1.2, -.6);
+		validate("Division Test 2...\t", z, answer);
+
+		x = new ComplexNumber(10, -5);
+		y = new ComplexNumber(5, 0);
+		z = x.divide(y);
+
+		answer = new ComplexNumber(2,-1);
+		validate("Division Test 3...\t", z, answer);
+	}
+
+	private void magnitudeTest() {
+		ComplexNumber x = new ComplexNumber(3, 4);
+		double solution = x.magnitude();
+
+		System.out.print("Magnitude Test...\t");
+		if (solution == 5) {
+			System.out.println("[PASS]");
+		} else {
+			System.out.println("[FAIL]");
+			System.out.println("Expected: " + 5 + ". Got: " + solution);
+		}
+
+
 	}
 
 	private void validate(String name, ComplexNumber solution, ComplexNumber answer) {
