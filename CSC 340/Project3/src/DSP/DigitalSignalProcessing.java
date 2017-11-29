@@ -9,15 +9,66 @@ import tests.ComplexNumberTest;
 public class DigitalSignalProcessing {
 
 	public static void main(String[] args) {
-		runTests(true);
 
-		double[] testData = {26160, 19011, 18757, 18405, 17888, 14720, 14285, 17018, 18014, 17119, 16400, 17497, 17846, 15700, 17636, 17181};
+		// test classes and methods if set to 'true'
+		runTests(false);
 
-		fastFourierTransform(convertToComplex(testData), false);
+		/*
+		 * The following code uses the estimated piecewise function to generate samples for a Fast Fourier
+		 * Transform, which can then be used to print out the power spectral density of the frequencies.
+		 * This code can be quickly modified to use the 'sineFunction' defined in its own method below for
+		 * generating an aribtrary number of even or odd frequencies and samples.
+		 */
+
+		/*
+		double[] oddSamples = piecewiseFunction(512, true);
+		double[] evenSamples = piecewiseFunction(512, false);
+
+		ComplexNumber[] oddTransform = fastFourierTransform(convertToComplex(oddSamples), false);
+		ComplexNumber[] evenTransform = fastFourierTransform(convertToComplex(evenSamples), false);
+
+		for (int x=0; x<50; x++) {
+			 System.out.println(Math.pow(evenTransform[x].magnitude(), 2));
+		}
+		*/
+
+		/*
+		 * The following code examines two sine functions with no amplitude or phase shift changes. The functions
+		 * are sin(2pi(11)t) and sin(2pi(23)t). The are both added and multiplied for the purpose of examining the
+		 * effects on the power spectral density.
+		 */
+
+		/*
+		double[] sumOfSines = new double[1024];
+		for (int x=0; x<1024; x++) {
+			sumOfSines[x] = Math.sin(2 * Math.PI * 11 * x/1024.0) + Math.sin(2 * Math.PI * 23 * x/1024.0);
+		}
+
+		double[] productOfSines = new double[1024];
+		for (int x=0; x<1024; x++) {
+			productOfSines[x] = Math.sin(2 * Math.PI * 11 * x/1024.0) * Math.sin(2 * Math.PI * 23 * x/1024.0);
+		}
+
+		ComplexNumber[] sumTransform = fastFourierTransform(convertToComplex(sumOfSines), false);
+		ComplexNumber[] productTransform = fastFourierTransform(convertToComplex(productOfSines), false);
+
+		for (int x=0; x<1024; x++) {
+			// System.out.println(Math.pow(productTransform[x].magnitude(), 2));
+		}
+		*/
 
 	}
 
-	private static void fastFourierTransform(ComplexNumber[] vector, boolean inverseFFT) {
+	/**
+	 * Performs a Fast Fourier Transform (FFT) or inverse FFT on the specified complex vector. The vector length
+	 * will be equal to the number of samples that should be transformed. An FFT can be performed in O(.5n(log(n))
+	 * time as opposed to the O(n^2) time of a Discrete Fourier Transform.
+	 * @param vector The vector to transform.
+	 * @param inverseFFT Set to 'true' if an inverse FFT should be performed on the vector to get the original
+	 *                   samples back.
+	 * @return The transformed vector.
+	 */
+	private static ComplexNumber[] fastFourierTransform(ComplexNumber[] vector, boolean inverseFFT) {
 		double direction = 1;
 		int n = vector.length;
 
@@ -67,10 +118,71 @@ public class DigitalSignalProcessing {
 			}
 		}
 
-		for (ComplexNumber i: vector) {
-			System.out.println(i);
+		return vector;
+	}
+
+	private static double[] sineFunction(int terms, double samples, boolean odd) {
+		double time = 0;
+		double interval = 1/samples;
+		double[] results = new double[(int) samples];
+
+		while (time < 1) {
+			double sum = 0;
+
+			for (int k=1; k<=terms; k++) {
+
+				double frequency = 2*k;
+
+				if (odd) {
+					frequency-= 1;
+				}
+
+				double result = Math.sin((2*Math.PI * frequency * time)) / frequency;
+
+				// System.out.println(frequency + " " + result);
+				sum += result;
+			}
+
+			results[(int) (time * samples)] = sum;
+
+			time += interval;
 		}
 
+		return results;
+	}
+
+	private static double[] piecewiseFunction(double samples, boolean odd) {
+		double time = 0;
+		double interval = 1/samples;
+		double[] results = new double[(int) samples];
+
+		while (time < 1) {
+
+			double sum = 0;
+
+			if (odd) {
+				if (time > 0 && time < .5) {
+					sum = Math.PI / 4;
+				}
+
+				if (time > .5 && time < 1) {
+					sum = Math.PI / 4 * -1;
+				}
+			} else {
+				if (time > 0 && time < .5) {
+					sum = -Math.PI*time + Math.PI / 4;
+				}
+
+				if (time > .5 && time < 1) {
+					sum = -Math.PI * time + 3 * Math.PI / 4;
+				}
+			}
+
+			results[(int) (time * samples)] = sum;
+			time += interval;
+		}
+
+		return results;
 	}
 
 	private static ComplexNumber[] convertToComplex(double[] data) {
@@ -85,9 +197,41 @@ public class DigitalSignalProcessing {
 
 	private static void runTests(boolean enabled) {
 		if (enabled) {
+			System.out.println("\tComplex Number Tests");
 			new ComplexNumberTest();
+
+			System.out.println("\n\tFast Fourier Transform Test");
+			FFTtest();
 		}
 		
+	}
+
+	private static void FFTtest() {
+		double[] testData = {26160, 19011, 18757, 18405, 17888, 14720, 14285, 17018,
+				 			 18014, 17119, 16400, 17497, 17846, 15700, 17636, 17181};
+		ComplexNumber[] complexTestData = convertToComplex(testData);
+
+		ComplexNumber[] transformed = fastFourierTransform(complexTestData, false);
+		ComplexNumber[] inverse = fastFourierTransform(transformed, true);
+
+		if (FFTresultsCheck(complexTestData, inverse)) {
+			System.out.println("Inverse Test...\t\t[PASS]");
+		} else {
+			System.out.println("Inverse Test...\t[FAIL]");
+		}
+	}
+
+	private static boolean FFTresultsCheck(ComplexNumber[] complexTestData, ComplexNumber[] inverse) {
+
+		for (int i=0; i<complexTestData.length; i++) {
+			//System.out.println("Comparing: " + complexTestData[i] + " and " + inverse[i]);
+
+			if (!complexTestData[i].equals(inverse[i])) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 }

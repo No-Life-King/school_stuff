@@ -73,14 +73,14 @@ public class ComplexNumber {
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof ComplexNumber) {
-			
+
 			ComplexNumber other = (ComplexNumber) o;
-			
+
 			if (real == other.real && imaginary == other.imaginary) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 	
