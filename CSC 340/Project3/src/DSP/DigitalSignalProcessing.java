@@ -13,6 +13,9 @@ public class DigitalSignalProcessing {
 		// test classes and methods if set to 'true'
 		runTests(false);
 
+
+		phaseShift(0);
+
 		/*
 		 * The following code uses the estimated piecewise function to generate samples for a Fast Fourier
 		 * Transform, which can then be used to print out the power spectral density of the frequencies.
@@ -183,6 +186,40 @@ public class DigitalSignalProcessing {
 		}
 
 		return results;
+	}
+
+	private static void phaseShift(int pulseIndex) {
+		double[] pulseArray = new double[1024];
+
+		for (int x=0; x<1024; x++) {
+			if (x == pulseIndex) {
+				pulseArray[x] = 1;
+			} else {
+				pulseArray[x] = 0;
+			}
+		}
+
+		double[] sineWave = new double[1024];
+		double[] shiftedSineWave1 = new double[1024];
+		double[] shiftedSineWave2 = new double[1024];
+		double[] shiftedSineWave3 = new double[1024];
+
+		for (int x=0; x<1024; x++) {
+			sineWave[x] = Math.sin(18 * Math.PI * x/1024.0);
+			shiftedSineWave1[x] = Math.sin(18 * Math.PI * (x/1024.0 - .25));
+			shiftedSineWave2[x] = Math.sin(18 * Math.PI * (x/1024.0 - .5));
+			shiftedSineWave3[x] = Math.sin(18 * Math.PI * (x/1024.0 - .75));
+		}
+
+		printPowerSpectralDensity(fastFourierTransform(convertToComplex(sineWave), false), 50);
+
+		//printPowerSpectralDensity(fastFourierTransform(convertToComplex(pulseArray), false), 1024);
+	}
+
+	private static void printPowerSpectralDensity(ComplexNumber[] transform, int values) {
+		for (int x=0; x<values; x++) {
+			System.out.println(Math.pow(transform[x].magnitude(), 2));
+		}
 	}
 
 	private static ComplexNumber[] convertToComplex(double[] data) {
