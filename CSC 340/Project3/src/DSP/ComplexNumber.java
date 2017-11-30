@@ -5,9 +5,16 @@ package DSP;
  */
 
 public class ComplexNumber {
+
 	private double real;
 	private double imaginary;
-	
+
+	/**
+	 * This constructor creates a new complex number of the form (a + bi) where 'a' is the real portion
+	 * and 'b' is the imaginary portion.
+	 * @param a The real portion of the complex number.
+	 * @param b The imaginary portion of the complex number.
+	 */
 	public ComplexNumber(double a, double b) {
 		real = a;
 		imaginary = b;

@@ -5,6 +5,12 @@ package DSP;
  */
 
 import tests.ComplexNumberTest;
+import helpers.Picture;
+
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 
 public class DigitalSignalProcessing {
 
@@ -13,8 +19,21 @@ public class DigitalSignalProcessing {
 		// test classes and methods if set to 'true'
 		runTests(false);
 
+		// phaseShift(0);
 
-		phaseShift(0);
+		double[] evenSamples = sineFunction(100,512, false);
+
+		for (double sample: evenSamples) {
+			//System.out.println(sample);
+		}
+
+		for (ComplexNumber c: fastFourierTransform(convertToComplex(evenSamples), false)) {
+			// System.out.println(c);
+		}
+
+		// DTMFtones();
+
+		twoDimensionalFFT();
 
 		/*
 		 * The following code uses the estimated piecewise function to generate samples for a Fast Fourier
@@ -60,6 +79,56 @@ public class DigitalSignalProcessing {
 		}
 		*/
 
+	}
+
+	private static void twoDimensionalFFT() {
+		Picture image = new Picture(512, 512);
+
+		for (int i=0; i<512; i++) {
+			for (int j=0; j<512; j++) {
+				image.set(i, j, Color.BLACK);
+			}
+		}
+
+		for (int i=220; i<330; i++) {
+			for (int j=180; j<320; j++) {
+				image.set(i, j, Color.WHITE);
+			}
+		}
+
+		for (int i=260; i<290; i++) {
+			for (int j=205; j<295; j++) {
+				image.set(i, j, Color.BLACK);
+			}
+		}
+
+		image.show();
+
+	}
+
+	private static void DTMFtones() {
+		ArrayList<Double> samples = new ArrayList<Double>();
+
+		try {
+			BufferedReader in = new BufferedReader(new FileReader("tonedataF20173.txt"));
+			String line;
+
+			while((line = in.readLine()) != null) {
+				samples.add(Double.parseDouble(line));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		double[] sampleArray = new double[samples.size()];
+
+		for (int x=0; x<samples.size(); x++) {
+			sampleArray[x] = samples.get(x);
+		}
+
+		for (ComplexNumber c: fastFourierTransform(convertToComplex(sampleArray), false)) {
+			System.out.println(Math.pow(c.magnitude(), 2));
+		}
 	}
 
 	/**
@@ -142,7 +211,6 @@ public class DigitalSignalProcessing {
 
 				double result = Math.sin((2*Math.PI * frequency * time)) / frequency;
 
-				// System.out.println(frequency + " " + result);
 				sum += result;
 			}
 
@@ -199,6 +267,8 @@ public class DigitalSignalProcessing {
 			}
 		}
 
+		//printPowerSpectralDensity(fastFourierTransform(convertToComplex(pulseArray), false), 1024);
+
 		double[] sineWave = new double[1024];
 		double[] shiftedSineWave1 = new double[1024];
 		double[] shiftedSineWave2 = new double[1024];
@@ -211,9 +281,14 @@ public class DigitalSignalProcessing {
 			shiftedSineWave3[x] = Math.sin(18 * Math.PI * (x/1024.0 - .75));
 		}
 
-		printPowerSpectralDensity(fastFourierTransform(convertToComplex(sineWave), false), 50);
+		ComplexNumber[] transformedWave = fastFourierTransform(convertToComplex(sineWave), false);
 
-		//printPowerSpectralDensity(fastFourierTransform(convertToComplex(pulseArray), false), 1024);
+		for (ComplexNumber c: transformedWave) {
+			System.out.println(c);
+		}
+
+		// printPowerSpectralDensity(fastFourierTransform(convertToComplex(sineWave), false), 50);
+
 	}
 
 	private static void printPowerSpectralDensity(ComplexNumber[] transform, int values) {
@@ -249,6 +324,11 @@ public class DigitalSignalProcessing {
 		ComplexNumber[] complexTestData = convertToComplex(testData);
 
 		ComplexNumber[] transformed = fastFourierTransform(complexTestData, false);
+
+		for (ComplexNumber c: transformed) {
+			// System.out.println(c);
+		}
+
 		ComplexNumber[] inverse = fastFourierTransform(transformed, true);
 
 		if (FFTresultsCheck(complexTestData, inverse)) {
