@@ -21,19 +21,14 @@ public class DigitalSignalProcessing {
 
 		// phaseShift(0);
 
-		double[] evenSamples = sineFunction(100,512, false);
+		// correlation();
 
-		for (double sample: evenSamples) {
-			//System.out.println(sample);
-		}
+		// printPowerSpectralDensity(evenFFTinverse, 512);
 
-		for (ComplexNumber c: fastFourierTransform(convertToComplex(evenSamples), false)) {
-			// System.out.println(c);
-		}
 
 		// DTMFtones();
 
-		twoDimensionalFFT();
+		twoDimensionalSignalCorrelation();
 
 		/*
 		 * The following code uses the estimated piecewise function to generate samples for a Fast Fourier
@@ -81,29 +76,175 @@ public class DigitalSignalProcessing {
 
 	}
 
-	private static void twoDimensionalFFT() {
-		Picture image = new Picture(512, 512);
+	private static void correlation() {
+		ArrayList<Double> pulse = new ArrayList<Double>();
+		ArrayList<Double> signal = new ArrayList<Double>();
+
+		try {
+			BufferedReader in = new BufferedReader(new FileReader("rangeTestDataF2017.txt"));
+			String line;
+
+			in.readLine();
+			in.readLine();
+
+			while(!(line = in.readLine()).startsWith("s")) {
+				pulse.add(Double.parseDouble(line));
+			}
+
+			in.readLine();
+
+			while((line = in.readLine()) != null) {
+				signal.add(Double.parseDouble(line));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		double[] pulseArray = new double[signal.size()];
+		double[] signalArray = new double[signal.size()];
+
+		for (int x=0; x<signal.size(); x++) {
+			signalArray[x] = signal.get(x);
+		}
+
+		for (int x=0; x<pulse.size(); x++) {
+			pulseArray[x] = pulse.get(x);
+		}
+
+		ComplexNumber[] results = correlateSignals(pulseArray, signalArray);
+
+		for (ComplexNumber result: results) {
+			System.out.println(result.getReal());
+		}
+
+	}
+
+	private static ComplexNumber[] correlateSignals(double[] pulseArray, double[] signalArray) {
+		ComplexNumber[] signalFFT = fastFourierTransform(convertToComplex(signalArray), false);
+		ComplexNumber[] pulseFFT = fastFourierTransform(convertToComplex(pulseArray), false);
+
+		for (int x=0; x<pulseFFT.length; x++) {
+			pulseFFT[x] = pulseFFT[x].conjugate();
+		}
+
+		ComplexNumber[] correlation = new ComplexNumber[signalFFT.length];
+
+		for (int x=0; x<signalFFT.length; x++) {
+			correlation[x] = signalFFT[x].multiply(pulseFFT[x]);
+		}
+
+		return fastFourierTransform(correlation, true);
+	}
+
+	private static void twoDimensionalSignalCorrelation() {
+		Picture testSignal = new Picture(512, 512, "Test Signal");
+
+		double[][] testSignalPixels = new double[512][512];
 
 		for (int i=0; i<512; i++) {
 			for (int j=0; j<512; j++) {
-				image.set(i, j, Color.BLACK);
+				testSignalPixels[i][j] = 0;
 			}
 		}
 
 		for (int i=220; i<330; i++) {
 			for (int j=180; j<320; j++) {
-				image.set(i, j, Color.WHITE);
+				testSignalPixels[i][j] = 255;
 			}
 		}
 
 		for (int i=260; i<290; i++) {
 			for (int j=205; j<295; j++) {
-				image.set(i, j, Color.BLACK);
+				testSignalPixels[i][j] = 0;
 			}
 		}
 
-		image.show();
+		for (int x=0; x<512; x++) {
+			for (int y=0; y<512; y++) {
+				testSignal.set(x, y, (int) testSignalPixels[x][y]);
+			}
+		}
 
+		testSignal.show();
+
+		Picture testPulse = new Picture(512, 512, "Test Pulse");
+
+		double[][] testPulsePixels = new double[512][512];
+
+		for (int i=0; i<50; i++) {
+			for (int j=0; j<110; j++) {
+				testPulsePixels[i][j] = 255;
+			}
+		}
+
+		for (int i=10; i<40; i++) {
+			for (int j=10; j<100; j++) {
+				testPulsePixels[i][j] = 0;
+			}
+		}
+
+		for (int x=0; x<512; x++) {
+			for (int y=0; y<512; y++) {
+				testPulse.set(x, y, (int) testPulsePixels[x][y]);
+			}
+		}
+
+		testPulse.show();
+
+		ComplexNumber[][] complexSignal = new ComplexNumber[512][512];
+		ComplexNumber[][] complexPulse = new ComplexNumber[512][512];
+
+		for (int x=0; x<512; x++) {
+			for (int y=0; y<512; y++) {
+				complexSignal[x][y] = new ComplexNumber(testSignalPixels[x][y], 0);
+			}
+		}
+
+		for (int x=0; x<512; x++) {
+			for (int y=0; y<512; y++) {
+				complexPulse[x][y] = new ComplexNumber(testPulsePixels[x][y], 0);
+			}
+		}
+
+		ComplexNumber[][] signalFFT = twoDimensionalFFT(complexSignal, false);
+		ComplexNumber[][] pulseFFT = twoDimensionalFFT(complexPulse, false);
+
+	}
+
+	private static ComplexNumber[][] twoDimensionalFFT(ComplexNumber[][] matrix, boolean inverse) {
+		ComplexNumber[][] transformed = new ComplexNumber[matrix.length][matrix[0].length];
+
+		for (int i=0; i<512; i++) {
+			ComplexNumber[] complexRow = new ComplexNumber[matrix.length];
+
+			for (int j = 0; j<512; j++) {
+				complexRow[j] = matrix[i][j];
+			}
+
+			ComplexNumber[] rowFFT = fastFourierTransform(complexRow, inverse);
+
+			for (int x=0; x<512; x++) {
+				transformed[i][x] = rowFFT[x];
+			}
+
+		}
+
+		for (int j=0; j<512; j++) {
+			ComplexNumber[] complexColumn = new ComplexNumber[matrix.length];
+
+			for (int i=0; i<512; i++) {
+				complexColumn[i] = transformed[i][j];
+			}
+
+			ComplexNumber[] columnFFT = fastFourierTransform(complexColumn, inverse);
+
+			for (int x=0; x<512; x++) {
+				transformed[j][x] = columnFFT[x];
+			}
+		}
+
+		return transformed;
 	}
 
 	private static void DTMFtones() {
@@ -220,6 +361,16 @@ public class DigitalSignalProcessing {
 		}
 
 		return results;
+	}
+
+	private static double[] generateFilter(int start, int end, int len) {
+		double[] filter = new double[len];
+
+		for (int x=start*2; x<=end*2; x+=2) {
+			filter[x] = 1;
+		}
+
+		return filter;
 	}
 
 	private static double[] piecewiseFunction(double samples, boolean odd) {

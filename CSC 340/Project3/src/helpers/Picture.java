@@ -61,10 +61,10 @@ public final class Picture implements ActionListener {
    /**
      * Create an empty w-by-h picture.
      */
-    public Picture(int w, int h) {
+    public Picture(int w, int h, String filename) {
         image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
         // set to TYPE_INT_ARGB to support transparency
-        filename = w + "-by-" + h;
+        this.filename = filename;
     }
 
    /**
@@ -191,9 +191,8 @@ public final class Picture implements ActionListener {
    /**
      * Set the Color of pixel (i, j) to c.
      */
-    public void set(int i, int j, Color c) {
-        if (c == null) { throw new RuntimeException("can't set Color to null"); }
-        image.setRGB(i, j, c.getRGB());
+    public void set(int i, int j, int c) {
+        image.setRGB(i, j, new Color(c, c, c).getRGB());
     }
 
    /**

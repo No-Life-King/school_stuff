@@ -19,21 +19,36 @@ public class ComplexNumber {
 		real = a;
 		imaginary = b;
 	}
-	
+
+	/**
+	 * Adds two complex numbers.
+	 * @param x The other complex number to add to this number.
+	 * @return A new complex number containing the sum.
+	 */
 	public ComplexNumber add(ComplexNumber x) {
 		double real = this.real + x.real;
 		double imaginary = this.imaginary + x.imaginary;
 		
 		return new ComplexNumber(real, imaginary);
 	}
-	
+
+	/**
+	 * Subtracts two complex numbers.
+	 * @param x The other complex number to subtract from this number.
+	 * @return A new complex number containing the sum.
+	 */
 	public ComplexNumber subtract(ComplexNumber x) {
 		double real = this.real - x.real;
 		double imaginary = this.imaginary - x.imaginary;
 		
 		return new ComplexNumber(real, imaginary);
 	}
-	
+
+	/**
+	 * Multiplies two complex numbers.
+	 * @param x The other complex number to be multiplied by this number.
+	 * @return A new complex number containing the product.
+	 */
 	public ComplexNumber multiply(ComplexNumber x) {
 		// for two imaginary numbers (a + bi) and (c + di),  
 		// their product will be equal to (ac - bd) + (ad + bc)
@@ -49,6 +64,11 @@ public class ComplexNumber {
 		return new ComplexNumber(x * real, x * imaginary);
 	}
 
+	/**
+	 * Divides this complex number by another complex number.
+	 * @param x The other complex number by which this number should be divided.
+	 * @return A new complex number containing the quotient.
+	 */
 	public ComplexNumber divide(ComplexNumber x) {
 		double realPortion, imaginaryPortion, denominator;
 
@@ -73,8 +93,26 @@ public class ComplexNumber {
 		return new ComplexNumber(realPortion, imaginaryPortion);
 	}
 
+	/**
+	 * Calculates the magnitude of this complex number.
+	 * @return How long this vector is in the imaginary plane.
+	 */
 	public double magnitude() {
 		return Math.sqrt(Math.pow(real, 2) + Math.pow(imaginary, 2));
+	}
+
+	/**
+	 * Produces the conjugate of this complex number. A complex number added to its conjugate should
+	 * produce a real number. A complex number multiplied by its conjugate should produce the squared
+	 * magnitude of the complex number.
+	 * @return The conjugate of this complex number.
+	 */
+	public ComplexNumber conjugate() {
+		return new ComplexNumber(real, -1 * imaginary);
+	}
+
+	public double getReal() {
+		return real;
 	}
 	
 	@Override
