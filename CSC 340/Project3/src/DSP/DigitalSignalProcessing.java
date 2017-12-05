@@ -17,14 +17,15 @@ public class DigitalSignalProcessing {
 	public static void main(String[] args) {
 
 		// test classes and methods if set to 'true'
-		runTests(false);
+		// runTests(true);
+
+		// filters();
 
 		// phaseShift(0);
 
 		// correlation();
 
 		// printPowerSpectralDensity(evenFFTinverse, 512);
-
 
 		// DTMFtones();
 
@@ -115,7 +116,29 @@ public class DigitalSignalProcessing {
 		ComplexNumber[] results = correlateSignals(pulseArray, signalArray);
 
 		for (ComplexNumber result: results) {
-			System.out.println(result.getReal());
+			//System.out.println(result.getReal());
+		}
+
+		double[] avgFilter = new double[1024];
+		double oneTenth = 1.0/10;
+
+		for (int x=0; x<10; x++) {
+			avgFilter[x] = oneTenth;
+			avgFilter[avgFilter.length - x - 1] = oneTenth;
+		}
+
+		ComplexNumber[] signalFFT = fastFourierTransform(convertToComplex(signalArray), false);
+		ComplexNumber[] filterFFT = fastFourierTransform(convertToComplex(avgFilter), false);
+		ComplexNumber[] multiplied = new ComplexNumber[1024];
+
+		for (int x=0; x<1024; x++) {
+			multiplied[x] = signalFFT[x].multiply(filterFFT[x]);
+		}
+
+		ComplexNumber[] convoluted = fastFourierTransform(multiplied, true);
+
+		for (int x=0; x<256; x++) {
+			System.out.println(signalArray[x]);
 		}
 
 	}
@@ -209,40 +232,97 @@ public class DigitalSignalProcessing {
 
 		ComplexNumber[][] signalFFT = twoDimensionalFFT(complexSignal, false);
 		ComplexNumber[][] pulseFFT = twoDimensionalFFT(complexPulse, false);
+		ComplexNumber[][] multiplied = new ComplexNumber[512][512];
+
+		for (int i=0; i<512; i++) {
+			for (int j=0; j<512; j++) {
+				multiplied[i][j] = pulseFFT[i][j].conjugate().multiply(signalFFT[i][j]);
+			}
+		}
+
+		ComplexNumber[][] correlated = twoDimensionalFFT(multiplied, true);
+
+		double maxMagnitude = 0;
+
+		for (int i=0; i<512; i++) {
+			for (int j=0; j<512; j++) {
+				double correlationMagnitude = correlated[i][j].magnitude();
+				if (correlationMagnitude > maxMagnitude) {
+					maxMagnitude = correlationMagnitude;
+				}
+			}
+		}
+
+		double[][] redmask = new double[512][512];
+		double threshold = 0.9 * maxMagnitude;
+
+		for (int i=0; i<512; i++) {
+			for (int j=0; j<512; j++) {
+				double correlationMagnitude = correlated[i][j].magnitude();
+				if (correlationMagnitude > threshold) {
+					redmask[i][j] = 1;
+				}
+			}
+		}
+
+		Picture red = new Picture(512, 512, "Red Mask");
+		Picture correlationMagnitudes = new Picture(512, 512, "Correlation Magnitudes");
+
+		for (int i=0; i<512; i++) {
+			for (int j=0; j<512; j++) {
+				correlationMagnitudes.set(i, j, (int) (Math.log(correlated[i][j].magnitude() + 1) / Math.log(1.08)));
+				red.set(i, j, (int) (Math.log(correlated[i][j].magnitude() + 1) / Math.log(1.08)));
+			}
+		}
+
+		correlationMagnitudes.show();
+
+		for (int i=0; i<512; i++) {
+			for (int j = 0; j < 512; j++) {
+				if (redmask[i][j] == 1) {
+					red.set(i, j, Color.RED);
+				}
+			}
+		}
+
+		correlationMagnitudes.show();
+		red.show();
 
 	}
 
 	private static ComplexNumber[][] twoDimensionalFFT(ComplexNumber[][] matrix, boolean inverse) {
-		ComplexNumber[][] transformed = new ComplexNumber[matrix.length][matrix[0].length];
+		int len = matrix.length;
+		ComplexNumber[][] transformed = new ComplexNumber[len][len];
 
-		for (int i=0; i<512; i++) {
-			ComplexNumber[] complexRow = new ComplexNumber[matrix.length];
+		for (int i=0; i<len; i++) {
+			ComplexNumber[] complexRow = new ComplexNumber[len];
 
-			for (int j = 0; j<512; j++) {
+			for (int j = 0; j<len; j++) {
 				complexRow[j] = matrix[i][j];
 			}
 
 			ComplexNumber[] rowFFT = fastFourierTransform(complexRow, inverse);
 
-			for (int x=0; x<512; x++) {
+			for (int x=0; x<len; x++) {
 				transformed[i][x] = rowFFT[x];
 			}
 
 		}
 
-		for (int j=0; j<512; j++) {
-			ComplexNumber[] complexColumn = new ComplexNumber[matrix.length];
+		for (int j=0; j<len; j++) {
+			ComplexNumber[] complexColumn = new ComplexNumber[len];
 
-			for (int i=0; i<512; i++) {
+			for (int i=0; i<len; i++) {
 				complexColumn[i] = transformed[i][j];
 			}
 
 			ComplexNumber[] columnFFT = fastFourierTransform(complexColumn, inverse);
 
-			for (int x=0; x<512; x++) {
-				transformed[j][x] = columnFFT[x];
+			for (int x=0; x<len; x++) {
+				transformed[x][j] = columnFFT[x];
 			}
 		}
+
 
 		return transformed;
 	}
@@ -363,11 +443,38 @@ public class DigitalSignalProcessing {
 		return results;
 	}
 
+	private static void filters() {
+		double[] sineWave = sineFunction(100, 512, false);
+
+		double[] lowPass = generateFilter(1, 5, 512);
+		double[] highPass = generateFilter(6, 100, 512);
+		double[] bandPass = generateFilter(4, 7, 512);
+		double[] notch = generateFilter(1, 3, 512);
+
+		for (int x=16; x<=496; x++) {
+			notch[x] = 1;
+		}
+
+		ComplexNumber[] waveFFT = fastFourierTransform(convertToComplex(sineWave), false);
+
+		for (int x=0; x<512; x++) {
+			waveFFT[x] = waveFFT[x].multiply(notch[x]);
+		}
+
+		ComplexNumber[] filteredWave = fastFourierTransform(waveFFT, true);
+
+		for (ComplexNumber value: filteredWave) {
+			System.out.println(value.getReal());
+		}
+
+	}
+
 	private static double[] generateFilter(int start, int end, int len) {
 		double[] filter = new double[len];
 
 		for (int x=start*2; x<=end*2; x+=2) {
 			filter[x] = 1;
+			filter[len -  x] = 1;
 		}
 
 		return filter;
@@ -485,8 +592,39 @@ public class DigitalSignalProcessing {
 		if (FFTresultsCheck(complexTestData, inverse)) {
 			System.out.println("Inverse Test...\t\t[PASS]");
 		} else {
-			System.out.println("Inverse Test...\t[FAIL]");
+			System.out.println("Inverse Test...\t\t[FAIL]");
 		}
+
+		double[][] twoDtest = {{26160, 19011, 18757, 18405},
+							   {17888, 14720, 14285, 17018},
+							   {18014, 17119, 16400, 17497},
+							   {17846, 15700, 17636, 17181}};
+		ComplexNumber[][] twoDdata = new ComplexNumber[4][4];
+
+		for (int i=0; i<4; i++) {
+			for (int j=0; j<4; j++) {
+				twoDdata[i][j] = new ComplexNumber(twoDtest[i][j], 0);
+			}
+		}
+
+		ComplexNumber[][] twoDfft = twoDimensionalFFT(twoDdata, false);
+		ComplexNumber[][] twoDinverse = twoDimensionalFFT(twoDfft, true);
+
+		boolean valid = true;
+		for (int i=0; i<4; i++) {
+			for (int j=0; j<4; j++) {
+				if (twoDinverse[i][j].getReal() != twoDtest[i][j]) {
+					valid = false;
+				}
+			}
+		}
+
+		if (valid) {
+			System.out.println("2D FFT Inverse...\t[PASS]");
+		} else {
+			System.out.println("2D FFT Inverse...\t[FAIL]");
+		}
+
 	}
 
 	private static boolean FFTresultsCheck(ComplexNumber[] complexTestData, ComplexNumber[] inverse) {

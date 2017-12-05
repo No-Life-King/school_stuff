@@ -195,6 +195,10 @@ public final class Picture implements ActionListener {
         image.setRGB(i, j, new Color(c, c, c).getRGB());
     }
 
+    public void set(int i, int j, Color c) {
+        image.setRGB(i, j, c.getRGB());
+    }
+
    /**
      * Save the picture to a file in a standard image format.
      * The filetype must be .png or .jpg.
