@@ -1,9 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/getchar.dir/main.c.obj"
+  "CMakeFiles/getchar.dir/main.c.o"
   "getchar.pdb"
-  "getchar.exe"
-  "getchar.exe.manifest"
-  "libgetchar.dll.a"
+  "getchar"
 )
 
 # Per-language clean rules from dependency scanning.

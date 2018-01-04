@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-D:/Devel/school_stuff/C & C++/charValues/main.c
+/home/phil/devel/school_stuff/C & C++/charValues/main.c
 stdio.h
 -
 stdlib.h

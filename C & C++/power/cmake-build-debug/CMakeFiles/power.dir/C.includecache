@@ -6,13 +6,23 @@
 
 #IncludeRegexTransform: 
 
-D:/Devel/school_stuff/C & C++/power/main.c
+/home/phil/devel/school_stuff/C & C++/power/functions.h
+
+/home/phil/devel/school_stuff/C & C++/power/main.c
 stdio.h
 -
-time.h
+ctype.h
 -
 math.h
 -
 float.h
 -
+zconf.h
+-
+values.h
+-
+functions.h
+/home/phil/devel/school_stuff/C & C++/power/functions.h
+
+/home/phil/devel/school_stuff/C & C++/power/searchNsort.c
 
