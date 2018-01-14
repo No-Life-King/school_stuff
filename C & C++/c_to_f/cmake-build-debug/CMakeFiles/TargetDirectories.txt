@@ -1,3 +1,0 @@
-D:/Devel/school_stuff/C & C++/c_to_f/cmake-build-debug/CMakeFiles/c_to_f.dir
-D:/Devel/school_stuff/C & C++/c_to_f/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Devel/school_stuff/C & C++/c_to_f/cmake-build-debug/CMakeFiles/rebuild_cache.dir

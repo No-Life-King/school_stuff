@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/c_to_f.dir/main.c.o  -o c_to_f 

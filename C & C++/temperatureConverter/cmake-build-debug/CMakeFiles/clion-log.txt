@@ -1,0 +1,4 @@
+/home/phil/programs/clion-2017.3.1/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/phil/devel/school_stuff/C & C++/temperatureConverter"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/phil/devel/school_stuff/C & C++/temperatureConverter/cmake-build-debug

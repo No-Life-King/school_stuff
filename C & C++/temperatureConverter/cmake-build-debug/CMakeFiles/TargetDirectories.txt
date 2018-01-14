@@ -1,0 +1,3 @@
+/home/phil/devel/school_stuff/C & C++/temperatureConverter/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/phil/devel/school_stuff/C & C++/temperatureConverter/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/phil/devel/school_stuff/C & C++/temperatureConverter/cmake-build-debug/CMakeFiles/temperatureConverter.dir

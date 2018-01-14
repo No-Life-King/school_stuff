@@ -55,7 +55,7 @@ public class TravellingSalesman {
          * by data for a histogram of the solutions. 
          */
 		//generateRandomSolutions(1_000_000);
-        //exhaustiveSearch();
+        // exhaustiveSearch();
         geneticAlgorithmSolutions(50000, 100);
         //simulatedAnnealingSolutions(1);
 		

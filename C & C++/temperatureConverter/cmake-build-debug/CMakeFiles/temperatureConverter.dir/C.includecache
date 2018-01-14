@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/phil/devel/school_stuff/C & C++/temperatureConverter/main.c
+stdio.h
+-
+stdbool.h
+-
+stdlib.h
+-
+

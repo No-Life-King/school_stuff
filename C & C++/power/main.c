@@ -7,7 +7,7 @@
 
 #include "functions.h"
 
-int main() {
+int main(int argc, char argv[]) {
 
     double answers[SIZE];
 
@@ -59,7 +59,7 @@ int main() {
 
     // reverse a string recursively
     // this palindrome translates to: "we go into the circle by night, we are consumed by fire"
-    // or rougly: "we go wandering at night and are consumed by fire"
+    // or roughly: "we go wandering at night and are consumed by fire"
     char string[] = "in girum imus nocte et consumimur igni";
     printf("\n%s\n", string);
     reverse(string, 0, sizeof(string)-2);

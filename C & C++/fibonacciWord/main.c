@@ -3,7 +3,7 @@
 
 void fibonacciWord(char a[], char b[], int terms);
 int len(const char s[]);
-void binstringToText(char word[]);
+void binstringToText(const char word[]);
 int power(int base, int exponent);
 
 int main() {
@@ -56,7 +56,7 @@ int len(const char s[]) {
     return stringLength;
 }
 
-void binstringToText(char word[]) {
+void binstringToText(const char word[]) {
     int x = 0;
     char c = 0;
 

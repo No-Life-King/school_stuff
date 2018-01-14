@@ -1,5 +1,5 @@
-/home/phil/programs/clion-2017.3/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/phil/devel/school_stuff/C & C++/fibonacciWord"
--- The C compiler identification is GNU 5.4.0
+/home/phil/programs/clion-2017.3.1/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/phil/devel/school_stuff/C & C++/fibonacciWord"
+-- The C compiler identification is GNU 4.8.4
 -- Check for working C compiler: /usr/bin/cc
 -- Check for working C compiler: /usr/bin/cc -- works
 -- Detecting C compiler ABI info
