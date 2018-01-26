@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Devel/school_stuff/C & C++/perfectHash/main.c
+stdio.h
+-
+mem.h
+-
+stdlib.h
+-
+windows.h
+-
+stdbool.h
+-
+user.h
+D:/Devel/school_stuff/C & C++/perfectHash/user.h
+
+D:/Devel/school_stuff/C & C++/perfectHash/user.c
+user.h
+D:/Devel/school_stuff/C & C++/perfectHash/user.h
+
+D:/Devel/school_stuff/C & C++/perfectHash/user.h
+

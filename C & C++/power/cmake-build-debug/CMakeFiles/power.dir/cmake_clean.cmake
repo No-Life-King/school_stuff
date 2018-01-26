@@ -1,8 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/power.dir/main.c.o"
-  "CMakeFiles/power.dir/searchNsort.c.o"
+  "CMakeFiles/power.dir/main.c.obj"
+  "CMakeFiles/power.dir/searchNsort.c.obj"
   "power.pdb"
-  "power"
+  "power.exe"
+  "power.exe.manifest"
+  "libpower.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

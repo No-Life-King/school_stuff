@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/phil/devel/school_stuff/C & C++/temperatureConverter/main.c
+D:/Devel/school_stuff/C & C++/temperatureConverter/main.c
 stdio.h
 -
 stdbool.h

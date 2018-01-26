@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/phil/devel/school_stuff/C & C++/power/main.c" "/home/phil/devel/school_stuff/C & C++/power/cmake-build-debug/CMakeFiles/power.dir/main.c.o"
-  "/home/phil/devel/school_stuff/C & C++/power/searchNsort.c" "/home/phil/devel/school_stuff/C & C++/power/cmake-build-debug/CMakeFiles/power.dir/searchNsort.c.o"
+  "D:/Devel/school_stuff/C & C++/power/main.c" "D:/Devel/school_stuff/C & C++/power/cmake-build-debug/CMakeFiles/power.dir/main.c.obj"
+  "D:/Devel/school_stuff/C & C++/power/searchNsort.c" "D:/Devel/school_stuff/C & C++/power/cmake-build-debug/CMakeFiles/power.dir/searchNsort.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

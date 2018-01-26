@@ -1,1 +1,3 @@
-/usr/bin/cc -g   CMakeFiles/temperatureConverter.dir/main.c.o  -o temperatureConverter 
+"C:\Program Files\JetBrains\CLion 2017.3\bin\cmake\bin\cmake.exe" -E remove -f CMakeFiles\temperatureConverter.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\temperatureConverter.dir/objects.a @CMakeFiles\temperatureConverter.dir\objects1.rsp
+C:\MinGW\bin\gcc.exe -g   -Wl,--whole-archive CMakeFiles\temperatureConverter.dir/objects.a -Wl,--no-whole-archive  -o temperatureConverter.exe -Wl,--out-implib,libtemperatureConverter.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\temperatureConverter.dir\linklibs.rsp
