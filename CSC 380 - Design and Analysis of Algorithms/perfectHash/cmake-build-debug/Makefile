@@ -47,10 +47,10 @@ RM = "C:\Program Files\JetBrains\CLion 2017.3\bin\cmake\bin\cmake.exe" -E remove
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "D:\Devel\school_stuff\C & C++\perfectHash"
+CMAKE_SOURCE_DIR = "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug"
+CMAKE_BINARY_DIR = "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug\CMakeFiles" "D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug\CMakeFiles\progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug\CMakeFiles" "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug\CMakeFiles\progress.marks"
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug\CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target

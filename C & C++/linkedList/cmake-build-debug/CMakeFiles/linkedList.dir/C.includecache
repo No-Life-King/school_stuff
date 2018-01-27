@@ -9,6 +9,10 @@
 D:/Devel/school_stuff/C & C++/linkedList/linkedList.c
 stdio.h
 -
+malloc.h
+-
+stdbool.h
+-
 linkedList.h
 D:/Devel/school_stuff/C & C++/linkedList/linkedList.h
 

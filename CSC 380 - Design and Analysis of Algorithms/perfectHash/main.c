@@ -11,7 +11,7 @@
  * followed by four random numbers. As such, there are 10^4 * 26^3 possible username
  * combinations.
  */
-#define USERNAMES   (175760000/4)
+#define USERNAMES   6760000
 
 int perfectHashFunction(const char username[]);
 int power(int base, int exponent);
@@ -27,15 +27,15 @@ void main() {
     strcpy(phil.password, "password");
 
     struct user *users;
-    static struct user test_login[1001];
 
-    users = malloc(USERNAMES * sizeof(phil));
+    static struct user test_login[1000];
+
+    users = malloc(USERNAMES * sizeof(struct user));
 
     users[perfectHashFunction(phil.name)] = phil;
-    test_login[1000] = phil;
 
     FILE *fp;
-    fp = fopen("D:\\Devel\\school_stuff\\CSC 380 - Design and Analysis of Algorithms\\username_generator\\100k", "r");
+    fp = fopen("D:\\Devel\\school_stuff\\CSC 380 - Design and Analysis of Algorithms\\username_generator\\1M", "r");
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -61,22 +61,25 @@ void main() {
 
         account.password[y] = '\0';
 
+
         if (lineNumber < 1000) {
             test_login[lineNumber] = account;
             lineNumber++;
         }
+
 
         users[perfectHashFunction(account.name)] = account;
     }
 
     double authStartTime = getTime();
 
-    for (int x=0; x<1001; x++) {
+
+    for (int x=0; x<1000; x++) {
         authenticate(test_login[x].name, test_login[x].password, users);
     }
 
     double authEndTime = getTime();
-    printf("Authenticated 1001 users in %f ms.\n", (authEndTime - authStartTime) * 1000);
+    printf("Authenticated 1000 users in %f ms.\n", (authEndTime - authStartTime) * 1000);
 
     double end = getTime();
     printf("Took %f ms total.", (end - start) * 1000);
@@ -112,21 +115,21 @@ void authenticate(char username[], char password[], const struct user *users) {
 
 int perfectHashFunction(const char username[]) {
     int letterPortion = 0;
-    int exp = 2;
+    int exp = 1;
 
-    for (int x=0; x<3; x++) {
+    for (int x=0; x<2; x++) {
         int val = username[x] - 97;
         letterPortion += power(26, exp) * val;
         exp--;
     }
 
-    char numberPortion[4];
+    char numberPortion[3];
 
     for (int x=0; x<=3; x++) {
-        numberPortion[x] = username[x+3];
+        numberPortion[x] = username[x+2];
     }
 
-    return (letterPortion*10000 + atoi(numberPortion))/4;
+    return (letterPortion*10000 + atoi(numberPortion));
 }
 
 int power(int base, int exponent) {

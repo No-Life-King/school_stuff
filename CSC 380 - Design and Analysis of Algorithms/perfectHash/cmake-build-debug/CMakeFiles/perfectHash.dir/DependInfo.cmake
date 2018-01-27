@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "D:/Devel/school_stuff/C & C++/perfectHash/main.c" "D:/Devel/school_stuff/C & C++/perfectHash/cmake-build-debug/CMakeFiles/perfectHash.dir/main.c.obj"
-  "D:/Devel/school_stuff/C & C++/perfectHash/user.c" "D:/Devel/school_stuff/C & C++/perfectHash/cmake-build-debug/CMakeFiles/perfectHash.dir/user.c.obj"
+  "D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/main.c" "D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/cmake-build-debug/CMakeFiles/perfectHash.dir/main.c.obj"
+  "D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/user.c" "D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/cmake-build-debug/CMakeFiles/perfectHash.dir/user.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

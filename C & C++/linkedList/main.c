@@ -8,19 +8,15 @@ int main() {
     ll.numElements = 0;
 
     add(&ll, "hello");
+    add(&ll, "world");
+    add(&ll, "i'm a");
+    add(&ll, "linked list");
 
-    printf("%i", ll.numElements);
+    print_list(&ll);
 
-    struct node current = *ll.head;
+    printf("%i\n", ll.numElements);
 
-
-    for (int x=0; x<ll.numElements; x++) {
-        printf("%c", current.text[0]);
-    }
-
-
-
-
+    print_list(&ll);
 }
 
 

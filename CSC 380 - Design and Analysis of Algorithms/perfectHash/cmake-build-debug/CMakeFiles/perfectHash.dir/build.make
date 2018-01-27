@@ -42,10 +42,10 @@ RM = "C:\Program Files\JetBrains\CLion 2017.3\bin\cmake\bin\cmake.exe" -E remove
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "D:\Devel\school_stuff\C & C++\perfectHash"
+CMAKE_SOURCE_DIR = "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug"
+CMAKE_BINARY_DIR = "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/perfectHash.dir/depend.make
@@ -58,16 +58,16 @@ include CMakeFiles/perfectHash.dir/flags.make
 
 CMakeFiles/perfectHash.dir/main.c.obj: CMakeFiles/perfectHash.dir/flags.make
 CMakeFiles/perfectHash.dir/main.c.obj: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/perfectHash.dir/main.c.obj"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\perfectHash.dir\main.c.obj   -c "D:\Devel\school_stuff\C & C++\perfectHash\main.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/perfectHash.dir/main.c.obj"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\perfectHash.dir\main.c.obj   -c "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\main.c"
 
 CMakeFiles/perfectHash.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/perfectHash.dir/main.c.i"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "D:\Devel\school_stuff\C & C++\perfectHash\main.c" > CMakeFiles\perfectHash.dir\main.c.i
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\main.c" > CMakeFiles\perfectHash.dir\main.c.i
 
 CMakeFiles/perfectHash.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/perfectHash.dir/main.c.s"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "D:\Devel\school_stuff\C & C++\perfectHash\main.c" -o CMakeFiles\perfectHash.dir\main.c.s
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\main.c" -o CMakeFiles\perfectHash.dir\main.c.s
 
 CMakeFiles/perfectHash.dir/main.c.obj.requires:
 
@@ -82,16 +82,16 @@ CMakeFiles/perfectHash.dir/main.c.obj.provides.build: CMakeFiles/perfectHash.dir
 
 CMakeFiles/perfectHash.dir/user.c.obj: CMakeFiles/perfectHash.dir/flags.make
 CMakeFiles/perfectHash.dir/user.c.obj: ../user.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/perfectHash.dir/user.c.obj"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\perfectHash.dir\user.c.obj   -c "D:\Devel\school_stuff\C & C++\perfectHash\user.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/perfectHash.dir/user.c.obj"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\perfectHash.dir\user.c.obj   -c "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\user.c"
 
 CMakeFiles/perfectHash.dir/user.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/perfectHash.dir/user.c.i"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "D:\Devel\school_stuff\C & C++\perfectHash\user.c" > CMakeFiles\perfectHash.dir\user.c.i
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\user.c" > CMakeFiles\perfectHash.dir\user.c.i
 
 CMakeFiles/perfectHash.dir/user.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/perfectHash.dir/user.c.s"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "D:\Devel\school_stuff\C & C++\perfectHash\user.c" -o CMakeFiles\perfectHash.dir\user.c.s
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\user.c" -o CMakeFiles\perfectHash.dir\user.c.s
 
 CMakeFiles/perfectHash.dir/user.c.obj.requires:
 
@@ -118,7 +118,7 @@ perfectHash.exe: CMakeFiles/perfectHash.dir/build.make
 perfectHash.exe: CMakeFiles/perfectHash.dir/linklibs.rsp
 perfectHash.exe: CMakeFiles/perfectHash.dir/objects1.rsp
 perfectHash.exe: CMakeFiles/perfectHash.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable perfectHash.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable perfectHash.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\perfectHash.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -136,6 +136,6 @@ CMakeFiles/perfectHash.dir/clean:
 .PHONY : CMakeFiles/perfectHash.dir/clean
 
 CMakeFiles/perfectHash.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "D:\Devel\school_stuff\C & C++\perfectHash" "D:\Devel\school_stuff\C & C++\perfectHash" "D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug" "D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug" "D:\Devel\school_stuff\C & C++\perfectHash\cmake-build-debug\CMakeFiles\perfectHash.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash" "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash" "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug" "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug" "D:\Devel\school_stuff\CSC 380 - Design and Analysis of Algorithms\perfectHash\cmake-build-debug\CMakeFiles\perfectHash.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/perfectHash.dir/depend
 

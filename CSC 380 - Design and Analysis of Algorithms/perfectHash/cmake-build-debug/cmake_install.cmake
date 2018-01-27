@@ -1,4 +1,4 @@
-# Install script for directory: D:/Devel/school_stuff/C & C++/perfectHash
+# Install script for directory: D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/Devel/school_stuff/C & C++/perfectHash/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

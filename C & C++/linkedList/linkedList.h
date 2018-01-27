@@ -19,5 +19,7 @@ struct node {
 };
 
 void add(struct linkedList *ll, char *string);
-
+void print_list(struct linkedList *ll);
+void clear_list(struct linkedList *ll);
+void print_node(struct node);
 

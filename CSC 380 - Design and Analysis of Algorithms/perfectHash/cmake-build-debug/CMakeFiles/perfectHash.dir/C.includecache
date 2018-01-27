@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-D:/Devel/school_stuff/C & C++/perfectHash/main.c
+D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/main.c
 stdio.h
 -
 mem.h
@@ -18,11 +18,11 @@ windows.h
 stdbool.h
 -
 user.h
-D:/Devel/school_stuff/C & C++/perfectHash/user.h
+D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/user.h
 
-D:/Devel/school_stuff/C & C++/perfectHash/user.c
+D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/user.c
 user.h
-D:/Devel/school_stuff/C & C++/perfectHash/user.h
+D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/user.h
 
-D:/Devel/school_stuff/C & C++/perfectHash/user.h
+D:/Devel/school_stuff/CSC 380 - Design and Analysis of Algorithms/perfectHash/user.h
 
