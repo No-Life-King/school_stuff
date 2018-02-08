@@ -1,0 +1,3 @@
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment1 - Deque/cmake-build-debug/CMakeFiles/Assignment1___Deque.dir
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment1 - Deque/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment1 - Deque/cmake-build-debug/CMakeFiles/rebuild_cache.dir

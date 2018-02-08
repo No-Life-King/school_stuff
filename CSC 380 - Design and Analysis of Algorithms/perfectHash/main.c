@@ -22,16 +22,11 @@ void main() {
 
     double start = getTime();
 
-    struct user phil;
-    strcpy(phil.name, "pws1994");
-    strcpy(phil.password, "password");
+    struct user phil = {"ps1994", "password"};
 
     struct user *users;
-
     static struct user test_login[1000];
-
     users = malloc(USERNAMES * sizeof(struct user));
-
     users[perfectHashFunction(phil.name)] = phil;
 
     FILE *fp;
@@ -41,12 +36,12 @@ void main() {
     ssize_t read;
     int lineNumber = 0;
 
-    while ((read = getline(&line, &len, fp)) != EOF) {
+    while ((read = getline(&line, &len, fp)) != EOF && lineNumber < 10000000) {
 
         struct user account;
         int x;
 
-        for (x=0; x<8; x++) {
+        for (x=0; x<7; x++) {
             account.name[x] = line[x];
         }
 

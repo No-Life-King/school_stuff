@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment1 - Deque/osp.h
+
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment1 - Deque/queue.c
+stdio.h
+-
+stdlib.h
+-
+osp.h
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment1 - Deque/osp.h
+queue.h
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment1 - Deque/queue.h
+
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment1 - Deque/queue.h
+

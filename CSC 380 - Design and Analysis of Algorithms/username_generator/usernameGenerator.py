@@ -1,13 +1,30 @@
 import username_generator.functions as f
 import random
 
-file1 = open("1k", "w")
-file2 = open("10k", "w")
-file3 = open("100k", "w")
-file4 = open("1M", "w")
+user_file = open("1M", "w")
 
 userlist = []
 user_set = set()
+
+password_file = open("password_list.txt", "r", encoding="latin1")
+password_list = []
+char_count = 0
+
+for line in password_file:
+
+    valid = True
+
+    for char in line:
+        if ord(char) > 126 and ord(char) < 160:
+            valid = False
+            break
+
+    num_chars = len(line)
+    if num_chars < 30 and valid:
+        char_count += num_chars
+        password_list.append(line)
+
+print("Average Password Length: " + str(char_count / len(password_list)))
 
 while len(user_set) < 1_000_000:
     user = ""
@@ -24,31 +41,8 @@ while len(user_set) < 1_000_000:
         continue
 
     user += "\t"
-
-    z = random.randint(8, 29)
-    for y in range(z):
-        user += f.get_random_pass_char()
-
-    user += "\n"
+    user += random.choice(password_list)
     userlist.append(user)
 
-# South of here is just some sloppy code for writing the same accounts to multiple files while
-# cutting off files at their appropriate user count.
-
-for x in range(1_000):
-    file1.write(userlist[x])
-    file2.write(userlist[x])
-    file3.write(userlist[x])
-    file4.write(userlist[x])
-
-for x in range(1_000, 10_000):
-    file2.write(userlist[x])
-    file3.write(userlist[x])
-    file4.write(userlist[x])
-
-for x in range(10_000, 100_000):
-    file3.write(userlist[x])
-    file4.write(userlist[x])
-
-for x in range(100_000, 1_000_000):
-    file4.write(userlist[x])
+for x in range(1_000_000):
+    user_file.write(userlist[x])
