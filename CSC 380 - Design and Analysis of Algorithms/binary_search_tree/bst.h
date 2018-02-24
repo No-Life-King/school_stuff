@@ -1,6 +1,6 @@
 /**
- * This is an implementation of a binary search tree that naively adds nodes in
- * the order that they're received, without performing any sort of balancing.
+ * This is an implementation of a binary search tree that adds nodes in the
+ * order that they're received, without performing any sort of balancing.
  */
 
 #include <malloc.h>
@@ -26,7 +26,7 @@ typedef struct {
 BST *init_tree(char *usn, char *pass);
 TreeNode *make_node(char *usn, char *pass);
 bool add(BST *tree, char *usn, char *pass);
-int compare(char *u1, char *u2);
+int compare(const char *u1, const char *u2);
 void print_tree(BST *tree);
 void print_node(TreeNode *node);
 
@@ -84,7 +84,7 @@ bool add(BST *tree, char *usn, char *pass) {
     }
 }
 
-int compare(char *u1, char *u2) {
+int compare(const char *u1, const char *u2) {
     int index = 0;
 
     while (u1[index] != '\0' && u2[index] != '\0') {

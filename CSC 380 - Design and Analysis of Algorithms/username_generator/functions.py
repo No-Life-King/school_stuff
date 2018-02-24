@@ -1,10 +1,16 @@
-import random
+def get_password_list():
+    password_file = open("source_lists/14.3M_passwords.txt", "r", encoding="latin1")
+    password_list = []
 
-def get_random_letter():
-    return random.choice("abcdefghijklmnopqrstuvwxyz")
+    for password in password_file:
+        valid = True
+        for char in password:
+            if 126 < ord(char) < 160:
+                valid = False
+                break
 
-def get_random_number():
-    return random.choice("0123456789")
+        num_chars = len(password)
+        if 8 < num_chars < 30 and valid:
+            password_list.append(password)
 
-def get_random_pass_char():
-    return random.choice("abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^%&*()_+-=")
+    return password_list

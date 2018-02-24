@@ -1,31 +1,10 @@
+users = open("10M_logins.txt", 'r')
 
-
-minecraft_users = open("usernames.txt", 'r', encoding="latin1")
-runescape_users = open("rs_usernames.txt", 'r')
 bins = [0]*37
 user_count = 0
 
 try:
-    for user in minecraft_users:
-        value = ord(user[0])
-
-        if value > 64 and value < 91:
-            value -= 65
-        elif value > 96 and value < 123:
-            value -= 97
-        elif value > 47 and value < 58:
-            value -= 22
-        else:
-            continue
-
-        bins[value] += 1
-        user_count += 1
-
-except Exception as e:
-    print(e)
-
-try:
-    for user in runescape_users:
+    for user in users:
         value = ord(user[0])
 
         if value > 64 and value < 91:

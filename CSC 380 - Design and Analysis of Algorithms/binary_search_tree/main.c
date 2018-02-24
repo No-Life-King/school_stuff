@@ -14,4 +14,5 @@ void main() {
     print_tree(tree);
 
     printf("\n%i\n", tree->count);
+
 }

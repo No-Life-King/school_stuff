@@ -1,10 +1,7 @@
 import os
 
-start = int(os.listdir("pages")[0][:-5])
-finish = int(os.listdir("pages")[-1][:-5])
-
-for file in range(start, finish):
-    raw_data = open("pages/" + str(file) + ".html", 'r', encoding="latin1")
+for file in os.listdir("pages"):
+    raw_data = open("pages/" + file, 'r', encoding="latin1")
 
     names = []
     rsnLine = False
@@ -19,7 +16,7 @@ for file in range(start, finish):
 
 
     for name in names:
-        open("rs_usernames.txt", 'a').write(name)
+        open("270k_runescape_usernames.txt", 'a').write(name)
 
     raw_data.close()
-    os.remove("pages/" + str(file) + ".html")
+    os.remove("pages/" + file)
