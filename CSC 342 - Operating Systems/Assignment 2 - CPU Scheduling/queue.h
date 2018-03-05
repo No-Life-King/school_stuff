@@ -12,14 +12,9 @@
 /****************************************************************************/
 
 
-typedef struct {
-    int key;
-    int value;
-} data_t;
-
 typedef struct queueNode {
     struct queueNode *next, *prev;
-    data_t *data;
+    void *data;
 } QueueNode;
 
 typedef struct queueType {
@@ -28,20 +23,11 @@ typedef struct queueType {
 } Queue;
 
 
-
-
 /****************************************************************************/
 /* Function Prototypes/Declarations                                         */
 /****************************************************************************/
 void initQueue(Queue *self);
-void enQueue(Queue *self, data_t *data);
-QueueNode *frontNode(Queue *self);
-data_t *frontValue(Queue *self);
-data_t *deQueue(Queue *self);
-void removeNode(Queue *self, QueueNode *p);
-QueueNode *findNode(Queue *self, data_t *data);
-data_t *findValue(Queue *self, data_t *data);
-void purge(Queue *self, data_t *data);
-void printQ(Queue *self, char *label);
-char *toString(data_t *d);
+void enQueue(Queue *self, void *data);
+void *deQueue(Queue *self);
+
 

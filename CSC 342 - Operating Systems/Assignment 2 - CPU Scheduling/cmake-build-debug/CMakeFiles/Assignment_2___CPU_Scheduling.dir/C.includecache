@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cpu.c
+cpu.h
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cpu.h
+stdlib.h
+-
+math.h
+-
+queue.h
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/queue.h
+
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cpu.h
+
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/main.c
+stdio.h
+-
+cpu.h
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cpu.h
+
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/queue.c
+stdio.h
+-
+stdlib.h
+-
+queue.h
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/queue.h
+
+D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/queue.h
+
