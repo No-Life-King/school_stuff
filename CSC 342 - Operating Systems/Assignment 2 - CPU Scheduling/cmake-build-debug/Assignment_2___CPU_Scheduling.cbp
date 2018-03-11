@@ -80,9 +80,6 @@
 		<Unit filename="D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cpu.h">
 			<Option target="Assignment_2___CPU_Scheduling"/>
 		</Unit>
-		<Unit filename="D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/main.c">
-			<Option target="Assignment_2___CPU_Scheduling"/>
-		</Unit>
 		<Unit filename="D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/queue.c">
 			<Option target="Assignment_2___CPU_Scheduling"/>
 		</Unit>

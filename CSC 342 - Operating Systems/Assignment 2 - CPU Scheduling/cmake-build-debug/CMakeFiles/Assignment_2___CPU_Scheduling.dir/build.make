@@ -56,33 +56,9 @@ include CMakeFiles/Assignment_2___CPU_Scheduling.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Assignment_2___CPU_Scheduling.dir/flags.make
 
-CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj: CMakeFiles/Assignment_2___CPU_Scheduling.dir/flags.make
-CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Assignment_2___CPU_Scheduling.dir\main.c.obj   -c "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\main.c"
-
-CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.i"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\main.c" > CMakeFiles\Assignment_2___CPU_Scheduling.dir\main.c.i
-
-CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.s"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\main.c" -o CMakeFiles\Assignment_2___CPU_Scheduling.dir\main.c.s
-
-CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj.requires:
-
-.PHONY : CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj.requires
-
-CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj.provides: CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj.requires
-	$(MAKE) -f CMakeFiles\Assignment_2___CPU_Scheduling.dir\build.make CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj.provides.build
-.PHONY : CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj.provides
-
-CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj.provides.build: CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj
-
-
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj: CMakeFiles/Assignment_2___CPU_Scheduling.dir/flags.make
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj: ../cpu.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj"
 	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Assignment_2___CPU_Scheduling.dir\cpu.c.obj   -c "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cpu.c"
 
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.i: cmake_force
@@ -106,7 +82,7 @@ CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj.provides.build: CMakeFile
 
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj: CMakeFiles/Assignment_2___CPU_Scheduling.dir/flags.make
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj: ../queue.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj"
 	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Assignment_2___CPU_Scheduling.dir\queue.c.obj   -c "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\queue.c"
 
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.i: cmake_force
@@ -130,21 +106,19 @@ CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj.provides.build: CMakeFi
 
 # Object files for target Assignment_2___CPU_Scheduling
 Assignment_2___CPU_Scheduling_OBJECTS = \
-"CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj" \
 "CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj" \
 "CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj"
 
 # External object files for target Assignment_2___CPU_Scheduling
 Assignment_2___CPU_Scheduling_EXTERNAL_OBJECTS =
 
-Assignment_2___CPU_Scheduling.exe: CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj
 Assignment_2___CPU_Scheduling.exe: CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj
 Assignment_2___CPU_Scheduling.exe: CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj
 Assignment_2___CPU_Scheduling.exe: CMakeFiles/Assignment_2___CPU_Scheduling.dir/build.make
 Assignment_2___CPU_Scheduling.exe: CMakeFiles/Assignment_2___CPU_Scheduling.dir/linklibs.rsp
 Assignment_2___CPU_Scheduling.exe: CMakeFiles/Assignment_2___CPU_Scheduling.dir/objects1.rsp
 Assignment_2___CPU_Scheduling.exe: CMakeFiles/Assignment_2___CPU_Scheduling.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable Assignment_2___CPU_Scheduling.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable Assignment_2___CPU_Scheduling.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Assignment_2___CPU_Scheduling.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -152,7 +126,6 @@ CMakeFiles/Assignment_2___CPU_Scheduling.dir/build: Assignment_2___CPU_Schedulin
 
 .PHONY : CMakeFiles/Assignment_2___CPU_Scheduling.dir/build
 
-CMakeFiles/Assignment_2___CPU_Scheduling.dir/requires: CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj.requires
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/requires: CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj.requires
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/requires: CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj.requires
 

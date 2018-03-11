@@ -14,12 +14,14 @@
 typedef struct tree_node {
     char *username;
     char *password;
+
     struct tree_node *left_child;
     struct tree_node *right_child;
 } TreeNode;
 
 typedef struct {
     int count;
+    int height;
     TreeNode *root;
 } BST;
 
@@ -33,6 +35,7 @@ void print_node(TreeNode *node);
 BST *init_tree(char *usn, char *pass) {
     BST *tree = malloc(sizeof(BST));
     tree->count = 1;
+    tree->height = 0;
     tree->root = make_node(usn, pass);
     return tree;
 }
@@ -49,36 +52,42 @@ TreeNode *make_node(char *usn, char *pass) {
 
 bool add(BST *tree, char *usn, char *pass) {
     TreeNode *current = tree->root;
+    int current_height = 0;
 
-    while(true) {
+    while (true) {
 
-        switch (compare(usn, current->username)) {
-            case -1:
-                if (current->left_child == NULL) {
-                    current->left_child = make_node(usn, pass);
-                    tree->count++;
+        int comparison = compare(usn, current->username);
+        if (comparison > 0 || comparison < 0) {
+            current_height++;
+            if (current_height > tree->height) {
+                tree->height++;
+            }
+        }
 
-                    //printf("%s is now the left child of %s\n", usn, current->username);
+        if (comparison == -1) {
+            if (current->left_child == NULL) {
+                current->left_child = make_node(usn, pass);
+                tree->count++;
 
-                    return true;
-                } else {
-                    current = current->left_child;
-                }
-                break;
-            case 1:
-                if (current->right_child == NULL) {
-                    current->right_child = make_node(usn, pass);
-                    tree->count++;
+                //printf("%s is now the left child of %s\n", usn, current->username);
 
-                    //printf("%s is now the right child of %s\n", usn, current->username);
+                return true;
+            } else {
+                current = current->left_child;
+            }
+        } else if (comparison == 1) {
+            if (current->right_child == NULL) {
+                current->right_child = make_node(usn, pass);
+                tree->count++;
 
-                    return true;
-                } else {
-                    current = current->right_child;
-                }
-                break;
-            default:
-                return false;
+                //printf("%s is now the right child of %s\n", usn, current->username);
+
+                return true;
+            } else {
+                current = current->right_child;
+            }
+        } else {
+            return false;
         }
 
     }

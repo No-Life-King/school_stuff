@@ -65,7 +65,7 @@ CMAKE_BINARY_DIR = "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/all:
 	$(MAKE) -f CMakeFiles\Assignment_2___CPU_Scheduling.dir\build.make CMakeFiles/Assignment_2___CPU_Scheduling.dir/depend
 	$(MAKE) -f CMakeFiles\Assignment_2___CPU_Scheduling.dir\build.make CMakeFiles/Assignment_2___CPU_Scheduling.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=1,2,3,4 "Built target Assignment_2___CPU_Scheduling"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" --progress-num=1,2,3 "Built target Assignment_2___CPU_Scheduling"
 .PHONY : CMakeFiles/Assignment_2___CPU_Scheduling.dir/all
 
 # Include target in all.
@@ -75,7 +75,7 @@ all: CMakeFiles/Assignment_2___CPU_Scheduling.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Assignment_2___CPU_Scheduling.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" 4
+	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" 3
 	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/Assignment_2___CPU_Scheduling.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "D:\Devel\school_stuff\CSC 342 - Operating Systems\Assignment 2 - CPU Scheduling\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles/Assignment_2___CPU_Scheduling.dir/rule

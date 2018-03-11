@@ -5,7 +5,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cpu.c" "D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cmake-build-debug/CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj"
-  "D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/main.c" "D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cmake-build-debug/CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj"
   "D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/queue.c" "D:/Devel/school_stuff/CSC 342 - Operating Systems/Assignment 2 - CPU Scheduling/cmake-build-debug/CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")

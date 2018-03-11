@@ -149,33 +149,6 @@ cpu.c.s:
 	$(MAKE) -f CMakeFiles\Assignment_2___CPU_Scheduling.dir\build.make CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.s
 .PHONY : cpu.c.s
 
-main.obj: main.c.obj
-
-.PHONY : main.obj
-
-# target to build an object file
-main.c.obj:
-	$(MAKE) -f CMakeFiles\Assignment_2___CPU_Scheduling.dir\build.make CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj
-.PHONY : main.c.obj
-
-main.i: main.c.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.c.i:
-	$(MAKE) -f CMakeFiles\Assignment_2___CPU_Scheduling.dir\build.make CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.i
-.PHONY : main.c.i
-
-main.s: main.c.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.c.s:
-	$(MAKE) -f CMakeFiles\Assignment_2___CPU_Scheduling.dir\build.make CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.s
-.PHONY : main.c.s
-
 queue.obj: queue.c.obj
 
 .PHONY : queue.obj
@@ -215,9 +188,6 @@ help:
 	@echo ... cpu.obj
 	@echo ... cpu.i
 	@echo ... cpu.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
 	@echo ... queue.obj
 	@echo ... queue.i
 	@echo ... queue.s

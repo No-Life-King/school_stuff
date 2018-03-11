@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Assignment_2___CPU_Scheduling.dir/main.c.obj"
   "CMakeFiles/Assignment_2___CPU_Scheduling.dir/cpu.c.obj"
   "CMakeFiles/Assignment_2___CPU_Scheduling.dir/queue.c.obj"
   "Assignment_2___CPU_Scheduling.pdb"
