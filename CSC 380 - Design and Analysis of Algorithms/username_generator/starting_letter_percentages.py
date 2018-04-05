@@ -27,9 +27,21 @@ biggest_bins = []
 
 for x in range(26):
     biggest_bins.append((chr(x+65), bins[x]/user_count*100))
-
+    
 for y in range(26, 36):
     biggest_bins.append((chr(y+22), bins[y]/user_count*100))
+    
+for letter in biggest_bins:
+    print(letter)
+
+total = 0
+index = 0
+while total < 50:
+    middle = biggest_bins[index][0]
+    total += biggest_bins[index][1]
+    index += 1
+    
+print("Middle:", middle)
 
 fifty_percent = 0
 
@@ -39,7 +51,7 @@ while fifty_percent < 50:
         if biggest[1] < top10[1]:
             biggest = top10
 
-    print(biggest)
+    #print(biggest)
     fifty_percent += biggest[1]
     biggest_bins.remove(biggest)
 
