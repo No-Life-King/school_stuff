@@ -2,7 +2,6 @@
 #include <stdbool.h>
 
 #include "functions.h"
-#include "array_manager.h"
 
 int main(int argc, char **argv) {
 	char **accts = read_in_accounts(2000000,

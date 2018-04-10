@@ -1,11 +1,11 @@
 import random
 
-user_file = open("1M.txt", "w")
+user_file = open("10M_UNCW.txt", "w")
 
 userlist = []
 user_set = set()
 
-password_file = open("14.3M_passwords.txt", "r", encoding="latin1")
+password_file = open("source_lists/14.3M_passwords.txt", "r", encoding="latin1")
 password_list = []
 char_count = 0
 
@@ -25,10 +25,10 @@ for line in password_file:
 
 print("Average Password Length: " + str(char_count / len(password_list)))
 
-while len(user_set) < 1_000_000:
+while len(user_set) < 10_000_000:
     user = ""
 
-    for y in range(2):
+    for y in range(random.choice([2, 3, 3, 3, 3])):
         user += random.choice("abcdefghijklmnopqrstuvwxyz")
 
     for y in range(4):
@@ -43,5 +43,5 @@ while len(user_set) < 1_000_000:
     user += random.choice(password_list)
     userlist.append(user)
 
-for x in range(1_000_000):
+for x in range(10_000_000):
     user_file.write(userlist[x])

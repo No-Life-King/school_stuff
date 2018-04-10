@@ -1,58 +1,22 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <windows.h>
-#include "bst.h"
 
-// set the number of accounts to be read in and inserted into the tree here
-#define NUM_ACCTS   1000000
+#pragma once
 
-int str_len(const char *string);
-char **read_in_accounts(int num_to_read);
+char **read_in_accounts(int num_to_read, char *file_loc);
+char *get_password_pointer(char *line);
 char *lowercase(const char *username);
-char *get_password_pointer(char *usn);
+bool compare_passwords(char *p1, char *p2);
+int str_len(const char *string);
 double getTime();
 
-void main() {
-    // read in the specified number of accounts from a file
-    char **accts = read_in_accounts(NUM_ACCTS);
 
-    // initialize the binary search tree
-    char *usn = accts[0];
-    char *pass = get_password_pointer(usn);
-    BST *tree = init_tree(lowercase(accts[0]), pass);
+typedef struct user {
+    char *name;
+    char *password;
+} User;
 
-    double timer = 0, start, finish;
-
-    // add the specified number of accounts to the binary search tree
-    for (int x=0; x<NUM_ACCTS; x++) {
-        usn = accts[x];
-
-        char *usn_ptr = lowercase(usn);
-        char *pass_ptr = get_password_pointer(usn);
-        start = getTime();
-        add(tree, usn_ptr, pass_ptr);
-        finish = getTime();
-        timer += finish - start;
-    }
-
-    // you can print the tree (in sorted order) if the node count is low enough to be printed
-    //print_tree(tree);
-
-    printf("\nNode Count:%i\nTree Height: %i\n", tree->count, tree->height);
-    printf("\nTotal Insertion Time: %f s", timer);
-}
-
-/**
- * Accepts a line from the 'accts' array and returns a pointer to the password.
- * @param usn A tab separated line that contains a username and password pair.
- * @return A pointer to the password.
- */
-char *get_password_pointer(char *usn) {
-    int i = 0;
-    while (usn[i] != '\t') {
-        i++;
-    }
-    return &usn[i+1];
-}
 
 /**
  * Read lines containing login information into a jagged 2D array. This should use about the smallest amount of memory
@@ -60,11 +24,11 @@ char *get_password_pointer(char *usn) {
  * @param num_to_read The number of accounts to read in from the file.
  * @return A pointer to an array of char array pointers.
  */
-char **read_in_accounts(int num_to_read) {
+char **read_in_accounts(int num_to_read, char *file_loc) {
 
     // open file
     FILE *fp;
-    fp = fopen("D:\\Devel\\school_stuff\\CSC 380 - Design and Analysis of Algorithms\\username_generator\\10M_logins.txt", "r");
+    fp = fopen(file_loc, "r");
 
     // initialize array of accounts
     char **lines;
@@ -98,17 +62,17 @@ char **read_in_accounts(int num_to_read) {
 }
 
 /**
- * Count the number of characters in a string, excluding the null character.
- * @param string A string whose characters should be counted.
- * @return The number of characters in the string.
+ * Take a tab separated line and return a pointer to the password.
+ * @param line A pointer to a line consisting of a username followed by a password.
+ * @return A pointer to the password.
  */
-int str_len(const char *string) {
+char *get_password_pointer(char *line) {
     int i = 0;
-    while (string[i] != '\0') {
+    while (line[i] != '\t') {
         i++;
     }
 
-    return i;
+    return &line[i+1];
 }
 
 /**
@@ -125,7 +89,7 @@ char *lowercase(const char *username) {
     // iterate through the username copying the lowercased version to the new username string
     int i = 0;
     char current = username[i];
-    while (current != '\t') {
+    while (current != '\t' && current != '\0') {
 
         // if capital letter, convert to lower before copying
         if (64 < current && current < 91) {
@@ -141,6 +105,44 @@ char *lowercase(const char *username) {
     return lc;
 }
 
+
+/**
+ * Compares two passwords returning true if they are identical. Otherwise returns false.
+ */
+bool compare_passwords(char *p1, char *p2) {
+	int index = 0;
+	while (p1[index] != '\0' && p2[index] != '\0') {
+		if (p1[index] != p2[index]) {
+			return false;
+		}
+
+		index++;
+	}
+
+	if (p1[index] == p2[index]) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+ * Count the number of characters in a string, excluding the null character.
+ * @param string A string whose characters should be counted.
+ * @return The number of characters in the string.
+ */
+int str_len(const char *string) {
+    int i = 0;
+    while (string[i] != '\0') {
+        i++;
+    }
+
+    return i;
+}
+
+/**
+ * Returns the current system up-time in seconds to the nearest microsecond.
+ */
 double getTime() {
     LARGE_INTEGER t, f;
     QueryPerformanceCounter(&t);

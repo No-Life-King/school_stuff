@@ -12,13 +12,6 @@ bool compare_passwords(char *p1, char *p2);
 char *get_password_pointer(char *line);
 double getTime();
 
-
-typedef struct user {
-    char *name;
-    char *password;
-} User;
-
-
 /**
  * Take a tab separated line and return a pointer to the password.
  * @param line A pointer to a line consisting of a username followed by a password.

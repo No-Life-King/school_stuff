@@ -4,12 +4,11 @@
 
 #pragma once
 
-int str_len(const char *string);
 char **read_in_accounts(int num_to_read, char *file_loc);
-char *lowercase(const char *username);
-int compare(const char *usn, const char *node_usn);
-bool compare_passwords(char *p1, char *p2);
 char *get_password_pointer(char *line);
+char *lowercase(const char *username);
+bool compare_passwords(char *p1, char *p2);
+int str_len(const char *string);
 double getTime();
 
 
@@ -18,20 +17,6 @@ typedef struct user {
     char *password;
 } User;
 
-
-/**
- * Take a tab separated line and return a pointer to the password.
- * @param line A pointer to a line consisting of a username followed by a password.
- * @return A pointer to the password.
- */
-char *get_password_pointer(char *line) {
-    int i = 0;
-    while (line[i] != '\t') {
-        i++;
-    }
-
-    return &line[i+1];
-}
 
 /**
  * Read lines containing login information into a jagged 2D array. This should use about the smallest amount of memory
@@ -77,17 +62,17 @@ char **read_in_accounts(int num_to_read, char *file_loc) {
 }
 
 /**
- * Count the number of characters in a string, excluding the null character.
- * @param string A string whose characters should be counted.
- * @return The number of characters in the string.
+ * Take a tab separated line and return a pointer to the password.
+ * @param line A pointer to a line consisting of a username followed by a password.
+ * @return A pointer to the password.
  */
-int str_len(const char *string) {
+char *get_password_pointer(char *line) {
     int i = 0;
-    while (string[i] != '\0') {
+    while (line[i] != '\t') {
         i++;
     }
 
-    return i;
+    return &line[i+1];
 }
 
 /**
@@ -120,42 +105,10 @@ char *lowercase(const char *username) {
     return lc;
 }
 
+
 /**
- * Compare two usernames to see which appears first in alphabetical order.
- * @param usn A string containing the passed-in username.
- * @param node_usn A string containing the username of the current node.
- * @return 1 if the username is lower than the node username. 0 if the usernames are equal. -1 if the username is
- * higher than the node username.
+ * Compares two passwords returning true if they are identical. Otherwise returns false.
  */
-int compare(const char *usn, const char *node_usn) {
-    int index = 0;
-
-    // compare until one of the ends is reached
-    while (usn[index] != '\0' && node_usn[index] != '\0') {
-        if (usn[index] < node_usn[index]) {
-            return -1;
-        } else if (usn[index] > node_usn[index]) {
-            return 1;
-        }
-        index++;
-    }
-
-    // if both ends are reached at the the same time, the usernames are equal
-    if (usn[index] == '\0' && node_usn[index] == '\0') {
-        return 0;
-    }
-
-    // if the username contains the node username but is longer, it should appear after the node
-    if (node_usn[index] == '\0') {
-        return 1;
-    }
-
-    // if the node username contains the username but is longer, the username should appear before the node
-    if (usn[index] == '\0') {
-        return -1;
-    }
-}
-
 bool compare_passwords(char *p1, char *p2) {
 	int index = 0;
 	while (p1[index] != '\0' && p2[index] != '\0') {
@@ -171,6 +124,20 @@ bool compare_passwords(char *p1, char *p2) {
 	} else {
 		return false;
 	}
+}
+
+/**
+ * Count the number of characters in a string, excluding the null character.
+ * @param string A string whose characters should be counted.
+ * @return The number of characters in the string.
+ */
+int str_len(const char *string) {
+    int i = 0;
+    while (string[i] != '\0') {
+        i++;
+    }
+
+    return i;
 }
 
 /**

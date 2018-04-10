@@ -78,25 +78,14 @@ TreeNode *make_node(char *usn, char *pass) {
  */
 bool add(BST *tree, char *usn, char *pass) {
     TreeNode *current = tree->root;
-    int current_height = 0;
-
-    if (tree->count % 10000 == 0) {
-    	printf("%i\t%i\n", tree->count, tree->height);
-    }
 
     // find the user's place in the tree
     while (true) {
         // compare the username with the username at each node
         int comparison = compare(usn, current->username);
 
-        // keep track of the current height and if the tree has reached a new height, increment its height value
-        if (comparison > 0 || comparison < 0) {
-            current_height++;
-            if (current_height > tree->height) {
-                tree->height++;
-            }
-        } else {
-            // return false if the username is already in the tree
+        // return false if the username is already in the tree
+        if (comparison == 0) {
             return false;
         }
 
@@ -105,7 +94,6 @@ bool add(BST *tree, char *usn, char *pass) {
         if (comparison == -1) {
             if (current->left_child == NULL) {
                 current->left_child = make_node(usn, pass);
-                tree->count++;
 
                 // watch the insertion operations if necessary
                 //printf("%s is now the left child of %s\n", usn, current->username);
@@ -120,7 +108,6 @@ bool add(BST *tree, char *usn, char *pass) {
         else if (comparison == 1) {
             if (current->right_child == NULL) {
                 current->right_child = make_node(usn, pass);
-                tree->count++;
 
                 // watch the insertion operations if necessary
                 //printf("%s is now the right child of %s\n", usn, current->username);
