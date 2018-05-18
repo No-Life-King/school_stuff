@@ -19,6 +19,7 @@ typedef struct tree_node {
 typedef struct {
     int count;
     int height;
+    int bytes;
     TreeNode *root;
 } BST;
 
@@ -41,6 +42,7 @@ BST *init_tree(char *usn, char *pass) {
     BST *tree = malloc(sizeof(BST));
     tree->count = 1;
     tree->height = 0;
+    tree->bytes = 32;
     tree->root = make_node(usn, pass);
     return tree;
 }
@@ -95,6 +97,11 @@ bool add(BST *tree, char *usn, char *pass) {
             if (current->left_child == NULL) {
                 current->left_child = make_node(usn, pass);
 
+                tree->count++;
+				tree->bytes += str_len(usn);
+				tree->bytes += str_len(pass);
+				tree->bytes += 16;
+
                 // watch the insertion operations if necessary
                 //printf("%s is now the left child of %s\n", usn, current->username);
 
@@ -108,6 +115,11 @@ bool add(BST *tree, char *usn, char *pass) {
         else if (comparison == 1) {
             if (current->right_child == NULL) {
                 current->right_child = make_node(usn, pass);
+
+                tree->count++;
+				tree->bytes += str_len(usn);
+				tree->bytes += str_len(pass);
+				tree->bytes += 16;
 
                 // watch the insertion operations if necessary
                 //printf("%s is now the right child of %s\n", usn, current->username);

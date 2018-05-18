@@ -8,6 +8,7 @@ int power(int base, int exponent);
 
 void main(int argc, char **argv) {
 	int num_users = 10000000;
+	int bytes = 730080000;
 	char **accts = read_in_accounts(num_users,
 		 "D:\\Devel\\school_stuff\\CSC 380 - Design and Analysis of Algorithms\\username_generator\\10M_UNCW.txt");
 
@@ -30,30 +31,42 @@ void main(int argc, char **argv) {
 		usn = accts[x];
 		pass = get_password_pointer(usn);
 		User *user = malloc(sizeof(User));
+		bytes += 8;
 		user->name = lowercase(usn);
 		user->password = pass;
+		bytes += str_len(user->name);
+		bytes += str_len(user->password);
 		table[hash(user->name)] = user;
-	}
 
-	finish = getTime();
-	printf("Took %f seconds to insert %i users.\n", finish-start, num_users);
-
-	start = getTime();
-	for (int x=0; x<num_users; x++) {
-		usn = accts[x];
-		int i=0;
-		while (usn[i] != '\t') {
-			i++;
-		}
-
-		pass = &usn[i+1];
-		usn[i] = '\0';
-
-		User *user = table[hash(accts[x])];
-		if (!compare_passwords(pass, user->password)) {
-			printf("Password mismatch. Got %s. Expected %s.\n", user->password, pass);
+		if (x%100000 == 0) {
+			printf("%i\n", bytes/1024/1024);
+			//printf("%f\n", (getTime()-start)*1000000000/x);
 		}
 	}
+
+		finish = getTime();
+		printf("Took %f seconds to insert %i users.\n", finish-start, num_users);
+
+
+		for (int y=10000; y<1000000; y+=10000) {
+			start = getTime();
+			for (int x=1; x<10000; x++) {
+				usn = accts[x+y];
+				int i=0;
+				while (usn[i] != '\t') {
+					i++;
+				}
+
+				pass = &usn[i+1];
+				usn[i] = '\0';
+
+				User *user = table[hash(accts[x+y])];
+				if (!compare_passwords(pass, user->password)) {
+					printf("Password mismatch. Got %s. Expected %s.\n", user->password, pass);
+				}
+			}
+			//printf("%f\n", (getTime()-start)*100000);
+		}
 
 	finish = getTime();
 	printf("Took %f seconds to authenticate %i users.\n", finish-start, num_users);

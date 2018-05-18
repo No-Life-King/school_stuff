@@ -17,8 +17,8 @@ void main() {
 
 void case_insensitive(int num_users) {
 	char **accts = read_in_accounts(num_users,
-	     //"C:\\Users\\ps1994\\Dropbox\\Bobby-Phil\\380 Project\\10-MIL-RANDOM.txt"
-		 "D:\\Devel\\school_stuff\\CSC 380 - Design and Analysis of Algorithms\\username_generator\\10M_UNCW.txt"
+	     "C:\\Users\\ps1994\\Dropbox\\Bobby-Phil\\380 Project\\FINAL TEST CODE\\10M_logins.txt"
+		 //"D:\\Devel\\school_stuff\\CSC 380 - Design and Analysis of Algorithms\\username_generator\\10M_logins.txt"
 			);
 
 	// initialize the binary search tree
@@ -34,9 +34,9 @@ void case_insensitive(int num_users) {
 		add(tree, lowercase(usn), get_password_pointer(usn));
 
 
-		if (x%100000 == 0) {
-			/*
-			int step = x/100;
+		if (x%10000 == 0) {
+
+			int step = x/10000;
 			start = getTime();
 			for (int y=0; y<x; y+= step) {
 				usn = accts[y];
@@ -45,7 +45,7 @@ void case_insensitive(int num_users) {
 
 
 				if (node != NULL) {
-					printf("Found %s. His/her password is %s\n", node->username, node->password);
+					//printf("Found %s. His/her password is %s\n", node->username, node->password);
 				} else {
 					printf("Lookup Failed. Expected %s.\n", usn);
 				}
@@ -57,8 +57,9 @@ void case_insensitive(int num_users) {
 				}
 
 			}
-			*/
-			printf("%f\n", (getTime()-start)*1000000/x);
+			printf("%f\n", (getTime()-start)*100);
+			//printf("%i\n", tree->bytes/1024/1024);
+			//printf("%f\n", (getTime()-start)/x*1000000);
 
 		}
 	}
@@ -67,7 +68,7 @@ void case_insensitive(int num_users) {
 
 void case_sensitive(int num_users) {
 	char **accts = read_in_accounts(num_users,
-			"C:\\Users\\ps1994\\Dropbox\\Bobby-Phil\\380 Project\\10-MIL-RANDOM.txt");
+			"C:\\Users\\ps1994\\Dropbox\\Bobby-Phil\\380 Project\\10M_logins.txt");
 
 	char *usn;
 	char *pass;
