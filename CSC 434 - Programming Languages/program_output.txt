@@ -1,0 +1,12 @@
+a tokenizes as identifier
+a = b tokenizes as identifier assignment identifier
+num3 = num1/2 + num2 tokenizes as identifier assignment identifier operator number operator identifier
+a = a + 1 tokenizes as identifier assignment identifier operator number
+a + 2 * 3 - c + d*e tokenizes as identifier operator number operator number operator identifier operator identifier operator identifier
+a              = a             + 2*a tokenizes as identifier assignment identifier operator number operator identifier
+a$1 + num1 tokenizes as identifier error
+$a1 = 20 tokenizes as error
++ a + 10 tokenizes as operator identifier operator number
+a = -1 tokenizes as identifier assignment operator number
+a+=10 tokenizes as identifier operator assignment number
+x=a++ tokenizes as identifier assignment identifier operator error
