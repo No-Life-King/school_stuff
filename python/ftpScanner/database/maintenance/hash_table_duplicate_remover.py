@@ -22,7 +22,7 @@ for file in all_files:
     if key not in file_dict:
         file_dict[key] = None
     else:
-        cursor.execute("""delete from """ + table + """ where id = %s;""", [file[3]])
+        #cursor.execute("""delete from """ + table + """ where id = %s;""", [file[3]])
         count += 1
 
     if count % 10000 == 0 and count != last_printed:

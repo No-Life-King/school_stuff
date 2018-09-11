@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import math
 import random
 import numpy as np
@@ -83,7 +84,7 @@ def train(training_data, labels, hidden_layer_neurons, epochs, learning_rate):
 
             if e > 0 and e % 100 == 0 and i == 5:
                 rmse = math.sqrt(tsse / 18)
-                print(rmse)
+                print('RMSE:', rmse, '\tEpoch:', e)
 
             if rmse < .1:
                 break
@@ -92,16 +93,16 @@ def train(training_data, labels, hidden_layer_neurons, epochs, learning_rate):
             break
 
     correct = 0
-    for x in range(1000):
+    for x in range(20):
         index = random.randint(0, 5)
         character = training_data[index]
         label = labels[index]
-        # for y in range(25):
-            # if random.random() < .05:
-            #     if character[y] == 0:
-            #         character[y] = 1
-            #     else:
-            #         character[y] = 0
+        for y in range(25):
+            if random.random() < .05:
+                if character[y] == 0:
+                    character[y] = 1
+                else:
+                    character[y] = 0
 
         hidden_output, hidden_output2, output = feed_forward(hidden_bias, hidden_bias2, character, output_bias,
                                                                      weights_hidden_to_hidden, weights_hidden_to_output,
@@ -126,9 +127,9 @@ def train(training_data, labels, hidden_layer_neurons, epochs, learning_rate):
         predicted = decode_char(result)
         actual = decode_char(label)
 
-        #print("Predicted: " + predicted + ", Actual: " + actual)
+        print("Predicted: " + predicted + ", Actual: " + actual)
 
-    print("Accuracy: " + str(correct/1000))
+    print("Accuracy: " + str(correct/20))
 
 
 def decode_char(label):

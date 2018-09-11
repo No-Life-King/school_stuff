@@ -15,7 +15,7 @@ class DBconnector:
         self.username = 'phil'
         self.host = 'localhost'
         self.port = '31416'
-        self.password = '...'
+        self.password = 'amorestpotestas'
         self.login_string = "dbname='%s' user='%s' host='%s' port='%s' password='%s'" \
                          % (self.dbname, self.username, self.host, self.port, self.password)
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import math
 import numpy as np
 
@@ -28,7 +29,7 @@ def loss_function(network_output, ground_truth):
 
 def train(training_data, labels, hidden_layer_neurons, epochs, learning_rate):
     output_layer_size = len(labels[0])
-    np.random.seed(1)
+    # np.random.seed(1)
     weights_input_to_hidden = init_weights(len(training_data[0]), hidden_layer_neurons)
     weights_hidden_to_hidden = init_weights(hidden_layer_neurons, hidden_layer_neurons)
     weights_hidden_to_output = init_weights(hidden_layer_neurons, output_layer_size)
@@ -83,10 +84,10 @@ def train(training_data, labels, hidden_layer_neurons, epochs, learning_rate):
                 rmse = math.sqrt(tsse / 4)
                 print(rmse)
 
-            if rmse < .01:
+            if rmse < .1:
                 break
 
-        if rmse < .05:
+        if rmse < .1:
             break
 
     for x in range(11):
@@ -154,5 +155,5 @@ def adjust_weights(previous_error_signal, layer_output, learning_rate, biases, w
 training_data = np.array([[.1, .1], [.1, .9], [.9, .1], [.9, .9]])
 labels = np.array([[.1], [.9], [.9], [.1]])
 
-train(training_data, labels, 64, 4001, .5)
+train(training_data, labels, 32, 400001, .5)
 
