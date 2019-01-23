@@ -155,5 +155,5 @@ def adjust_weights(previous_error_signal, layer_output, learning_rate, biases, w
 training_data = np.array([[.1, .1], [.1, .9], [.9, .1], [.9, .9]])
 labels = np.array([[.1], [.9], [.9], [.1]])
 
-train(training_data, labels, 32, 400001, .5)
+train(training_data, labels, 2, 400001, .5)
 

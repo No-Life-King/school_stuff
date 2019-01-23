@@ -10,12 +10,12 @@ class DBconnector:
     '''
 
 
-    def __init__(self):
-        self.dbname = 'ftpservers'
-        self.username = 'phil'
+    def __init__(self, dbname):
+        self.dbname = dbname
+        self.username = 'search'
         self.host = 'localhost'
         self.port = '31416'
-        self.password = 'amorestpotestas'
+        self.password = '...'
         self.login_string = "dbname='%s' user='%s' host='%s' port='%s' password='%s'" \
                          % (self.dbname, self.username, self.host, self.port, self.password)
 

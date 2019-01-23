@@ -15,11 +15,13 @@ def openDBconnection():
 
 source_table = 'files_sorted'
 
-for x in range(10):
+for x in range(1):
     cursor, connection = openDBconnection()
-    cursor.execute("""select * from """ + source_table + """ limit 20000000;""")
+    cursor.execute("""select * from """ + source_table + """;""")
     all_files = cursor.fetchall()
-    pattern = re.compile('^([l-][r-][w-][x-][r-][w-][x-][r-][w-][x-])\s+\d\s+\w+\s+\w+\s+(\d+)\s+(\w{3}\s+\d+\s+\d{2}:*\d{2})\s+(.+)')
+    #pattern = re.compile('^([l-][r-][w-][x-][r-][w-][x-][r-][w-][x-])\s+\d\s+\w+\s+\w+\s+(\d+)\s+(\w{3}\s+\d+\s+\d{2}:\d{2})\s+(.+)')
+    #pattern = re.compile('^([l-][r-][w-][x-][r-][w-][x-][r-][w-][x-])\s+\d+\w+\s+\w+\s+(\d+)\s+(\w{3}\s+\d+\s+\d{4})\s+(.+)')
+    pattern = re.compile('^(\d{2}-\d{2}-\d{2}\s+\d{2}:\d{2}(AM|PM))\s+(\d+)\s+(.+)')
     count = 0
     match_count = 0
     print('matching', len(all_files), 'files')
@@ -28,9 +30,10 @@ for x in range(10):
         match = re.fullmatch(pattern, file[3])
         count += 1
         if match:
-            permissions = True if match.group(1)[-3] == 'r' else False
-            size = match.group(2)
-            modify_date = match.group(3)
+            #permissions = True if match.group(1)[-3] == 'r' else False
+            permissions = True
+            size = match.group(3)
+            modify_date = match.group(1)
             name = match.group(4)
             match_count += 1
 
