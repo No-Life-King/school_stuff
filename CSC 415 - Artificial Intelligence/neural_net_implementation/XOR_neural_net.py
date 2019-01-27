@@ -43,9 +43,9 @@ def train(training_data, labels, hidden_layer_neurons, epochs, learning_rate):
     for e in range(epochs):
         tsse = 0
         rmse = 10
-        np.random.seed(420)
+        np.random.seed(e)
         np.random.shuffle(training_data)
-        np.random.seed(420)
+        np.random.seed(e)
         np.random.shuffle(labels)
         for i in range(len(training_data)):
             input = training_data[i]
