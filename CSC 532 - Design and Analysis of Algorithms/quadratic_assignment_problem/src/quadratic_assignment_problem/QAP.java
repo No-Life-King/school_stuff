@@ -31,93 +31,108 @@ public class QAP {
         int greedy_cost = calc_cost(greedy_solution);
         print("Greedy: " + greedy_cost + ", " + nanoFormat.format(stop) + " ns\n");
 
-        //random_search(1_000_000, false);
-        tabu_search(100, 100000, 200, false);
-        evolutionary_search(10, 1000, false);
+        
+        
+        int[] hist = new int[30];
+        for (int x=0; x<1; x++) {
+            int best = evolutionary_search(100, 1000, false);
+            hist[(int) (best/1000-92)] += 1;
+        }
+        for (int v: hist) {
+            print(v + "\n");
+        }
+        
+        random_search(1_000_000, false);
+        tabu_search(100, 10000, 100, false);
+        
+        //calc_greedy2_path();
+        //calc_greedy3_path();
+        
     }
-    
-    private static void evolutionary_search(int starting_population_size, int iterations, boolean print_histogram) {
-        ArrayList<int[][]> population = new ArrayList<>();
+
+    private static int evolutionary_search(int starting_population_size, int iterations, boolean print_histogram) {
+        LinkedList<int[][]> population = new LinkedList<>();
         HashSet<String> history = new HashSet<>();
         int lowest_cost = Integer.MAX_VALUE;
         int[] bins = new int[80];
         double total = 0;
         int[] best_path;
-        
+
         int[] path = new int[problem_size];
         for (int x = 0; x < path.length; x++) {
             path[x] = x + 1;
         }
-        
+
         NumberFormat nanoFormat = NumberFormat.getNumberInstance();
         long start = System.nanoTime();
 
         while (population.size() < starting_population_size) {
-            for (int x=0; x<5; x++) {
+            for (int x = 0; x < 5; x++) {
                 path = mutate(path);
             }
             int[] cost = {calc_cost(path)};
             int[][] soln = new int[2][];
             soln[0] = path;
             soln[1] = cost;
-            
+
             population.add(soln);
             history.add(path_to_string(path));
         }
-        
+
         while (history.size() < iterations) {
             ArrayList<int[][]> sample = new ArrayList<>();
-            
-            while (sample.size() < population.size()/3) {
+
+            while (sample.size() < population.size() / 3) {
                 int random_index = ThreadLocalRandom.current().nextInt(0, population.size());
                 int[][] candidate = population.get(random_index);
                 sample.add(candidate);
             }
-            
+
             int min_cost = Integer.MAX_VALUE;
             int[] min_path = new int[problem_size];
-            
-            for (int[][] candidate: sample) {
+
+            for (int[][] candidate : sample) {
                 if (candidate[1][0] < min_cost) {
                     min_cost = candidate[1][0];
                     min_path = candidate[0];
                 }
             }
-            
+
             int[] child = mutate(min_path);
             while (history.contains(path_to_string(child))) {
                 child = mutate(child);
             }
-            
+
             int[] child_cost = {calc_cost(child)};
             bins[(int) child_cost[0] / 1000 - 85] += 1;
             total += child_cost[0];
-            
+
             int[][] soln = new int[2][];
             soln[0] = child;
             soln[1] = child_cost;
             population.add(soln);
-            
-            //population.remove(0);
-            int[][] worst = {{}, {Integer.MIN_VALUE}};
-            for (int[][] solution: population) {
-                if (solution[1][0] < worst[1][0]) {
-                    worst = solution;
-                }
-            }
-            
-            population.remove(worst);
+
+            population.remove(0);
+//            int[][] worst = {{}, {Integer.MIN_VALUE}};
+//            for (int[][] solution : population) {
+//                if (solution[1][0] < worst[1][0]) {
+//                    worst = solution;
+//                }
+//            }
+//
+//            population.remove(worst);
             history.add(path_to_string(child));
-            
+
             if (child_cost[0] < lowest_cost) {
                 lowest_cost = child_cost[0];
                 best_path = child;
             }
+            
         }
-        
+
         long stop = System.nanoTime() - start;
-        
-        print("Evolutionary: " + lowest_cost + ", " + total/1000000.0 + ", " + nanoFormat.format(stop) + " ns\n");
+
+        print("Evolutionary: " + lowest_cost + ", " + total / 1000000.0 + ", " + nanoFormat.format(stop) + " ns\n");
         if (print_histogram) {
             int z = 85;
             for (int bin : bins) {
@@ -126,20 +141,21 @@ public class QAP {
             }
         }
         
+        return lowest_cost;
     }
-    
+
     private static String path_to_string(int[] path) {
         StringBuilder sb = new StringBuilder();
-        
-        for (int value: path) {
+
+        for (int value : path) {
             sb.append(value);
             sb.append(" ");
         }
-        
+
         return sb.toString();
     }
 
-    private static void tabu_search(int num_children, int num_iterations, int tabu_list_size, boolean print_histogram) {
+    private static int tabu_search(int num_children, int num_iterations, int tabu_list_size, boolean print_histogram) {
         LinkedList<int[]> tabu_list = new LinkedList<>();
         int[] best_path = new int[problem_size];
         int lowest_overall = Integer.MAX_VALUE;
@@ -188,6 +204,7 @@ public class QAP {
                         }
                     }
                 }
+                
             }
             path = best_child;
             tabu_list.addLast(best_child.clone());
@@ -195,10 +212,15 @@ public class QAP {
                 tabu_list.removeFirst();
             }
             
+            if (lowest_overall == 88700) {
+                break;
+            }
+
         }
-        long stop = System.nanoTime() - start;
-        print("Tabu: " + lowest_overall + ", " + total/1000000.0 + ", " + NumberFormat.getNumberInstance().format(stop) + " ns\n");
         
+        long stop = System.nanoTime() - start;
+        //print("Tabu: " + lowest_overall + ", " + total / 1000000.0 + ", " + NumberFormat.getNumberInstance().format(stop) + " ns\n");
+
         if (print_histogram) {
             int z = 85;
             for (int bin : bins) {
@@ -206,6 +228,8 @@ public class QAP {
                 z++;
             }
         }
+        
+        return lowest_overall;
     }
 
     private static int[] mutate(int[] path) {
@@ -224,7 +248,7 @@ public class QAP {
         return child;
     }
 
-    private static void random_search(int number_of_paths, boolean print_histogram) {
+    private static int random_search(int number_of_paths, boolean print_histogram) {
         int[] path = new int[problem_size];
         int[] bins = new int[80];
 
@@ -273,6 +297,8 @@ public class QAP {
                 z++;
             }
         }
+        
+        return min;
     }
 
     private static int[] calc_greedy_path() {
@@ -308,6 +334,92 @@ public class QAP {
         return path;
     }
 
+    private static int[] calc_greedy2_path() {
+        int[] path = new int[problem_size];
+        HashSet<Integer> taken = new HashSet<>();
+
+        for (int x = 0; x < problem_size; x++) {
+            int min_row_product = Integer.MAX_VALUE;
+            int min_row = 0;
+
+            for (int y = 0; y < problem_size; y++) {
+                int row_cost = 0;
+                if (taken.contains(y)) {
+                    continue;
+                }
+
+                for (int z = 0; z < problem_size; z++) {
+                    row_cost += distance_matrix[x][z] * flow_matrix[y][z];
+                }
+
+                if (row_cost < min_row_product) {
+                    min_row_product = row_cost;
+                    min_row = y;
+                }
+            }
+
+            taken.add(min_row);
+            path[min_row] = x;
+        }
+
+        for (int z = 0; z < path.length; z++) {
+            path[z] += 1;
+        }
+
+        print(calc_cost(path) + "\n");
+
+        return path;
+    }
+
+    private static int[] calc_greedy3_path() {
+        int[] path = new int[problem_size];
+        HashSet<Integer> taken_flow = new HashSet<>();
+        HashSet<Integer> taken_distance = new HashSet<>();
+
+        for (int w = 0; w < problem_size; w++) {
+            int min_row_product = Integer.MAX_VALUE;
+            int min_distance_row = 0;
+            int min_flow_row = 0;
+
+            for (int x = 0; x < problem_size; x++) {
+                if (taken_distance.contains(x)) {
+                    continue;
+                }
+
+                for (int y = 0; y < problem_size; y++) {
+                    int row_cost = 0;
+                    if (taken_flow.contains(y)) {
+                        continue;
+                    }
+
+                    for (int z = 0; z < problem_size; z++) {
+                        row_cost += distance_matrix[x][z] * flow_matrix[y][z];
+                    }
+
+                    if (row_cost < min_row_product) {
+                        min_row_product = row_cost;
+                        min_flow_row = y;
+                        min_distance_row = x;
+                    }
+                }
+
+            }
+
+            taken_flow.add(min_flow_row);
+            taken_distance.add(min_distance_row);
+            path[min_flow_row] = min_distance_row;
+        }
+
+        for (int z = 0; z < path.length; z++) {
+            path[z] += 1;
+        }
+
+        print(path_to_string(path) + "\n");
+        print(calc_cost(path));
+
+        return path;
+    }
+
     private static int[] calc_row_sums(int[][] matrix) {
         int[] row_sums = new int[matrix.length];
 
@@ -326,13 +438,18 @@ public class QAP {
     private static int calc_cost(int[] path) {
         int cost = 0;
 
-        int flow_row = 0;
-        for (int x : path) {
-            for (int y = 0; y < path.length; y++) {
-                cost += distance_matrix[x - 1][path[y] - 1] * flow_matrix[flow_row][y];
+//        int flow_row = 0;
+//        for (int x : path) {
+//            for (int y = 0; y < path.length; y++) {
+//                cost += distance_matrix[x - 1][path[y] - 1] * flow_matrix[flow_row][y];
+//            }
+//
+//            flow_row += 1;
+//        }
+        for (int x = 0; x < problem_size; x++) {
+            for (int y = 0; y < problem_size; y++) {
+                cost += distance_matrix[path[x] - 1][path[y] - 1] * flow_matrix[x][y];
             }
-
-            flow_row += 1;
         }
 
         return cost;
