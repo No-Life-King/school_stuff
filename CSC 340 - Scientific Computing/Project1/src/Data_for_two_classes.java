@@ -18,70 +18,115 @@ public class Data_for_two_classes {
 			
 			ArrayList<Vector> class1vectors = new ArrayList<Vector>();
 			ArrayList<Vector> class2vectors = new ArrayList<Vector>();
+			ArrayList<Vector> class3vectors = new ArrayList<Vector>();
+			
+			class1vectors.add(new Vector(1.0, 3.0));
+			class1vectors.add(new Vector(2.0, 1.0));
+			class1vectors.add(new Vector(2.0, 5.0));
+			class1vectors.add(new Vector(3.0, 3.0));
+			
+			class2vectors.add(new Vector(0.0, 1.0));
+			class2vectors.add(new Vector(0.0, 3.0));
+			class2vectors.add(new Vector(0.5, 2.0));
+			class2vectors.add(new Vector(-0.5, 2.0));
+			class2vectors.add(new Vector(1.0, 1.0));
+			class2vectors.add(new Vector(1.0, 3.0));
+			class2vectors.add(new Vector(-1.0, 2.0));
+			class2vectors.add(new Vector(-2.0, 2.0));
+			class2vectors.add(new Vector(-3.0, 2.0));
+			
+			class3vectors.add(new Vector(-1.0, -1.0));
+			class3vectors.add(new Vector(0.0, 0.0));
+			class3vectors.add(new Vector(-2.0, -2.0));
+			class3vectors.add(new Vector(-3.0, -3.0));
+			class3vectors.add(new Vector(1.0, -1.0));
+			class3vectors.add(new Vector(2.0, -2.0));
+			class3vectors.add(new Vector(3.0, -3.0));
 			
 			// read all the vector values from the data file 
-			while((line = in.readLine()) != null) {
-				String[] vectorValues = line.split("\t");
-				
-				if (vectorValues.length != 4) {
-					System.out.println("Error: incorrect number of values found on line.");
-					System.out.print("Values found: ");
-					for (String value: vectorValues) {
-						System.out.println(value);
-					}
-					break;
-				}
-				
-				// parse the values and create the vectors for class 1 and class 2 and add them to the appropriate array lists
-				Vector class1 = new Vector(Double.parseDouble(vectorValues[0]), Double.parseDouble(vectorValues[1]));
-				class1vectors.add(class1);
-				
-				Vector class2 = new Vector(Double.parseDouble(vectorValues[2]), Double.parseDouble(vectorValues[3]));
-				class2vectors.add(class2);
-			}
+//			while((line = in.readLine()) != null) {
+//				String[] vectorValues = line.split("\t");
+//				
+//				if (vectorValues.length != 4) {
+//					System.out.println("Error: incorrect number of values found on line.");
+//					System.out.print("Values found: ");
+//					for (String value: vectorValues) {
+//						System.out.println(value);
+//					}
+//					break;
+//				}
+//				
+//				// parse the values and create the vectors for class 1 and class 2 and add them to the appropriate array lists
+//				Vector class1 = new Vector(Double.parseDouble(vectorValues[0]), Double.parseDouble(vectorValues[1]));
+//				class1vectors.add(class1);
+//				
+//				Vector class2 = new Vector(Double.parseDouble(vectorValues[2]), Double.parseDouble(vectorValues[3]));
+//				class2vectors.add(class2);
+//			}
+			
+			
 			
 			// calculate the mean vectors for both classes
 			double numC1vectors = class1vectors.size();
 			double numC2vectors = class2vectors.size();
+			double numC3vectors = class3vectors.size();
+			
 			Vector v1 = new Vector(0, 0);
 			Vector v2 = new Vector(0, 0);
+			Vector v3 = new Vector(0, 0);
 			
 			for (Vector v: class1vectors) {
 				v1 = v1.add(v);
 			}
+			
 			for (Vector v: class2vectors) {
 				v2 = v2.add(v);
 			}
 			
+			for (Vector v: class3vectors) {
+				v3 = v3.add(v);
+			}
+			
 			v1 = v1.scalarMultiply(1/numC1vectors);
 			v2 = v2.scalarMultiply(1/numC2vectors);
+			v3 = v3.scalarMultiply(1/numC3vectors);
 			
 			System.out.println("Mean Vector M1: " + v1);
 			System.out.println("Mean Vector M2: " + v2);
+			System.out.println("Mean Vector M3: " + v3);
 			
 			// generate the covariance matrices for each class
 			Matrix covarianceMatrixC1 = calculateCovarianceMatrix(class1vectors, v1);
 			Matrix covarianceMatrixC2 = calculateCovarianceMatrix(class2vectors, v2);
+			Matrix covarianceMatrixC3 = calculateCovarianceMatrix(class3vectors, v3);
 			
 			System.out.println("\nClass 1 Covariance Matrix:");
 			System.out.println(covarianceMatrixC1 + "\n");
 			System.out.println("Class 2 Covariance Matrix:");
 			System.out.println(covarianceMatrixC2 + "\n");
+			System.out.println("Class 3 Covariance Matrix:");
+			System.out.println(covarianceMatrixC3 + "\n");
 			
 			// find the covariance matrix determinants
 			double c1covarianceMatrixDeterminant = covarianceMatrixC1.determinant();
 			double c2covarianceMatrixDeterminant = covarianceMatrixC2.determinant();
+			double c3covarianceMatrixDeterminant = covarianceMatrixC3.determinant();
+			
 			System.out.println("Class 1 Covariance Matrix Determinant:");
 			System.out.println(c1covarianceMatrixDeterminant + "\n");			
 			System.out.println("Class 2 Covariance Matrix Determinant:");
 			System.out.println(c2covarianceMatrixDeterminant + "\n");
+			System.out.println("Class 3 Covariance Matrix Determinant:");
+			System.out.println(c3covarianceMatrixDeterminant + "\n");
 			
 			// find the covariance matrix inverses
 			Matrix covarianceInverseMatrixC1 = covarianceMatrixC1.inverse();
 			Matrix covarianceInverseMatrixC2 = covarianceMatrixC2.inverse();
+			Matrix covarianceInverseMatrixC3 = covarianceMatrixC3.inverse();
 			
 			System.out.println("Class 1 Inverse Covariance Matrix: \n " + covarianceInverseMatrixC1);
 			System.out.println("\nClass 2 Inverse Covariance Matrix: \n " + covarianceInverseMatrixC2);
+			System.out.println("\nClass 3 Inverse Covariance Matrix: \n " + covarianceInverseMatrixC3);
 			
 			// solve a large linear system computationally
 			System.out.println("\n8x9 system of equations solution:");
@@ -156,6 +201,9 @@ public class Data_for_two_classes {
 			System.out.println(grade(v2, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant));
 			System.out.println("\nClassification of m1 by g2(x):");
 			System.out.println(grade(v1, v2, covarianceInverseMatrixC2, c2covarianceMatrixDeterminant));
+			
+			System.out.println("\nClassification of (2, 3) by g1(x):");
+			System.out.println(grade(new Vector(2, 3), v1, covarianceInverseMatrixC1, c1covarianceMatrixDeterminant));
 			
 			// grade every data point using both discriminant functions
 			ArrayList<Vector> misclassifiedC1 = new ArrayList<Vector>();
@@ -283,7 +331,7 @@ public class Data_for_two_classes {
 		
 		// return the result minus 1/2 the natural log of the determinant of the covariance 
 		// matrix and add the natural log of the frequency of the class 
-		return scalarMultiply.getCell(1, 1) - .5 * Math.log(covarianceMatrixDeterminant) + Math.log(.5);
+		return scalarMultiply.getCell(1, 1) - .5 * Math.log(covarianceMatrixDeterminant) + Math.log(.25);
 	}
 
 }

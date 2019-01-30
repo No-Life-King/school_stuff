@@ -1,0 +1,209 @@
+Standard ML of New Jersey v110.84 [built: Tue Sep 04 08:51:30 2018]
+- 1+2*3;
+val it = 7 : int
+- it
+= ;
+val it = 7 : int
+- ~it;
+val it = ~7 : int
+- #"H";
+val it = #"H" : char
+- 1.5;
+val it = 1.5 : real
+- true;
+val it = true : bool
+- "H"
+= ;
+val it = "H" : string
+- 20 div 5
+= ;
+val it = 4 : int
+- 20/5;
+stdIn:13.1-13.5 Error: operator and operand do not agree [overload conflict]
+operator domain: real * real
+operand:         [int ty] * [int ty]
+in expression:
+20 / 5
+- 20.0/5.0;
+val it = 4.0 : real
+- 20 mod 5;
+val it = 0 : int
+- ~true;
+stdIn:15.1-15.6 Error: operator and operand do not agree [overload conflict]
+operator domain: [~ ty]
+operand:         bool
+in expression:
+~ true
+- "concat" ^ "me"
+= ;
+val it = "concatme" : string
+- not(true);
+val it = false : bool
+- if (1 < 2) then 3.0 else 4.0;
+val it = 3.0 : real
+- val p = if (1 < 2) then 3.0 else 4.0;
+val p = 3.0 : real
+- 1 < 2 orelse (1 div 0) = 0
+= ;
+val it = true : bool
+- real(123)
+= ;
+val it = 123.0 : real
+- floor(3.6)
+= ;
+val it = 3 : int
+- ord(#"A")
+= ;
+val it = 65 : int
+- ord("A");
+stdIn:28.1-28.9 Error: operator and operand do not agree [tycon mismatch]
+operator domain: char
+operand:         string
+in expression:
+ord "A"
+- chr(65);
+val it = #"A" : char
+- str #"A"
+= ;
+val it = "A" : string
+- chr ord #"A"
+= ;
+stdIn:31.1-31.13 Error: operator and operand do not agree [tycon mismatch]
+operator domain: int
+operand:         char -> int
+in expression:
+chr ord
+- chr(trunc(97.0));
+val it = #"a" : char
+- tup = (1+2, 3.0*4.0, "purple")
+= ;
+stdIn:33.1-33.4 Error: unbound variable or constructor: tup
+- val tup = (1+2, 3.0*4.0, "purple");
+val tup = (3,12.0,"purple") : int * real * string
+- #2;
+stdIn:35.1-35.3 Error: unresolved flex record
+(can't tell what fields there are besides #2)
+- #2 tup;
+val it = 12.0 : real
+- val lst = [1,2,3,4];
+val lst = [1,2,3,4] : int list
+- #4 lst;
+stdIn:37.1-37.7 Error: operator and operand do not agree [type mismatch]
+operator domain: {4:'Y; 'Z}
+operand:         int list
+in expression:
+(fn {4=4,...} => 4) lst
+- null [];
+val it = true : bool
+- null [1,2,3];
+val it = false : bool
+- [1,3,3]@[4,5,6]
+= ;
+val it = [1,3,3,4,5,6] : int list
+- 1::[2,3,4]
+= ;
+val it = [1,2,3,4] : int list
+- val z = 1::2::3::[];
+val z = [1,2,3] : int list
+- hd z;
+val it = 1 : int
+- tl z;
+val it = [2,3] : int list
+- explode "hello";
+val it = [#"h",#"e",#"l",#"l",#"o"] : char list
+- implode it;
+val it = "hello" : string
+- 1::2::nil
+= ;
+val it = [1,2] : int list
+- fun firstchar s = hd (explode s);
+val firstchar = fn : string -> char
+- firstchar "abc";
+val it = #"a" : char
+- datatype weekday = M | T | W | Th | F
+= ;
+datatype weekday = F | M | T | Th | W
+- val p = f;
+stdIn:3.9 Error: unbound variable or constructor: f
+- val p = F;
+val p = F : weekday
+- fun isWeekend x = (x = Sa orelse x = Su);
+stdIn:4.24-4.26 Error: unbound variable or constructor: Sa
+stdIn:4.38-4.40 Error: unbound variable or constructor: Su
+- weekend_day = Sa | Su
+= ;
+= fun isWeekend x = (x = Sa orelse x = Su);
+stdIn:4.7-5.2 Error: syntax error: deleting  BAR IDA SEMICOLON
+stdIn:6.1 Error: syntax error found at FUN
+- datatype weekend_day = Sa | Su
+= ;
+datatype weekend_day = Sa | Su
+- fun isWeekend x = (x = Sa orelse x = Su);
+val isWeekend = fn : weekend_day -> bool
+- fun insert(aValue, nil) = [aValue]
+=       | fun insert(aValue, first::rest) = if aValue < first then
+=       aValue::first::rest
+=       else first::insert(aValue, rest);
+stdIn:2.2-2.14 Error: syntax error: deleting  BAR FUN IDA
+stdIn:2.38-2.47 Error: syntax error: deleting  IF IDA
+stdIn:2.56-3.8 Error: syntax error: deleting  THEN IDA
+stdIn:4.2 Error: syntax error found at ELSE
+- fun insert(aValue, nil) = [aValue]
+=       | insert(aValue, first::rest) = if aValue < first then
+=       aValue::first::rest
+=       else first::insert(aValue, rest);
+val insert = fn : int * int list -> int list
+- insert(3, [1,2,4,5]);
+val it = [1,2,3,4,5] : int list
+- fun insertionSort nil = nil
+=       | insertionSort(first::rest) = insert(first, insertionSort(rest));
+val insertionSort = fn : int list -> int list
+- insertionSort([6,3,7,3,2]);
+val it = [2,3,3,6,7] : int list
+- fun halve nil = (nil, nil)
+=       | halve ([a]) = ([a], nil)
+=       | halve (first::second::rest) = let val (oneHalf, otherHalf) = halve rest
+=       in (first::oneHalf, second::otherHalf) end;
+val halve = fn : 'a list -> 'a list * 'a list
+- halve([12,3,3,4,4])
+= ;
+val it = ([12,3,4],[3,4]) : int list * int list
+- fun merge(nil, nil) = nil
+=       | merge([a], nil) = [a]
+=       | merge(nil, [a]) = [a]
+=       | merge(a::as, b::bs) = if a < b then a@merge(as, b::bs)
+stdIn:21.15-21.18 Error: syntax error: deleting  COMMA IDA
+- fun merge(nil, nil) = nil
+=       | merge([a], nil) = [a]
+=       | merge(nil, [a]) = [a]
+=       | merge(a::as, b::bs) = if a < b then a::merge(as, b::bs)
+stdIn:24.15-24.18 Error: syntax error: deleting  COMMA IDA
+- fun merge(nil, nil) = nil
+=       | merge(a, nil) = a
+=       | merge(nil, a) = a
+=       | merge(a::as, b::bs) = if a < b then a::merge(as, b::bs) else b::merge(a::as, bs);
+stdIn:27.15-27.18 Error: syntax error: deleting  COMMA IDA
+stdIn:27.49-27.52 Error: syntax error: deleting  AS COMMA
+stdIn:27.77 Error: syntax error found at AS
+- fun member(_, nil) = false
+=       | member(a, first::rest) = (a = first) orelse member(a, rest);
+stdIn:28.32 Warning: calling polyEqual
+val member = fn : ''a * ''a list -> bool
+- member(2, [1,2,3,4]);
+val it = true : bool
+- member(, [1,2,3,4]);
+stdIn:30.8-30.11 Error: syntax error: deleting  COMMA LBRACKET
+- member(5, [1,2,3,4]);
+val it = false : bool
+- fun less(e, nil) = nil
+=       | less(e, first::rest) = if first < e then first::less(e, rest) else less(e, rest);
+val less = fn : int * int list -> int list
+- less(5, [3,4,5,6,7]);
+val it = [3,4] : int list
+- fun repeats nil = false
+=       | repeats [a] = false
+=       | repeats (first::second::rest) = first = second orelse repeats(second::rest);
+stdIn:36.42 Warning: calling polyEqual
+val repeats = fn : ''a list -> bool
+- repeats [1,2,3,4,4,4];
+val it = true : bool

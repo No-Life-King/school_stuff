@@ -1,0 +1,21 @@
+a tokenizes as  ident
+	 a  is a  Valid Statement
+a = b tokenizes as  ident assignment ident
+	 a = b  is a  Valid Statement
+num3 = num1/2 + num2 tokenizes as  ident assignment ident operator number operator ident
+	 num3 = num1/2 + num2  is a  Valid Statement
+a = a + 1 tokenizes as  ident assignment ident operator number
+	 a = a + 1  is a  Valid Statement
+a + 2 * 3 - c + d*e tokenizes as  ident operator number operator number operator ident operator ident operator ident
+	 a + 2 * 3 - c + d*e  is a  Valid Statement
+a              = a             + 2*a tokenizes as  ident assignment ident operator number operator ident
+	 a              = a             + 2*a  is a  Valid Statement
+a$1 + num1 tokenizes as  ident error
+$a1 = 20 tokenizes as  error
++ a + 10 tokenizes as  operator ident operator number
+	 + a + 10  is a  Invalid statement
+a = -1 tokenizes as  ident assignment operator number
+	 a = -1  is a  Invalid statement
+a+=10 tokenizes as  ident operator assignment number
+	 a+=10  is a  Invalid statement
+x=a++ tokenizes as  ident assignment ident operator error
