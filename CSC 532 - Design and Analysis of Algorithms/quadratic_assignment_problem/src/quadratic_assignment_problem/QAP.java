@@ -22,6 +22,7 @@ public class QAP {
 
         int[] optimal_path = {31, 23, 18, 21, 22, 19, 10, 11, 15, 9, 30, 29, 14, 12, 17, 26, 27, 28, 1, 7, 6, 25, 5, 3, 8, 24, 32, 13, 2, 20, 4, 16};
         int opt_cost = calc_cost(optimal_path);
+        
         print("Opt: " + opt_cost + "\n");
 
         NumberFormat nanoFormat = NumberFormat.getNumberInstance();
@@ -33,17 +34,18 @@ public class QAP {
 
         
         
-        int[] hist = new int[30];
-        for (int x=0; x<1; x++) {
-            int best = evolutionary_search(100, 1000, false);
-            hist[(int) (best/1000-92)] += 1;
-        }
-        for (int v: hist) {
-            print(v + "\n");
-        }
+//        int[] hist = new int[30];
+//        for (int x=0; x<1; x++) {
+//            int best = evolutionary_search(10000, 1_000_000, false);
+//            hist[(int) (best/1000-92)] += 1;
+//        }
+//        for (int v: hist) {
+//            print(v + "\n");
+//        }
         
         random_search(1_000_000, false);
         tabu_search(100, 10000, 100, false);
+        evolutionary_search(100, 1_000_000, false);
         
         //calc_greedy2_path();
         //calc_greedy3_path();
@@ -67,7 +69,7 @@ public class QAP {
         long start = System.nanoTime();
 
         while (population.size() < starting_population_size) {
-            for (int x = 0; x < 5; x++) {
+            for (int x = 0; x < 1; x++) {
                 path = mutate(path);
             }
             int[] cost = {calc_cost(path)};
@@ -78,16 +80,18 @@ public class QAP {
             population.add(soln);
             history.add(path_to_string(path));
         }
-
+        
         while (history.size() < iterations) {
+            
             ArrayList<int[][]> sample = new ArrayList<>();
-
+            
             while (sample.size() < population.size() / 3) {
                 int random_index = ThreadLocalRandom.current().nextInt(0, population.size());
                 int[][] candidate = population.get(random_index);
                 sample.add(candidate);
             }
-
+            
+            
             int min_cost = Integer.MAX_VALUE;
             int[] min_path = new int[problem_size];
 
@@ -97,12 +101,13 @@ public class QAP {
                     min_path = candidate[0];
                 }
             }
-
+            
+            
             int[] child = mutate(min_path);
             while (history.contains(path_to_string(child))) {
                 child = mutate(child);
             }
-
+            
             int[] child_cost = {calc_cost(child)};
             bins[(int) child_cost[0] / 1000 - 85] += 1;
             total += child_cost[0];
@@ -437,15 +442,6 @@ public class QAP {
 
     private static int calc_cost(int[] path) {
         int cost = 0;
-
-//        int flow_row = 0;
-//        for (int x : path) {
-//            for (int y = 0; y < path.length; y++) {
-//                cost += distance_matrix[x - 1][path[y] - 1] * flow_matrix[flow_row][y];
-//            }
-//
-//            flow_row += 1;
-//        }
         for (int x = 0; x < problem_size; x++) {
             for (int y = 0; y < problem_size; y++) {
                 cost += distance_matrix[path[x] - 1][path[y] - 1] * flow_matrix[x][y];
