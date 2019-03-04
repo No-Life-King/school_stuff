@@ -42,3 +42,6 @@ CSC 380 - Design and Analysis of Algorithms/username_generator/10-MIL-RANDOM\.tx
 venv/
 /CSC 532 - Design and Analysis of Algorithms/quadratic_assignment_problem/nbproject/private/
 /CSC 532 - Design and Analysis of Algorithms/quadratic_assignment_problem/build/
+/CSC 532 - Design and Analysis of Algorithms/digital_image_processing/video_source/*
+/CSC 532 - Design and Analysis of Algorithms/digital_image_processing/*.avi
+
